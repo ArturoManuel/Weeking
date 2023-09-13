@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="DONACIONES" />
+            android:text="HACER UNA DONACION" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="ACTIVIDADES" />
+            android:text="ACTIVIDADES ASIGNADAS" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,7 +92,7 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="0dp"
+            android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/apoyo" />
@@ -102,7 +102,7 @@
             android:layout_width="139dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="APOYOS" />
+            android:text="SER APOYO DE UN EVENTO" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
