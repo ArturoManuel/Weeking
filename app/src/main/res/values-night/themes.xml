@@ -3,5 +3,13 @@
     <style name="Base.Theme.Weeking" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimary">#63d3ff</item>
+        <item name="colorOnPrimary">#003545</item>
+        <item name="colorPrimaryContainer">#004d63</item>
+        <item name="colorOnPrimaryContainer">#bce9ff</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
     </style>
 </resources>

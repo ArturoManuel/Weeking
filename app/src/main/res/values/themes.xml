@@ -3,6 +3,14 @@
     <style name="Base.Theme.Weeking" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <item name="colorPrimary">#006783</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="colorPrimaryContainer">#bce9ff</item>
+        <item name="colorOnPrimaryContainer">#001f2a</item>
+        <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
     </style>
 
     <style name="Theme.Weeking" parent="Base.Theme.Weeking" />

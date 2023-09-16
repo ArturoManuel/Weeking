@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">weeking</string>
+
+    <string-array name="estados">
+        <item>Egresado</item>
+        <item>Estudiante</item>
+    </string-array>
 </resources>
