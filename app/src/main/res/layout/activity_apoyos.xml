@@ -35,19 +35,19 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnBarra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Barra" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btnParticipantes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Participantes" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btnNuevosAlumnos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nuevos Alumnos" />
