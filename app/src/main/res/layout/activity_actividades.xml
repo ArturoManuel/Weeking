@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imaBtnVerEventos"
             android:layout_width="83dp"
             android:layout_height="82dp"
             app:srcCompat="@android:drawable/ic_menu_agenda" />
