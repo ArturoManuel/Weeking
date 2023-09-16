@@ -13,6 +13,30 @@
         android:theme="@style/Theme.Weeking"
         tools:targetApi="31">
         <activity
+            android:name=".Lista_don"
+            android:exported="false" />
+        <activity
+            android:name=".Don_ve"
+            android:exported="false" />
+        <activity
+            android:name=".Don_recha"
+            android:exported="false" />
+        <activity
+            android:name=".Verificacion_don"
+            android:exported="false" />
+        <activity
+            android:name=".Verificacion_donacion"
+            android:exported="false" />
+        <activity
+            android:name=".Pago"
+            android:exported="false" />
+        <activity
+            android:name=".Transferencia"
+            android:exported="false" />
+        <activity
+            android:name=".Yape"
+            android:exported="false" />
+        <activity
             android:name=".VistaApoyosActivity"
             android:exported="false" />
         <activity
@@ -44,6 +68,9 @@
             android:exported="false" />
         <activity
             android:name=".PerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Donacion"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
