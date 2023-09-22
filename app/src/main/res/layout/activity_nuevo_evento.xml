@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/iniciofondo"
     android:layout_height="match_parent"
     tools:context=".NuevoEventoActivity">
 
@@ -14,7 +15,9 @@
         android:layout_marginTop="88dp"
         android:layout_marginEnd="132dp"
         android:text="Nuevo Evento"
+        android:textColor="@color/colorWhite"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

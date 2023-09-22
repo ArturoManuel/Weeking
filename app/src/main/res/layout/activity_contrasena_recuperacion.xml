@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/aa"
+    android:background="@drawable/iniciofondo"
     tools:context=".ContrasenaRecuperacion_Activity">
 
     <TextView
@@ -15,9 +15,11 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="50dp"
-        android:fontFamily="@font/bienvenidos"
+
+        android:fontFamily="@font/montserrat"
         android:text="¿Olvidaste tu contraseña?"
         android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

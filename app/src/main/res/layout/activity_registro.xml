@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/iniciofondo"
     tools:context=".RegistroActivity">
 
 
@@ -15,9 +15,11 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="80dp"
-        android:fontFamily="@font/bienvenidos"
+        android:fontFamily="@font/montserrat"
         android:text="Registro"
+        android:textColor="@color/colorWhite"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"

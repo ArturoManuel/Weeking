@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/iniciofondo"
     tools:context=".StatusActivity">
 
     <TextView
@@ -16,7 +17,9 @@
         android:text="Establecer Estado"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/iniciofondo"
     android:layout_height="match_parent"
     tools:context=".Lista_don">
 
@@ -13,7 +14,7 @@
         android:layout_marginTop="80dp"
         android:text="Lista de Donadores"
         android:textAlignment="center"
-        android:textColor="#4CAF50"
+        android:textColor="@color/white"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
