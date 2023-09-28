@@ -8,14 +8,26 @@
     tools:context=".EventosActivity">
 
     <TextView
+        android:id="@+id/volver"
+        android:layout_width="97dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/baseline_keyboard_return_24"
+        android:text="Volver"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textEventos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="96dp"
         android:text="Eventos de Actividad"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
@@ -26,51 +38,70 @@
         android:id="@+id/btnAddEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="36dp"
         android:text="Agregar Evento"
+        android:backgroundTint="#056EB5"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textEventos" />
 
-    <LinearLayout
-        android:layout_width="381dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cartView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        app:cardBackgroundColor="#861698EF"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textEventos">
-
-        <ImageButton
-            android:id="@+id/imaBtnEvento"
-            android:layout_width="88dp"
-            android:layout_height="84dp"
-            app:srcCompat="@android:drawable/ic_menu_today" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddEvent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textEventos">
 
-            <TextView
-                android:id="@+id/txtNameEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre del Evento"
-                android:textSize="34sp"
-                android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/imaBtnEvento"
+                android:layout_width="88dp"
+                android:layout_height="84dp"
+                app:srcCompat="@android:drawable/ic_menu_today" />
 
-            <TextView
-                android:id="@+id/txtStatusEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado del Evento"
-                android:textSize="24sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtNameEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del Evento"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtStatusEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado del Evento"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
