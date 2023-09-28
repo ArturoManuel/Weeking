@@ -12,19 +12,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TextView text = findViewById(R.id.recuperarContraseña);
-        text.setOnClickListener( view -> {
-            Intent intent = new Intent(MainActivity.this, ContrasenaRecuperacion_Activity.class);
-            startActivity(intent);
-        });
-
         TextView text2 = findViewById(R.id.registrate);
-        text2.setOnClickListener( view -> {
-            Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
-            startActivity(intent);
-        });
+        TextView text = findViewById(R.id.recuperarContraseña);
 
 
+
+        text.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
+        text2.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
+
+
+    }
+
+    private void navigateToActivity(Class<?> destinationClass) {
+        Intent intent = new Intent(MainActivity.this, destinationClass);
+        startActivity(intent);
     }
 }

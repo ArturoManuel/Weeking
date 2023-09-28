@@ -30,20 +30,8 @@ public class RegistroActivity extends AppCompatActivity {
         TextView text = findViewById(R.id.tienescuenta);
         Button button = findViewById(R.id.btnRegister);
 
-        autoCompleteTextView = findViewById(R.id.estados);
-        adapter = new ArrayAdapter<String>(this,R.layout.linear_items,items);
-
-
-        autoCompleteTextView.setAdapter(adapter);
-
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(),"Item: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
-
+       // función para mostrar los items de estados;
+        setItems(autoCompleteTextView);
 
         text.setOnClickListener(v -> navigateToActivity(MainActivity.class));
         button.setOnClickListener(v -> navigateToActivity(EstadoActivity.class));
@@ -54,6 +42,12 @@ public class RegistroActivity extends AppCompatActivity {
         Intent intent = new Intent(RegistroActivity.this, destinationClass);
         startActivity(intent);
         finish();
+    }
+
+    private void setItems( AutoCompleteTextView textView){
+        textView = findViewById(R.id.estados);
+        adapter = new ArrayAdapter<String>(this,R.layout.linear_items,items);
+        textView.setAdapter(adapter);
     }
 
 

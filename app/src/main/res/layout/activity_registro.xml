@@ -18,7 +18,7 @@
         android:fontFamily="@font/montserrat"
         android:text="Registro"
         android:textColor="@color/colorWhite"
-        android:textSize="34sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:maxLength="21"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/black"
                     android:textColorHighlight="@color/cardview_dark_background" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -144,11 +144,10 @@
 
             <Button
                 android:id="@+id/btnRegister"
-                android:background="@drawable/btn_bg"
                 android:text="Finalizar Registro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"  />
+                android:layout_marginTop="10dp"  />
 
             <TextView
                 android:id="@+id/tienescuenta"
