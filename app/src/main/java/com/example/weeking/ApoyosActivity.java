@@ -15,7 +15,7 @@ public class ApoyosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_apoyos);
         Button btnBarra = findViewById(R.id.btnBarra);
         btnBarra.setOnClickListener(v -> {
-            Intent intent = new Intent(ApoyosActivity.this, VistaApoyosActivity.class);
+            Intent intent =  new Intent(ApoyosActivity.this, VistaApoyosActivity.class);
             startActivity(intent);
             finish();
         });
