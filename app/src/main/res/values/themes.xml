@@ -11,7 +11,12 @@
         <item name="colorPrimaryContainer">#bce9ff</item>
         <item name="colorOnPrimaryContainer">#001f2a</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+
+
+
     </style>
+
+
 
     <style name="Theme.Weeking" parent="Base.Theme.Weeking" />
 </resources>
