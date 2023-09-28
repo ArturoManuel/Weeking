@@ -6,15 +6,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/iniciofondo"
     tools:context=".Cotrasena2Activity">
+
     <TextView
         android:id="@+id/volver"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="90dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
         android:drawableStart="@drawable/baseline_keyboard_return_24"
         android:text="Volver"
-        android:textSize="20dp"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/cartView"
+        app:layout_constraintEnd_toEndOf="@+id/cartView"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +31,6 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="40dp"
         app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="#861698EF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -153,13 +157,12 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
-                android:backgroundTint="#1945CA"
+                android:background="@drawable/btn_bg"
                 android:gravity="center"
                 android:paddingStart="20dp"
                 android:paddingLeft="30dp"
                 android:paddingEnd="30dp"
                 android:text="Continuar"
-                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0" />
 

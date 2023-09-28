@@ -6,108 +6,76 @@
     android:layout_height="match_parent"
     android:background="@drawable/iniciofondo"
     tools:context=".StatusActivity">
-    <TextView
-        android:id="@+id/volver"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/baseline_keyboard_return_24"
-        android:text="Volver"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textHeaderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="88dp"
         android:text="Establecer Estado"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cartView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="40dp"
-        app:cardBackgroundColor="#861698EF"
-        app:cardCornerRadius="10dp"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="317dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="124dp"
+        android:text="Queremos saber si estás estudiando actualmente en la PUCP o si ya culminaste tus estudios."
+        android:textAlignment="textStart"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textHeaderStatus">
+        app:layout_constraintTop_toBottomOf="@+id/textHeaderStatus" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="386dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="67dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <RadioButton
+            android:id="@+id/rbtnEstudiante"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="28dp"
-            android:orientation="vertical">
+            android:text="Estudiante" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Queremos saber si estás estudiando actualmente en la PUCP o si ya culminaste tus estudios."
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.471"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <RadioButton
-                    android:id="@+id/rbtnEstudiante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estudiante"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/rbtnEgresado"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Egresado" />
-            </RadioGroup>
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <RadioButton
+            android:id="@+id/rbtnEgresado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Egresado" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/btnSaveStatus"
-        android:layout_width="218dp"
-        android:layout_height="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="253dp"
         android:layout_marginEnd="160dp"
+        android:layout_marginBottom="68dp"
         android:text="Guardar Cambios"
-        android:textSize="20sp"
-        android:backgroundTint="#19CA4B"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cartView" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
