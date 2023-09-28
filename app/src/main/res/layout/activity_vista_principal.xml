@@ -1,68 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VistaPrincipal"
-    android:orientation="vertical">
-    <com.denzcoskun.imageslider.ImageSlider
-        android:id="@+id/image_slider"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        app:iss_auto_cycle="true"
-        app:iss_delay="1000"
-        app:iss_period="1000"
-        app:iss_text_align="CENTER"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".VistaPrincipal">
 
-    <ScrollView
+    <!-- Tu contenido actual -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/iniciofondo"
-        android:padding="10dp">
+        android:layout_height="650dp"
+        android:orientation="vertical"
+        >
 
-        <LinearLayout
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/image_slider"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            app:iss_auto_cycle="true"
+            app:iss_delay="1000"
+            app:iss_period="1000"
+            app:iss_text_align="CENTER"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!-- Elemento de la lista 1 -->
+            android:background="@drawable/iniciofondo"
+            android:padding="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:contentDescription="Imagen 1"
-                    android:src="@drawable/dota2" />
+                android:orientation="vertical">
+                <!-- Elemento de la lista 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Imagen 1"
+                        android:src="@drawable/dota2" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Título 1"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="16dp"
-                        android:textSize="18sp" />
-                    <!-- Botón de compartir (horizontal) -->
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:text="Dota2"
+                            android:textSize="18sp" />
+                        <!-- Botón de compartir (horizontal) -->
+
+                    </LinearLayout>
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Compartir"
-                        android:drawablePadding="8dp"
-                        android:gravity="center"
-                        android:textSize="18sp" />
+                        android:textSize="2dp" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
 
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
-</LinearLayout>
+
+    <!-- Agregar BottomNavigationView aquí -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottonmenu" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
