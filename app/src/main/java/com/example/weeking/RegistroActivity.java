@@ -4,27 +4,57 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterViewAnimator;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegistroActivity extends AppCompatActivity {
+
+    String[] items ={"Egresado","Estudiante"};
+
+    AutoCompleteTextView autoCompleteTextView;
+
+    ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
         TextView text = findViewById(R.id.tienescuenta);
-        text.setOnClickListener( view -> {
-            Intent intent = new Intent(RegistroActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
         Button button = findViewById(R.id.btnRegister);
-        button.setOnClickListener(view -> {
-            Intent intent = new Intent(RegistroActivity.this,EstadoActivity.class);
-            startActivity(intent);
-            finish();
+
+        autoCompleteTextView = findViewById(R.id.estados);
+        adapter = new ArrayAdapter<String>(this,R.layout.linear_items,items);
+
+
+        autoCompleteTextView.setAdapter(adapter);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(getApplicationContext(),"Item: "+item,Toast.LENGTH_SHORT).show();
+            }
         });
 
+
+        text.setOnClickListener(v -> navigateToActivity(MainActivity.class));
+        button.setOnClickListener(v -> navigateToActivity(EstadoActivity.class));
+
     }
+
+    private void navigateToActivity(Class<?> destinationClass) {
+        Intent intent = new Intent(RegistroActivity.this, destinationClass);
+        startActivity(intent);
+        finish();
+    }
+
+
 }
