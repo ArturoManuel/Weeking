@@ -17,6 +17,12 @@
         android:title="principal"
         android:icon="@drawable/baseline_house_24">
     </item>
+    <item android:id="@+id/camara"
+        android:title="camara"
+        android:icon="@drawable/baseline_photo_camera_24">
+
+
+    </item>
 
 
 </menu>
