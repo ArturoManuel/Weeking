@@ -29,5 +29,8 @@ public class ContrasenaRecuperacion_Activity extends AppCompatActivity {
             finish();
 
         });
+
+        TextView volver =findViewById(R.id.volver);
+        volver.setOnClickListener(v -> finish());
     }
 }

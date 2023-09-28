@@ -29,12 +29,15 @@ public class RegistroActivity extends AppCompatActivity {
 
         TextView text = findViewById(R.id.tienescuenta);
         Button button = findViewById(R.id.btnRegister);
-
+        TextView volver =findViewById(R.id.volver);
+        volver.setOnClickListener(v -> finish());
        // función para mostrar los items de estados;
         setItems(autoCompleteTextView);
 
         text.setOnClickListener(v -> navigateToActivity(MainActivity.class));
         button.setOnClickListener(v -> navigateToActivity(EstadoActivity.class));
+
+
 
     }
 

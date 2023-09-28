@@ -5,12 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class Lista_don extends AppCompatActivity {
+public class Plin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_don);
+        setContentView(R.layout.activity_plin);
 
         TextView volver =findViewById(R.id.volver);
         volver.setOnClickListener(v -> finish());

@@ -19,5 +19,7 @@ public class Contrasena3Activity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+        TextView volver =findViewById(R.id.volver);
+        volver.setOnClickListener(v -> finish());
     }
 }

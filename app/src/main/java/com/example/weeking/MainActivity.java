@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
         TextView text2 = findViewById(R.id.registrate);
         TextView text = findViewById(R.id.recuperarContraseña);
 
-
-
         text.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         text2.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
 

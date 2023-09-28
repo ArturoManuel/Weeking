@@ -62,27 +62,21 @@ tools:context=".RegistroActivity">
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usuario_registro"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:hint="Nombre"
-            app:helperTextTextColor="@color/colorWhite"
-            app:hintTextColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/correo_registro"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo"
+            app:helperTextTextColor="@color/cardview_dark_background"
             app:startIconDrawable="@drawable/ic_person">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nombre"
-                android:layout_width="280dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="21"
-                android:textColor="@color/colorWhite" />
+                android:maxLength="21" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,9 +90,6 @@ tools:context=".RegistroActivity">
             android:layout_marginEnd="40dp"
             android:hint="Correo"
             app:helperTextTextColor="@color/cardview_dark_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:startIconDrawable="@drawable/baseline_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -120,9 +111,6 @@ tools:context=".RegistroActivity">
             android:hint="Contraseña"
             app:endIconMode="password_toggle"
             app:helperTextTextColor="@color/cardview_dark_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:startIconDrawable="@drawable/baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -145,9 +133,6 @@ tools:context=".RegistroActivity">
             android:hint="Ingrese nuevamente"
             app:endIconMode="password_toggle"
             app:helperTextTextColor="@color/cardview_dark_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:startIconDrawable="@drawable/baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText

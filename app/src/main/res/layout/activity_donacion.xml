@@ -82,48 +82,36 @@
                     android:textSize="26sp"
                     android:textStyle="bold" />
             </TableRow>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.471"
+                app:layout_constraintStart_toStartOf="parent">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:id="@+id/checkBox3"
+                <RadioButton
+                    android:id="@+id/transferencia"
                     android:layout_width="wrap_content"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="32dp"
-                    android:text="Transferencia" />
-            </TableRow>
+                    android:layout_height="wrap_content"
+                    android:text="Transferencia"
+                    android:textSize="16sp" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:id="@+id/checkBox2"
-                    android:layout_width="126dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_height="32dp"
+                <RadioButton
+                    android:id="@+id/plin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
                     android:text="Plin" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <CheckBox
-                    android:id="@+id/checkBox"
-                    android:layout_width="80dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_height="33dp"
-                    android:text="Yape" />
-
-                <LinearLayout
+                <RadioButton
+                    android:id="@+id/yape"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
-            </TableRow>
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Yape" />
+            </RadioGroup>
 
         </TableLayout>
     </androidx.cardview.widget.CardView>
