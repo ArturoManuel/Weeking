@@ -35,7 +35,7 @@ public class RegistroActivity extends AppCompatActivity {
         setItems(autoCompleteTextView);
 
         text.setOnClickListener(v -> navigateToActivity(MainActivity.class));
-        button.setOnClickListener(v -> navigateToActivity(EstadoActivity.class));
+        button.setOnClickListener(v -> navigateToActivity(VistaPrincipal.class));
 
 
 

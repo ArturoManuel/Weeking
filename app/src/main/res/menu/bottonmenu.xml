@@ -13,10 +13,7 @@
         android:title="googlemaps"
         android:icon="@drawable/baseline_maps_ugc_24">
     </item>
-    <item android:id="@+id/principal"
-        android:title="principal"
-        android:icon="@drawable/baseline_house_24">
-    </item>
+
     <item android:id="@+id/camara"
         android:title="camara"
         android:icon="@drawable/baseline_photo_camera_24">

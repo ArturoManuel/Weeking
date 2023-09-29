@@ -5,16 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".VistaPrincipal">
-
     <!-- Tu contenido actual -->
-
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="650dp"
         android:orientation="vertical"
         >
-
         <com.denzcoskun.imageslider.ImageSlider
             android:id="@+id/image_slider"
             android:layout_width="wrap_content"
@@ -72,18 +69,16 @@
                         android:textSize="2dp" />
                 </LinearLayout>
             </LinearLayout>
-
-
         </ScrollView>
     </LinearLayout>
 
 
-    <!-- Agregar BottomNavigationView aquí -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottonmenu" />
+        />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
