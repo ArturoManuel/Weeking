@@ -6,10 +6,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 
@@ -17,6 +24,7 @@ public class Stadistics extends AppCompatActivity {
     PieChart pieChart;
     PieChart pieChart2;
     PieChart pieChart3;
+    LineChart mpLineChart;
     int[] colorClassArray=new int []{Color.BLUE,Color.RED};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +62,7 @@ public class Stadistics extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.invalidate();
 
-        PieChart pieChart3 = findViewById(R.id.pieChart3);
+        pieChart3 = findViewById(R.id.pieChart3);
         PieDataSet pieDataSet3 = new PieDataSet(dataValue3(), "");
         pieDataSet3.setColors(colorClassArray);
         PieData pieData3 = new PieData(pieDataSet3);
@@ -67,7 +75,18 @@ public class Stadistics extends AppCompatActivity {
         pieChart3.setData(pieData3);
         pieChart3.invalidate();
 
-
+        mpLineChart=(LineChart) findViewById(R.id.line_chart);
+        XAxis xAxis = mpLineChart.getXAxis();
+        final String[] xLabels = new String[]{"15 oct","", "17 oct","", "19 oct", "Hoy"};
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xLabels));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        LineDataSet lineDataSet1=new LineDataSet(dataValue4(),"Donaciones en soles");
+        ArrayList<ILineDataSet> dataSets=new ArrayList<>();
+        dataSets.add(lineDataSet1);
+        LineData data =new LineData(dataSets);
+        mpLineChart.setData(data);
+        mpLineChart.invalidate();
 
 
     }
@@ -84,10 +103,20 @@ public class Stadistics extends AppCompatActivity {
         return dataVals2;
     }
     private ArrayList<PieEntry> dataValue3(){
-        ArrayList<PieEntry> dataVals2=new ArrayList<>();
-        dataVals2.add(new PieEntry(64,"63.83%"));
-        dataVals2.add(new PieEntry(36,"36.17%"));
-        return dataVals2;
+        ArrayList<PieEntry> dataVals3=new ArrayList<>();
+        dataVals3.add(new PieEntry(64,"63.83%"));
+        dataVals3.add(new PieEntry(36,"36.17%"));
+        return dataVals3;
+    }
+    private ArrayList<Entry> dataValue4(){
+        ArrayList<Entry> dataVals4=new ArrayList<Entry>();
+        dataVals4.add(new Entry(0,20));
+        dataVals4.add(new Entry(1,100));
+        dataVals4.add(new Entry(2,200));
+        dataVals4.add(new Entry(3,300));
+        dataVals4.add(new Entry(4,100));
+        dataVals4.add(new Entry(5,200));
+        return dataVals4;
     }
 
 }
