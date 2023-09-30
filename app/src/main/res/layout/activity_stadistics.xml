@@ -37,6 +37,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.077" />
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pieChart"/>
+
+
     <TextView
         android:id="@+id/textView53"
         android:layout_width="wrap_content"
@@ -103,7 +109,7 @@
         app:layout_constraintVertical_bias="0.411" />
 
     <TextView
-        android:id="@+id/textView62"
+        android:id="@+id/textView63"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Egresados : 37"
@@ -143,18 +149,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.166" />
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="176dp"
-        android:layout_height="122dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.198"
-        app:srcCompat="@drawable/captura" />
 
     <ImageView
         android:id="@+id/imageView13"
