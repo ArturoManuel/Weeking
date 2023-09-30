@@ -15,25 +15,61 @@ import java.util.ArrayList;
 
 public class Stadistics extends AppCompatActivity {
     PieChart pieChart;
+    PieChart pieChart2;
+    PieChart pieChart3;
     int[] colorClassArray=new int []{Color.BLUE,Color.RED};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stadistics);
 
+
+
+        pieChart2 = findViewById(R.id.pieChart2);
+        PieDataSet pieDataSet2 = new PieDataSet(dataValue2(), "");
+        pieDataSet2.setColors(colorClassArray);
+        PieData pieData2 = new PieData(pieDataSet2);
+        pieChart2.setDrawEntryLabels(true);
+        pieChart2.getDescription().setEnabled(false);
+        pieChart2.setUsePercentValues(true);
+        pieChart2.setDrawHoleEnabled(false);
+        pieChart2.getLegend().setEnabled(false);
+        pieDataSet2.setDrawValues(false);
+        pieChart2.setData(pieData2);
+        pieChart2.invalidate();
+
+
         pieChart=findViewById(R.id.pieChart);
         PieDataSet pieDataSet=new PieDataSet(dataValue1(),"");
         pieDataSet.setColors(colorClassArray);
         PieData pieData =new PieData(pieDataSet);
         pieChart.setDrawEntryLabels(true);
+        pieChart.getDescription().setEnabled(false);
         pieChart.setUsePercentValues(true);
         pieChart.setCenterText("Alumnos en total");
-        pieChart.setCenterTextSize(20);
+        pieChart.setCenterTextSize(7);
         pieChart.setCenterTextRadiusPercent(50);
         pieChart.setHoleRadius(30);
         pieChart.setTransparentCircleRadius(40);
         pieChart.setData(pieData);
         pieChart.invalidate();
+
+        PieChart pieChart3 = findViewById(R.id.pieChart3);
+        PieDataSet pieDataSet3 = new PieDataSet(dataValue3(), "");
+        pieDataSet3.setColors(colorClassArray);
+        PieData pieData3 = new PieData(pieDataSet3);
+        pieChart3.setDrawEntryLabels(true);
+        pieChart3.getDescription().setEnabled(false);
+        pieChart3.setUsePercentValues(true);
+        pieChart3.setDrawHoleEnabled(false);
+        pieChart3.getLegend().setEnabled(false);
+        pieDataSet3.setDrawValues(false);
+        pieChart3.setData(pieData3);
+        pieChart3.invalidate();
+
+
+
+
     }
     private ArrayList<PieEntry> dataValue1(){
         ArrayList<PieEntry> dataVals=new ArrayList<>();
@@ -41,4 +77,17 @@ public class Stadistics extends AppCompatActivity {
         dataVals.add(new PieEntry(37,"Egresados"));
         return dataVals;
     }
+    private ArrayList<PieEntry> dataValue2(){
+        ArrayList<PieEntry> dataVals2=new ArrayList<>();
+        dataVals2.add(new PieEntry(80,"80%"));
+        dataVals2.add(new PieEntry(20,"20%"));
+        return dataVals2;
+    }
+    private ArrayList<PieEntry> dataValue3(){
+        ArrayList<PieEntry> dataVals2=new ArrayList<>();
+        dataVals2.add(new PieEntry(64,"63.83%"));
+        dataVals2.add(new PieEntry(36,"36.17%"));
+        return dataVals2;
+    }
+
 }

@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Button inicio = findViewById(R.id.iniciarSesion);
 
         text.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
-        text2.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
+        //text2.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
+        text2.setOnClickListener(v -> navigateToActivity(Stadistics.class));
         inicio.setOnClickListener(v-> navigateToActivity(VistaPrincipal.class));
 
 
