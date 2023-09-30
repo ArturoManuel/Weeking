@@ -81,6 +81,7 @@ public class Stadistics extends AppCompatActivity {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xLabels));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
+        mpLineChart.getDescription().setEnabled(false);
         LineDataSet lineDataSet1=new LineDataSet(dataValue4(),"Donaciones en soles");
         ArrayList<ILineDataSet> dataSets=new ArrayList<>();
         dataSets.add(lineDataSet1);
