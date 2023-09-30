@@ -15,94 +15,94 @@
         android:theme="@style/Theme.Weeking"
         tools:targetApi="31">
         <activity
-            android:name=".MapaActivity"
+            android:name=".workers.MapaActivity"
             android:exported="false" />
         <activity
-            android:name=".VistaPrincipal"
+            android:name=".workers.VistaPrincipal"
             android:exported="false" />
         <activity
-            android:name=".Plin"
+            android:name=".workers.Plin"
             android:exported="false" />
         <activity
-            android:name=".Stadistics"
+            android:name=".workers.Stadistics"
             android:exported="false" />
         <activity
-            android:name=".Listchats"
+            android:name=".workers.Listchats"
             android:exported="false" />
         <activity
-            android:name=".Contrasena3Activity"
+            android:name=".workers.Contrasena3Activity"
             android:exported="false" />
         <activity
-            android:name=".Cotrasena2Activity"
+            android:name=".workers.Cotrasena2Activity"
             android:exported="false" />
         <activity
-            android:name=".ContrasenaRecuperacion_Activity"
+            android:name=".workers.ContrasenaRecuperacion_Activity"
             android:exported="false" />
         <activity
-            android:name=".RegistroActivity"
+            android:name=".workers.RegistroActivity"
             android:exported="false" />
         <activity
-            android:name=".Lista_don"
+            android:name=".workers.Lista_don"
             android:exported="false" />
         <activity
-            android:name=".Don_ve"
+            android:name=".workers.Don_ve"
             android:exported="false" />
         <activity
-            android:name=".Don_recha"
+            android:name=".workers.Don_recha"
             android:exported="false" />
         <activity
-            android:name=".Verificacion_don"
+            android:name=".workers.Verificacion_don"
             android:exported="false" />
         <activity
-            android:name=".Verificacion_donacion"
+            android:name=".workers.Verificacion_donacion"
             android:exported="false" />
         <activity
-            android:name=".Pago"
+            android:name=".workers.Pago"
             android:exported="false" />
         <activity
-            android:name=".Transferencia"
+            android:name=".workers.Transferencia"
             android:exported="false" />
         <activity
-            android:name=".Yape"
+            android:name=".workers.Yape"
             android:exported="false" />
         <activity
-            android:name=".VistaApoyosActivity"
+            android:name=".workers.VistaApoyosActivity"
             android:exported="false" />
         <activity
-            android:name=".ActividadesActivity"
+            android:name=".workers.ActividadesActivity"
             android:exported="false" />
         <activity
-            android:name=".EventosActivity"
+            android:name=".workers.EventosActivity"
             android:exported="false" />
         <activity
-            android:name=".VistaDelegadoGeneralActivity"
+            android:name=".workers.VistaDelegadoGeneralActivity"
             android:exported="false" />
         <activity
-            android:name=".VistaDelegadoActividadActivity"
+            android:name=".workers.VistaDelegadoActividadActivity"
             android:exported="false" />
         <activity
-            android:name=".ApoyosActivity"
+            android:name=".workers.ApoyosActivity"
             android:exported="false" />
         <activity
-            android:name=".VistaEventoActivity"
+            android:name=".workers.VistaEventoActivity"
             android:exported="false" />
         <activity
-            android:name=".NuevoEventoActivity"
+            android:name=".workers.NuevoEventoActivity"
             android:exported="false" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".workers.AccountActivity"
             android:exported="false" />
         <activity
-            android:name=".StatusActivity"
+            android:name=".workers.StatusActivity"
             android:exported="false" />
         <activity
-            android:name=".PerfilActivity"
+            android:name=".workers.PerfilActivity"
             android:exported="false" />
         <activity
-            android:name=".Donacion"
+            android:name=".workers.Donacion"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".workers.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

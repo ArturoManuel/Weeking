@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iniciofondo"
-    tools:context=".Verificacion_don">
+    tools:context=".workers.Verificacion_don">
     <TextView
         android:id="@+id/volver"
         android:layout_width="97dp"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VistaPrincipal">
+    tools:context=".workers.VistaPrincipal">
     <!-- Tu contenido actual -->
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -30,6 +30,7 @@
             android:background="@drawable/iniciofondo"
             android:padding="10dp">
             <LinearLayout
+                android:id="@+id/listaEventos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

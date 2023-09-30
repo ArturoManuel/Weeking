@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/iniciofondo"
-    tools:context=".Cotrasena2Activity">
+    tools:context=".workers.Cotrasena2Activity">
 
     <TextView
         android:id="@+id/volver"
