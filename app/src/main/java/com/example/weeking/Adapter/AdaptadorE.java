@@ -46,9 +46,7 @@ public class AdaptadorE extends RecyclerView.Adapter<AdaptadorE.ViewHolder>{
             super(itemView);
             evento = itemView.findViewById(R.id.txtEvento);
             estado = itemView.findViewById(R.id.txtEstado);
-
         }
-
         void bindData(final ListaEven item){
             evento.setText(item.getNombre());
             estado.setText(item.getEstado());

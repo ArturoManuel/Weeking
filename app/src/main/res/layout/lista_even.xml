@@ -22,7 +22,7 @@
             android:id="@+id/imaBtnVerEventos"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/dota2"
             android:scaleType="fitXY"
             android:background="@android:color/transparent"/>
@@ -35,7 +35,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
+                android:layout_height="8dp"
                 android:background="@android:color/transparent"/>
             <TextView
                 android:id="@+id/txtEvento"

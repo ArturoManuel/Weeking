@@ -43,8 +43,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="40dp"
-        app:cardBackgroundColor="#861698EF"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -65,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="Queremos saber si estás estudiando actualmente en la PUCP o si ya culminaste tus estudios."
                 android:textAlignment="center"
+                android:textStyle="bold"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -83,13 +83,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estudiante"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/rbtnEgresado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:text="Egresado" />
             </RadioGroup>
 
