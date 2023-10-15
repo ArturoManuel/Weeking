@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915758793346",
+    "project_id": "demoproyectoiot23wk",
+    "storage_bucket": "demoproyectoiot23wk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915758793346:android:ea1115e7250afc5ea32a9b",
+        "android_client_info": {
+          "package_name": "com.example.weeking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_-rnDNBPIBkWhtaygbC_LT9Al2TgZVRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
