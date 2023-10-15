@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/iniciofondo"
     tools:context=".workers.VistaPrincipal">
-    <!-- Tu contenido actual -->
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -24,121 +24,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lista_prin"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/iniciofondo"
-            android:padding="10dp">
-            <LinearLayout
-                android:id="@+id/listaEventos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.google.android.material.card.MaterialCardView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/item_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="194dp"
-                            android:src="@drawable/dota2"
-                            android:importantForAccessibility="no"
-                            android:scaleType="centerCrop" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp">
-
-                            <TextView
-                                android:id="@+id/item_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dota2"
-                                android:textAppearance="?attr/textAppearanceHeadline6"
-                                android:layout_weight="1" />
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/heart"
-                                android:contentDescription="Me gusta" />
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/baseline_share_24"
-                                android:contentDescription="Compartir"
-                                android:layout_marginStart="8dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/item_image2"
-                            android:layout_width="match_parent"
-                            android:layout_height="194dp"
-                            android:src="@drawable/dota2"
-                            android:importantForAccessibility="no"
-                            android:scaleType="centerCrop" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp">
-
-                            <TextView
-                                android:id="@+id/item_title2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Dota2"
-                                android:textAppearance="?attr/textAppearanceHeadline6"
-                                android:layout_weight="1" />
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/heart"
-                                android:contentDescription="Me gusta" />
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/baseline_share_24"
-                                android:contentDescription="Compartir"
-                                android:layout_marginStart="8dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-
-            </LinearLayout>
-
-        </ScrollView>
+            android:layout_height="420dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
 
     </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
