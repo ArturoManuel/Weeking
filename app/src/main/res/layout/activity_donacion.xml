@@ -17,11 +17,12 @@
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:text="Donaciones Aitel"
         android:textColor="@color/white"
         android:textSize="40sp"
@@ -34,14 +35,14 @@
         android:id="@+id/button8"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="Siguiente"
         android:backgroundTint="#193FCA"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Siguiente"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="20sp"/>
+        app:layout_constraintTop_toBottomOf="@+id/cartView" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartView"
@@ -121,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="#861698EF"
         app:cardCornerRadius="10dp"
@@ -216,5 +217,17 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:itemIconSize="25dp"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

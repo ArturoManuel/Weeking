@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding.iniciarSesion.setOnClickListener(v -> navigateToActivity(VistaPrincipal.class));
         binding.recuperarContrasena.setOnClickListener(v-> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         binding.registrate.setOnClickListener(v->navigateToActivity(RegistroActivity.class));
+        binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
     }
 
     private void navigateToActivity(Class<?> destinationClass) {
