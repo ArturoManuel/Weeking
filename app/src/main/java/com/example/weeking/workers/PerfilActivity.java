@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PerfilActivity extends AppCompatActivity {
     MeowBottomNavigation meowBottomNavigation;
+
     Intent intent;
 
     @Override
@@ -22,8 +23,17 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         Button btnStatus=findViewById(R.id.btnStatus);
+        Button btnAccount = findViewById(R.id.btnAccount);
         TextView volver =findViewById(R.id.volver);
         volver.setOnClickListener(v -> finish());
+
+        btnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PerfilActivity.this, AccountActivity.class);
+                startActivity(intent);
+            }
+        });
         btnStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
