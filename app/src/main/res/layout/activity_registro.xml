@@ -7,17 +7,7 @@ android:layout_height="match_parent"
 android:background="@drawable/iniciofondo"
 tools:context=".workers.RegistroActivity">
 
-<TextView
-    android:id="@+id/volver"
-    android:layout_width="97dp"
-    android:layout_height="34dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginTop="16dp"
-    android:drawableStart="@drawable/baseline_keyboard_return_24"
-    android:text="Volver"
-    android:textSize="20dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+
 
 <TextView
     android:id="@+id/logo"
@@ -57,6 +47,26 @@ tools:context=".workers.RegistroActivity">
         android:layout_marginTop="24dp"
         android:layout_marginBottom="30dp"
         android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/codigo_pucp_registro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:hint="Código PUCP"
+            app:helperTextTextColor="@color/cardview_dark_background"
+            >  <!-- Reemplaza con tu propio drawable si lo deseas -->
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/codigo_pucp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLength="10" />  <!-- Ajusta la longitud máxima según tus necesidades -->
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usuario_registro"
@@ -113,7 +123,7 @@ tools:context=".workers.RegistroActivity">
             app:startIconDrawable="@drawable/baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contraseña1"
+                android:id="@+id/contrasena1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -135,7 +145,7 @@ tools:context=".workers.RegistroActivity">
             app:startIconDrawable="@drawable/baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contraseña2"
+                android:id="@+id/contrasena2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
