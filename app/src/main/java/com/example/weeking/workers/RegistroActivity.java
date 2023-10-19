@@ -38,8 +38,6 @@ public class RegistroActivity extends AppCompatActivity {
         setItems(autoCompleteTextView);
         db = FirebaseFirestore.getInstance();
 
-
-
         binding.tienescuenta.setOnClickListener(v -> navigateToActivity(MainActivity.class));
         binding.btnRegister.setOnClickListener(v -> {
             // Obtener valores de los campos
@@ -79,13 +77,6 @@ public class RegistroActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
-
-
-
-
-
-
-
 
     }
 
