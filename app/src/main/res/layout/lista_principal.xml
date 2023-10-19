@@ -1,62 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="260dp"
     android:layout_height="wrap_content"
-    android:id="@+id/lista_principal"
-    android:layout_marginBottom="20dp"
-    app:cardCornerRadius="28dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="#FFFFFF">
 
-    <LinearLayout
-        android:id="@+id/linearLayout10"
-        android:layout_width="wrap_content"
+        <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
+        android:padding="16dp">
 
-        <ImageButton
-            android:id="@+id/imaBtnVerEventos"
-            android:layout_width="250dp"
-            android:layout_height="200dp"
-            android:src="@drawable/dota2"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/transparent"/>
+            <ImageView
+                android:id="@+id/foto"
+                android:layout_width="260dp"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dota2" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@android:color/transparent">
-
-            <TextView
-                android:id="@+id/txtEvento1"
-                android:layout_width="180dp"
+            <!-- Contenedor para títulos e iconos debajo de la imagen -->
+            <LinearLayout
+                android:id="@+id/details_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ACTIVIDAD"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"/>
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="12dp"
-                android:src="@drawable/heart"
-                android:contentDescription="Me gusta" />
+                android:layout_below="@+id/foto"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/baseline_share_24"
-                android:contentDescription="Compartir"
-                android:layout_marginStart="4dp" />
-        </LinearLayout>
+                <!-- Resto de elementos como los TextViews y los iconos aquí -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/fecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jueves, Marzo 19 - 20.00 Pm"
+                        android:textSize="14sp" />
 
-</androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/nombreEvento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Final de Dota2"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/ubicacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pabellon V"
+                        android:textSize="14sp"
+                        android:drawablePadding="4dp"
+                        android:drawableStart="@drawable/baseline_fmd_good_24"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Favorito"
+                    android:src="@drawable/heart" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="12dp"
+                    android:contentDescription="Compartir"
+                    android:src="@drawable/baseline_share_24" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>

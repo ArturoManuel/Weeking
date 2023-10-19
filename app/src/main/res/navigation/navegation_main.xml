@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegation_main"
+    app:startDestination="@id/perfil">
+    <fragment
+        android:id="@+id/perfil"
+        android:name="com.example.weeking.workers.fragmentos.perfil"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/mapafragmento"
+        android:name="com.example.weeking.workers.fragmentos.mapafragmento"
+        android:label="fragment_mapafragmento"
+        tools:layout="@layout/fragment_mapafragmento" />
+    <fragment
+        android:id="@+id/chatfragmento"
+        android:name="com.example.weeking.workers.fragmentos.chatfragmento"
+        android:label="fragment_chatfragmento"
+        tools:layout="@layout/fragment_chatfragmento" />
+    <fragment
+        android:id="@+id/mainFragmento"
+        android:name="com.example.weeking.workers.fragmentos.mainFragmento"
+        android:label="fragment_main_fragmento"
+        tools:layout="@layout/fragment_main_fragmento" />
+    <fragment
+        android:id="@+id/camarafragmento"
+        android:name="com.example.weeking.workers.fragmentos.camarafragmento"
+        android:label="fragment_camarafragmento"
+        tools:layout="@layout/fragment_camarafragmento" />
+</navigation>

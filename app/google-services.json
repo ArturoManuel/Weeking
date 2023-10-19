@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "915758793346",
-    "project_id": "demoproyectoiot23wk",
-    "storage_bucket": "demoproyectoiot23wk.appspot.com"
+    "project_number": "1094221592976",
+    "project_id": "weeking-c2d7c",
+    "storage_bucket": "weeking-c2d7c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:915758793346:android:ea1115e7250afc5ea32a9b",
+        "mobilesdk_app_id": "1:1094221592976:android:3f38fa59f3afbb8acd1b15",
         "android_client_info": {
           "package_name": "com.example.weeking"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD_-rnDNBPIBkWhtaygbC_LT9Al2TgZVRw"
+          "current_key": "AIzaSyBtz50C_wiXdU09a6QfxhqVaKbjrSXZv10"
         }
       ],
       "services": {

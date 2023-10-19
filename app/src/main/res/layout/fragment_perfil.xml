@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/iniciofondo"
     android:layout_height="match_parent"
-    tools:context=".workers.PerfilActivity">
-
+    android:background="@drawable/iniciofondo"
+    tools:context=".workers.fragmentos.perfil">
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="148dp"
@@ -96,24 +95,22 @@
         android:id="@+id/btnLogout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#D86847"
         android:text="Cerrar Sesión"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.809"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAccount" />
 
     <Button
         android:id="@+id/btnAccount"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Configuración de Cuenta"
         android:backgroundTint="#1E80E8"
+        android:text="Configuración de Cuenta"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -131,9 +128,6 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
