@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Weeking"
         tools:targetApi="31">
         <activity
+            android:name=".workers.GaleriaEventos"
+            android:exported="false" />
+        <activity
             android:name=".workers.MapaActivity"
             android:exported="false" />
         <activity
