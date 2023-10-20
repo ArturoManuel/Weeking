@@ -1,6 +1,7 @@
 package com.example.weeking.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.workers.VistaEventoActivity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,15 +34,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         this.mdata = itemlist;
     }
 
-    public void updateData(List<EventoClass> newData) {
-        if (this.mdata != null) {
-            this.mdata.clear();
-            this.mdata.addAll(newData);
-        } else {
-            this.mdata = newData;
-        }
-        notifyDataSetChanged();
-    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -69,6 +65,21 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             foto = itemView.findViewById(R.id.foto);
             fecha=itemView.findViewById(R.id.fecha);
             ubicacion=itemView.findViewById(R.id.ubicacion);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    EventoClass eventoSeleccionado = mdata.get(position);
+                    DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
+
+                    Intent intent = new Intent(context, VistaEventoActivity.class);
+                    intent.putExtra("posicion", position);
+
+                    context.startActivity(intent);
+                }
+            });
+
         }
 
         void bindData(final EventoClass item) {

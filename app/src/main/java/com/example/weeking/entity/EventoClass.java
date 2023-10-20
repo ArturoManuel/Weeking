@@ -5,6 +5,8 @@ import com.google.firebase.Timestamp;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.io.Serializable;
+
 public class EventoClass {
 
     private String descripcion; // "Se jugar un juego"
