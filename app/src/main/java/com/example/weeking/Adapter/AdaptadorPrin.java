@@ -1,5 +1,4 @@
 package com.example.weeking.Adapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -66,18 +65,13 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             fecha=itemView.findViewById(R.id.fecha);
             ubicacion=itemView.findViewById(R.id.ubicacion);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    EventoClass eventoSeleccionado = mdata.get(position);
-                    DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
-
-                    Intent intent = new Intent(context, VistaEventoActivity.class);
-                    intent.putExtra("posicion", position);
-
-                    context.startActivity(intent);
-                }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                EventoClass eventoSeleccionado = mdata.get(position);
+                DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
+                Intent intent = new Intent(context, VistaEventoActivity.class);
+                intent.putExtra("posicion", position);
+                context.startActivity(intent);
             });
 
         }

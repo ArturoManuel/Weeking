@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -67,6 +68,10 @@ public class VistaPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
+
+
+
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
