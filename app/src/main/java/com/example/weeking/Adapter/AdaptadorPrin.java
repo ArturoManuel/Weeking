@@ -1,6 +1,7 @@
 package com.example.weeking.Adapter;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,19 +59,25 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         TextView fecha;
         TextView ubicacion;
 
+        TextView descripcion, fotito;
+
         ViewHolder(View itemView) {
             super(itemView);
             evento = itemView.findViewById(R.id.nombreEvento);
+            fecha= itemView.findViewById(R.id.fecha);
             foto = itemView.findViewById(R.id.foto);
-            fecha=itemView.findViewById(R.id.fecha);
-            ubicacion=itemView.findViewById(R.id.ubicacion);
-
+            ubicacion= itemView.findViewById(R.id.ubicacion);
+            descripcion= itemView.findViewById(R.id.descripcion);
+            fotito = itemView.findViewById(R.id.fotito);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 EventoClass eventoSeleccionado = mdata.get(position);
                 DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
                 Intent intent = new Intent(context, VistaEventoActivity.class);
-                intent.putExtra("posicion", position);
+                intent.putExtra("evento", (String) evento.getText());
+                intent.putExtra("descripcion", (String) descripcion.getText());
+                intent.putExtra("ubicacion", (String) ubicacion.getText());
+                intent.putExtra("foto", (String) fotito.getText());
                 context.startActivity(intent);
             });
 
@@ -78,7 +85,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
 
         void bindData(final EventoClass item) {
             evento.setText(item.getNombre());
-
+            descripcion.setText(item.getDescripcion());
             Date date = item.getFecha_evento().toDate();
             // Formatear la fecha
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d HH:mm", Locale.getDefault());
@@ -88,7 +95,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
 
             fecha.setText(formattedDate);
             ubicacion.setText(item.getUbicacion());
-
+            fotito.setText(item.getFoto());
             String imageUrl = item.getFoto();  // Asume que `item.getImageUrl()` proporciona la URL de la imagen
             Glide.with(foto.getContext())
                     .load(imageUrl)

@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/iniciofondo"
     tools:context=".workers.fragmentos.perfil">
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="148dp"
         android:layout_height="130dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="64dp"
         android:src="@drawable/_657310123341"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"

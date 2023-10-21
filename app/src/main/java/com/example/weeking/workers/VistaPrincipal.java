@@ -69,9 +69,6 @@ public class VistaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
 
-
-
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
@@ -79,7 +76,6 @@ public class VistaPrincipal extends AppCompatActivity {
         // Iniciar en el mainFragmento
         navController.navigate(R.id.mainFragmento);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> isMainFragment = (destination.getId() == R.id.mainFragmento));
-
         AppViewModel appViewModel= new ViewModelProvider(VistaPrincipal.this).get(AppViewModel.class);
         db = FirebaseFirestore.getInstance();
         db.collection("Eventos").addSnapshotListener((collection, error) -> {
@@ -125,14 +121,10 @@ public class VistaPrincipal extends AppCompatActivity {
 
     private void setupImageSlider(ImageSlider imageSlider) {
         ArrayList<SlideModel> imageList = new ArrayList<>();
-
         imageList.add(new SlideModel("https://drive.google.com/file/d/1Zna5-06QK4mboQ3nVOHBOs-dBf_HuR_N/view?usp=drive_link", "Inauguran el “XVII Festival de Teatro Saliendo de la Caja” en el Centro Cultural PUCP", ScaleTypes.CENTER_CROP));
         imageList.add(new SlideModel("https://drive.google.com/file/d/1kaW0CsG51sfXP0JfEUgsnOesGHTzTBr4/view?usp=drive_link", "Torneos exclusivos de la fibra", ScaleTypes.CENTER_CROP));
         imageList.add(new SlideModel("https://drive.google.com/file/d/1Jpzx9V7z5PO_2sCJA5Nd60-GNm9g7kMu/view?usp=drive_link", "Sábado el baileton", ScaleTypes.CENTER_CROP));
-
         // Configura el ImageSlider pasado como parámetro
         imageSlider.setImageList(imageList);
     }
-
-
 }

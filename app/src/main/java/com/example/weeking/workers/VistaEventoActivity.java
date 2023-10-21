@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
@@ -27,16 +29,20 @@ public class VistaEventoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        TextView descrip = findViewById(R.id.textView15);
+        TextView evento = findViewById(R.id.textView5);
+        TextView ubi = findViewById(R.id.ubicacion1);
+        ImageView imagen = findViewById(R.id.imageView2);
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
-        int posicion = getIntent().getIntExtra("posicion", -1);
-
-        if (posicion == -1) {
-            Log.d("msg-error","Algo salio mal");
-        } else {
-            // Usar el valor de 'posicion' para realizar alguna operación.
-            Log.d("msg-error", String.valueOf(posicion)+eventoSeleccionado.getNombre().toString());
-        }
-
+        String even = getIntent().getStringExtra("evento");
+        String descri = getIntent().getStringExtra("descripcion");
+        String ubica = getIntent().getStringExtra("ubicacion");
+        String foto = getIntent().getStringExtra("foto");
+        evento.setText(even);
+        descrip.setText(descri);
+        ubi.setText(ubica);
+        Glide.with(imagen.getContext())
+                .load(foto)
+                .into(imagen);
     }
 }
