@@ -68,7 +68,7 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         btPick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takePicture();
+                requestCameraPermission();
             }
         });
 
