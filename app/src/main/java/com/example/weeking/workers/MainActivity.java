@@ -7,25 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.weeking.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
 
+    private FirebaseAuth auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        TextView text2 = findViewById(R.id.registrate);
-//        TextView text = findViewById(R.id.recuperarContraseña);
-//        Button inicio = findViewById(R.id.iniciarSesion);
-//
-//        text.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
-//       // text2.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
-//        text2.setOnClickListener(v -> navigateToActivity(Stadistics.class));
-//        inicio.setOnClickListener(v-> navigateToActivity(VistaPrincipal.class));
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();

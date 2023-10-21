@@ -128,7 +128,8 @@ tools:context=".workers.RegistroActivity">
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="textPassword"
-                android:maxLength="21" />
+                android:maxLength="21"
+                android:textColor="@android:color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -150,7 +151,8 @@ tools:context=".workers.RegistroActivity">
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="textPassword"
-                android:maxLength="21" />
+                android:maxLength="21"
+                android:textColor="@android:color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
