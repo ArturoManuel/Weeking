@@ -80,6 +80,8 @@ public class RegistroActivity extends AppCompatActivity {
                     user.put("correo", correo);
                     user.put("contrasena", contrasena); // No almacenes contraseñas en texto claro en una base de datos real
                     user.put("estado", estado);
+                    user.put("rol","alumno");
+                    user.put("apoyo","no_apoya");
                     user.put("imagen_url", "tu_url_por_defecto_aqui");
 
                     // Añadir datos en Firestore
