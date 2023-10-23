@@ -17,6 +17,7 @@ import com.example.weeking.databinding.ActivityVistaPrincipalBinding;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.EventoDto;
 import com.example.weeking.workers.fragmentos.mainFragmento;
+import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,6 +40,7 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.weeking.Adapter.AdaptadorPrin;
 import com.example.weeking.R;
 import com.example.weeking.entity.ListaEven;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class VistaPrincipal extends AppCompatActivity {
+public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutListener {
 
     private Intent intent;
     private LinearLayout layout;
@@ -68,7 +70,6 @@ public class VistaPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
@@ -94,7 +95,18 @@ public class VistaPrincipal extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onLogout() {
+        // Código para cerrar la sesión (Ejemplo con Firebase Authentication)
+        FirebaseAuth.getInstance().signOut();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void onBackPressed() {
+        super.onBackPressed();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         if (isMainFragment) {
@@ -127,4 +139,6 @@ public class VistaPrincipal extends AppCompatActivity {
         // Configura el ImageSlider pasado como parámetro
         imageSlider.setImageList(imageList);
     }
+
+
 }
