@@ -81,13 +81,7 @@
                 android:textSize="20sp"
                 android:text="Verificar Correo" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#27B3DF"
-                android:textSize="20sp"
-                android:text="Cambiar contraseña" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,128 +7,112 @@
     android:background="@drawable/iniciofondo"
     tools:context=".workers.fragmentos.perfil">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="148dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="64dp"
-        android:src="@drawable/_657310123341"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="397dp"
+        android:layout_height="593dp"
+        android:layout_marginBottom="48dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="10dp"
-        android:background="#FFFFFF"
-        app:cardCornerRadius="32dp"
-        app:cardElevation="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="117dp"
+            android:layout_height="109dp"
+            android:layout_centerHorizontal="true"
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="144dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/_657310123341"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="#FFFFFF"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp"
+                    android:text="Nombres y apellidos del alumno"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/circular_shape"
+            android:drawableLeft="@drawable/baseline_mark_email_read_24"
+            android:drawablePadding="8dp"
+            android:text="Configuración de Cuenta"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textNombre"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
-                android:text="Nombres y apellidos del alumno"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/textCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Correo del usuario"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/textStatus"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/textStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Estatus"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/textCodigo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Código del usuario PUCP"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            android:background="@drawable/circular_shape"
+            android:drawableLeft="@drawable/baseline_how_to_reg_24"
+            android:drawablePadding="8dp"
+            android:text="Establecer Estado"
+            android:textSize="18sp" />
 
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#D86847"
-        android:text="Cerrar Sesión"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAccount" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="13dp" />
 
-    <Button
-        android:id="@+id/btnAccount"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#1E80E8"
-        android:text="Configuración de Cuenta"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStatus" />
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circular_shape"
+            android:drawableLeft="@drawable/baseline_password_24"
+            android:drawablePadding="8dp"
+            android:text="Cambiar contraseña"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btnStatus"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#19CA4B"
-        android:text="Establecer Estado"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#EC3E0B"
+            android:text="Cerrar Sesión"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

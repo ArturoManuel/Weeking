@@ -3,7 +3,15 @@ package com.example.weeking.workers.fragmentos;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+
+import com.example.weeking.workers.Contrasena3Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import androidx.fragment.app.Fragment;
 
@@ -11,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.weeking.R;
 import com.example.weeking.workers.AccountActivity;
@@ -21,8 +30,9 @@ public class perfil extends Fragment {
     private Button btnStatus;
     private Button btnAccount;
     private Button btnLogOut;
+    private Button contrasenia;
+    private ImageView imageView;
     private LogoutListener logoutListener;
-    FirebaseAuth mAuth;
 
     @Override
     public void onAttach(Context context) {
@@ -57,13 +67,13 @@ public class perfil extends Fragment {
             startActivity(intent);
         });
 
-        btnLogOut = view.findViewById(R.id.btnLogout);
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logoutListener.onLogout();
-            }
+        contrasenia = view.findViewById(R.id.button3);
+        contrasenia.setOnClickListener(view112 -> {
+            Intent intent = new Intent(getActivity(), Contrasena3Activity.class);
+            startActivity(intent);
         });
+        btnLogOut = view.findViewById(R.id.btnLogout);
+        btnLogOut.setOnClickListener(view13 -> logoutListener.onLogout());
         return view;
 
     }
