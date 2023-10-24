@@ -19,8 +19,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView"
-            android:layout_width="117dp"
-            android:layout_height="109dp"
+            android:layout_width="wrap_content"
+            android:layout_height="137dp"
             android:layout_centerHorizontal="true"
 
             android:layout_centerVertical="true"
@@ -29,8 +29,8 @@
             android:layout_marginEnd="144dp"
             android:layout_marginBottom="32dp"
             android:src="@drawable/_657310123341"
-            tools:srcCompat="@tools:sample/avatars"
-            app:shapeAppearanceOverlay="@style/Circular"/>
+            app:shapeAppearanceOverlay="@style/Circular"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/textNombre"
