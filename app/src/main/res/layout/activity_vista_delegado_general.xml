@@ -22,12 +22,13 @@
         android:id="@+id/textView21"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="48dp"
         android:text="¡Hola! ¿Qué deseas hacer hoy?"
         android:textAlignment="center"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,9 +36,10 @@
         android:id="@+id/cartView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         app:cardCornerRadius="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView21">
 
@@ -74,9 +76,9 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#8CD624"
                     android:text="ALUMNOS"
-                    android:textSize="16sp"
-                    android:backgroundTint="#8CD624"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,9 +105,36 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#62D624"
                     android:text="ACTIVIDADES"
-                    android:textSize="16sp"
-                    android:backgroundTint="#62D624"/>
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/donacion" />
+
+                <Button
+                    android:id="@+id/lista"
+                    android:layout_width="180dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#19CA4B"
+                    android:text="LISTA DE \nDONADORES" />
             </LinearLayout>
 
             <LinearLayout
@@ -132,9 +161,9 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#24D6AC"
                     android:text=" DELEGADOS DE ACTIVIDADES"
-                    android:textSize="16sp"
-                    android:backgroundTint="#24D6AC"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -161,9 +190,9 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#C04DF1"
                     android:text="ESTADISTICAS"
-                    android:textSize="16sp"
-                    android:backgroundTint="#C04DF1"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -188,9 +217,9 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:backgroundTint="#E4B062"
                     android:text="VERIFICACION DE ALUMNOS"
-                    android:textSize="16sp"
-                    android:backgroundTint="#E4B062"/>
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

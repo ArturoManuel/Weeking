@@ -80,7 +80,6 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
                 intent.putExtra("foto", (String) fotito.getText());
                 context.startActivity(intent);
             });
-
         }
 
         void bindData(final EventoClass item) {

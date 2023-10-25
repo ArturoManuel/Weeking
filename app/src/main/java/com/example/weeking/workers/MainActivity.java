@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         binding.iniciarSesion.setOnClickListener(v -> navigateToActivity(VistaPrincipal.class));
         binding.recuperarContrasena.setOnClickListener(v-> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         binding.registrate.setOnClickListener(v->navigateToActivity(RegistroActivity.class));
-        binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
-        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
+        binding.imageView.setOnClickListener(v -> navigateToActivity(Donacion.class));
+        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(VistaDelegadoGeneralActivity.class));
     }
 
     private void navigateToActivity(Class<?> destinationClass) {

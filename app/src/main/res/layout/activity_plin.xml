@@ -23,16 +23,15 @@
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="52dp"
         android:backgroundTint="#1DB3D8"
         android:text="Subir Comprobante"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cartView"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView23"
@@ -106,7 +105,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="117dp"
+                        android:layout_width="100dp"
                         android:layout_height="110dp"
                         android:orientation="vertical">
 
@@ -135,7 +134,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="218dp"
+                        android:layout_width="200dp"
                         android:layout_height="110dp"
                         android:orientation="vertical">
 
@@ -167,18 +166,5 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:itemIconSize="25dp"
-        app:labelVisibilityMode="unlabeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
