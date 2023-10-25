@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:maxLength="21"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@color/black"
                     android:textColorHighlight="@color/cardview_dark_background"
                     android:textColorHint="@color/colorRed" />
 
@@ -103,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="textPassword"
+                    android:textColor="@color/black"
                     android:maxLength="21" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +114,7 @@
                 android:layout_marginTop="4dp"
                 android:gravity="right|center"
                 android:text="¿Olvidaste tu contraseña?"
-                android:textColor="@color/cardview_dark_background" />
+                android:textColor="@color/colorWhite" />
 
             <Button
                 android:id="@+id/iniciarSesion"
@@ -148,6 +149,7 @@
                 android:orientation="horizontal"
 
                 >
+
                 <TextView
 
                     android:layout_width="match_parent"
@@ -155,7 +157,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="No tienes una cuenta ?   "
-                    android:textColor="@color/black" />
+                    android:textColor="@color/colorWhite" />
 
                 <TextView
                     android:id="@+id/registrate"
@@ -164,7 +166,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="Registrate"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/Primary" />
             </LinearLayout>
 
 

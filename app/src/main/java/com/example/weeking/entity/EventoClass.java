@@ -17,12 +17,31 @@ public class EventoClass {
     private String nombre; // "pepito"
     private String ubicacion; //
 
+    private String rol;
+
+    private  String apoyo;
+
+    public String getApoyo() {
+        return apoyo;
+    }
+
+    public void setApoyo(String apoyo) {
+        this.apoyo = apoyo;
+    }
+
     // Constructor vacío necesario para Firestore
     public EventoClass() {
     }
 
+    public String getRol() {
+        return rol;
+    }
 
-    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion) {
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion,String rol ,String apoyo) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.fecha_evento = fecha_evento;
@@ -30,6 +49,8 @@ public class EventoClass {
         this.likes = likes;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
+        this.apoyo=apoyo;
+        this.rol=rol;
     }
 
     public String getDescripcion() {
