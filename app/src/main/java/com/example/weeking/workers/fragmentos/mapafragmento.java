@@ -32,9 +32,18 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Example: Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Ubicación por defecto
+        LatLng defaultLocation = new LatLng(-12.072257, -77.079859);
+        mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Ubicación por defecto"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 15));
+
+        // Agrega otros puntos/marcadores en el mapa
+        LatLng point1 = new LatLng(-12.070000, -77.080000);
+        mMap.addMarker(new MarkerOptions().position(point1).title("Punto 1"));
+
+        LatLng point2 = new LatLng(-12.075000, -77.078000);
+        mMap.addMarker(new MarkerOptions().position(point2).title("Punto 2"));
+
+        // Puedes seguir agregando más puntos según lo necesites
     }
 }
