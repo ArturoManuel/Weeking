@@ -26,9 +26,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -40,6 +50,8 @@ import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.weeking.Adapter.AdaptadorPrin;
 import com.example.weeking.R;
 import com.example.weeking.entity.ListaEven;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -64,20 +76,51 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     ListenerRegistration snapshotListener;
 
+
     private boolean isMainFragment = true;
     private int backPressCount = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+
+
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
         // Iniciar en el mainFragmento
         navController.navigate(R.id.mainFragmento);
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> isMainFragment = (destination.getId() == R.id.mainFragmento));
+
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            isMainFragment = (destination.getId() == R.id.mainFragmento);
+            if (isMainFragment) {
+                fab.setVisibility(View.VISIBLE);
+            } else {
+                fab.setVisibility(View.GONE);
+            }
+        });
+
+
+
         AppViewModel appViewModel= new ViewModelProvider(VistaPrincipal.this).get(AppViewModel.class);
+
+        fab.setOnClickListener(v -> {
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(VistaPrincipal.this);
+            bottomSheetDialog.setContentView(R.layout.menu_personalizado);
+            bottomSheetDialog.show();
+        });
+
+
+
+
+
+
+
         db = FirebaseFirestore.getInstance();
         db.collection("Eventos").addSnapshotListener((collection, error) -> {
             if (error != null) {
@@ -94,6 +137,15 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             }
         });
 
+    }
+
+    private void navigateToActivity(Class<?> destinationClass) {
+        Intent intent = new Intent(VistaPrincipal.this, destinationClass);
+        startActivity(intent);
+    }
+    public void onDonateClick(View view) {
+        Intent intent = new Intent(VistaPrincipal.this, Donacion.class);
+        startActivity(intent);
     }
     @Override
     public void onLogout() {
