@@ -66,6 +66,8 @@ public class EventoClass {
         this.rol=rol;
     }
 
+
+
     public String getEventId() {
         return eventId;
     }
