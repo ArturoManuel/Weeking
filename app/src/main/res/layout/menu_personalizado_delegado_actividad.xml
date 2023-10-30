@@ -41,12 +41,12 @@
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:onClick="onListaActividadesClick"
+            android:onClick="onListaEventosClick"
             android:src="@drawable/calendar" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lista de Actividades"
+            android:text="Lista de Eventos"
             android:paddingTop="8dp" />
     </LinearLayout>
 </LinearLayout>
