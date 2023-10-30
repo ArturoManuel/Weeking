@@ -21,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegistroActivity extends AppCompatActivity {
@@ -72,17 +74,18 @@ public class RegistroActivity extends AppCompatActivity {
             auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d("msg-error","Se envía");
-
+                    String authUID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
                     // Crear un objeto Map para almacenar los valores en Firestore
                     Map<String, Object> user = new HashMap<>();
                     user.put("codigo", codigo);
                     user.put("nombre", nombre);
                     user.put("correo", correo);
-                    user.put("contrasena", contrasena); // No almacenes contraseñas en texto claro en una base de datos real
                     user.put("estado", estado);
                     user.put("rol","alumno");
                     user.put("apoyo","no_apoya");
                     user.put("imagen_url", "tu_url_por_defecto_aqui");
+                    user.put("authUID", authUID);
+
 
                     // Añadir datos en Firestore
                     db.collection("usuarios").document(codigo).set(user)

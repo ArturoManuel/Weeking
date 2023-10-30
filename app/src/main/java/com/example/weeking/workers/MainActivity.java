@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                     auth.signInWithEmailAndPassword(correo, contrasena)
                             .addOnSuccessListener(authResult -> {
 
-                                Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                                 notificarImportanceDefault();
 
                                 startActivity(new Intent(MainActivity.this, VistaPrincipal.class));

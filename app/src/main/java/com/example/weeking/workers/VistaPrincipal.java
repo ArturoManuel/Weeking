@@ -88,13 +88,11 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 
-
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
         // Iniciar en el mainFragmento
         navController.navigate(R.id.mainFragmento);
-
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             isMainFragment = (destination.getId() == R.id.mainFragmento);
@@ -117,10 +115,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
 
 
-
-
-
-
         db = FirebaseFirestore.getInstance();
         db.collection("Eventos").addSnapshotListener((collection, error) -> {
             if (error != null) {
@@ -131,6 +125,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                 List<EventoClass> eventos = new ArrayList<>();
                 for (QueryDocumentSnapshot document : collection) {
                     EventoClass evento = document.toObject(EventoClass.class);
+                    Log.d("eventoLike",evento.getLike().toString());
                     eventos.add(evento);
                 }
                 appViewModel.getListaEventos().postValue(eventos);
