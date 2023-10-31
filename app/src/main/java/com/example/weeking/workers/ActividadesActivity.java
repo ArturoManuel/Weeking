@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +23,7 @@ import com.example.weeking.databinding.ActivityActividadesBinding;
 import com.example.weeking.databinding.ActivityMainBinding;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.LIstaAct;
+import com.example.weeking.workers.fragmentos.listaFragmento;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -40,11 +43,16 @@ public class ActividadesActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         init();
 
+
+
+
+
+
         binding.btnAddActivity.setOnClickListener(v -> {
             List<String> listaEventosIds = Arrays.asList("");
 //            crearNuevaActividad("Nombre de la actividad", listaEventosIds);
 //            Log.d("mensaje","Se creo una actividad en firestorage");
-            Intent intent =  new Intent(ActividadesActivity.this, EventosActivity.class);
+            Intent intent =  new Intent(ActividadesActivity.this, NuevaActividadActivity.class);
             startActivity(intent);
 
 
