@@ -21,17 +21,13 @@ public class EventoClass {
 
     private  String apoyo;
 
-    private  Boolean like;
+
 
     private  String eventId;
 
-    public Boolean getLike() {
-        return like;
-    }
 
-    public void setLike(Boolean like) {
-        this.like = like;
-    }
+
+
 
     public String getApoyo() {
         return apoyo;
@@ -53,7 +49,7 @@ public class EventoClass {
         this.rol = rol;
     }
 
-    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion,String rol ,String apoyo,Boolean like, String eventId) {
+    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion,String rol ,String apoyo, String eventId) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.fecha_evento = fecha_evento;
@@ -76,13 +72,7 @@ public class EventoClass {
         this.eventId = eventId;
     }
 
-    public boolean isLiked() {
-        return like;  // Asumiendo que "estado" es un booleano que representa si tiene like o no
-    }
 
-    public void toggleLike() {
-        this.like = !this.like;  // Cambia el estado de "like"
-    }
 
 
     public String getDescripcion() {

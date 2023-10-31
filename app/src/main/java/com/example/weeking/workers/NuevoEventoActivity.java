@@ -13,8 +13,6 @@ public class NuevoEventoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_evento);
-
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+        
     }
 }

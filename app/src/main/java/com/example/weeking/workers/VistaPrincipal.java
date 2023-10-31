@@ -163,7 +163,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                 List<EventoClass> eventos = new ArrayList<>();
                 for (QueryDocumentSnapshot document : collection) {
                     EventoClass evento = document.toObject(EventoClass.class);
-                    Log.d("eventoLike",evento.getLike().toString());
                     eventos.add(evento);
                 }
                 appViewModel.getListaEventos().postValue(eventos);

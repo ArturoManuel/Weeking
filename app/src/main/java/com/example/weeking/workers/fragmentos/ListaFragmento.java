@@ -1,10 +1,7 @@
 package com.example.weeking.workers.fragmentos;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,19 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.weeking.R;
 import com.example.weeking.entity.EventoClass;
-import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class listaFragmento extends Fragment {
+public class ListaFragmento extends Fragment {
     private RecyclerView recyclerView;
     private EventosAdapter adapter;  // Cambiado de RecyclerView.Adapter a EventosAdapter
     private List<EventoClass> elements;  // Cambiado de List<ListaEven> a List<EventoClass>
 
-    public listaFragmento() {
+    public ListaFragmento() {
         // Required empty public constructor
     }
 
@@ -63,7 +59,6 @@ public class listaFragmento extends Fragment {
                     "Ubicación " + i,
                     "Rol " + i,
                     "Apoyo " + i,
-                    i % 2 == 0, // Genera true para eventos pares y false para impares
                     "ID_evento_" + i
             );
             listaDeEventos.add(evento);

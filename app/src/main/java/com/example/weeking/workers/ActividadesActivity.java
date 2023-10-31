@@ -4,26 +4,18 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.weeking.Adapter.Adaptador;
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityActividadesBinding;
-import com.example.weeking.databinding.ActivityMainBinding;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.LIstaAct;
-import com.example.weeking.workers.fragmentos.listaFragmento;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;

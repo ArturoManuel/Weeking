@@ -5,10 +5,9 @@ import java.util.List;
 public class Actividad {
     private String id;
     private String nombre;
-    private List<String> listaEventosIds;  // Lista de IDs de eventos
-
-    // Constructor, getters y setters...
-
+    private String descripcion;
+    private int seguidores;
+    private List<String> listaEventosIds;
 
     public String getId() {
         return id;
@@ -24,6 +23,22 @@ public class Actividad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getSeguidores() {
+        return seguidores;
+    }
+
+    public void setSeguidores(int seguidores) {
+        this.seguidores = seguidores;
     }
 
     public List<String> getListaEventosIds() {
