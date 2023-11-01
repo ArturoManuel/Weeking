@@ -189,7 +189,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     public void onListaAlumnosClick(View view) {
         // Tu código para manejar el click en "Lista de alumnos"
-        Intent intent = new Intent(VistaPrincipal.this, Donacion.class);
+        Intent intent = new Intent(VistaPrincipal.this, Lista_don.class);
         startActivity(intent);
     }
 

@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class EventoClass {
 
@@ -17,39 +18,30 @@ public class EventoClass {
     private String nombre; // "pepito"
     private String ubicacion; //
 
-    private String rol;
-
-    private  String apoyo;
-
-
 
     private  String eventId;
 
 
+    private List<String> listaUsuariosIds;
 
 
-
-    public String getApoyo() {
-        return apoyo;
-    }
-
-    public void setApoyo(String apoyo) {
-        this.apoyo = apoyo;
-    }
 
     // Constructor vacío necesario para Firestore
     public EventoClass() {
     }
-
-    public String getRol() {
-        return rol;
+    public List<String> getListaUsuariosIds() {
+        return listaUsuariosIds;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+
+    public void setListaUsuariosIds(List<String> listaUsuariosIds) {
+        this.listaUsuariosIds = listaUsuariosIds;
     }
 
-    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion,String rol ,String apoyo, String eventId) {
+
+
+
+    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion, String eventId) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.fecha_evento = fecha_evento;
@@ -58,8 +50,6 @@ public class EventoClass {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.eventId=eventId;
-        this.apoyo=apoyo;
-        this.rol=rol;
     }
 
 

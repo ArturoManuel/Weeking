@@ -57,8 +57,6 @@ public class ListaFragmento extends Fragment {
                     i,
                     "Nombre del evento " + i,
                     "Ubicación " + i,
-                    "Rol " + i,
-                    "Apoyo " + i,
                     "ID_evento_" + i
             );
             listaDeEventos.add(evento);
