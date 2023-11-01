@@ -21,7 +21,7 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:onClick="onDonateClick"
-            android:src="@drawable/donacion" />
+            android:src="@drawable/donadoress" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:onClick="onListaEventosClick"
-            android:src="@drawable/calendar" />
+            android:src="@drawable/actividades" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
