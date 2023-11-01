@@ -33,9 +33,11 @@
         tools:targetApi="31">
         <activity
             android:name=".workers.ActividadActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.NuevaActividadActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
@@ -44,99 +46,131 @@
 
         <activity
             android:name=".workers.imagen_completa"
+            android:screenOrientation="portrait"
             android:parentActivityName=".workers.GaleriaEventos" />
         <activity
             android:name=".workers.GaleriaEventos"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.MapaActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.VistaPrincipal"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Plin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Stadistics"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Listchats"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Contrasena3Activity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Cotrasena2Activity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.ContrasenaRecuperacion_Activity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.RegistroActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Lista_don"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Don_ve"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Don_recha"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Verificacion_don"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Verificacion_donacion"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Pago"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Transferencia"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Yape"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.VistaApoyosActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.ActividadesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.EventosActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.VistaDelegadoGeneralActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.VistaDelegadoActividadActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.ApoyosActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.VistaEventoActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.NuevoEventoActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.AccountActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.StatusActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.PerfilActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.Donacion"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".workers.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
