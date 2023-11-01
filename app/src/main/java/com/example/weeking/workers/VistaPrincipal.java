@@ -92,8 +92,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
-        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        setSupportActionBar(toolbar);
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
