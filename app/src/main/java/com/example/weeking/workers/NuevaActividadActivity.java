@@ -39,16 +39,9 @@ public class NuevaActividadActivity extends AppCompatActivity {
             crearNuevaActividad(nombre, descripcion, new ArrayList<>());
             navigateToActivity(ActividadesActivity.class);
         });
-        binding.btnAddEvento.setOnClickListener(v->{
-            navigateToActivity(NuevoEventoActivity.class);
 
-        });
-        ListaFragmento eventoFragment = new ListaFragmento();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.eventoFragmentContainer, eventoFragment);
-        fragmentTransaction.commit();
     }
+
 
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(NuevaActividadActivity.this, destinationClass);
@@ -64,6 +57,9 @@ public class NuevaActividadActivity extends AppCompatActivity {
         actividad.setDescripcion(descripcion);  // Aquí establecemos la descripción
         actividad.setSeguidores(0);  // Inicializamos seguidores como 0
         actividad.setListaEventosIds(new ArrayList<>());  // Inicializamos listaEventosIds como una lista vacía
+
+        // Agregar un campo vacío para la imagen URL
+        actividad.setImagenUrl("");  // Asegúrate de que en tu clase Actividad exista este método y variable.
 
         // Agregar la actividad a Firestore
         actividadRef.add(actividad)
@@ -84,8 +80,4 @@ public class NuevaActividadActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-
-
 }

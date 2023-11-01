@@ -10,6 +10,7 @@ import com.example.weeking.Adapter.EventosAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.weeking.R;
+import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.google.firebase.Timestamp;
 
@@ -48,7 +49,7 @@ public class ListaFragmento extends Fragment {
     private List<EventoClass> generarDatosFicticios() {
         List<EventoClass> listaDeEventos = new ArrayList<>();
 
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 8; i++) {
             EventoClass evento = new EventoClass(
                     "Descripción del evento " + i,
                     true,
@@ -64,5 +65,8 @@ public class ListaFragmento extends Fragment {
 
         return listaDeEventos;
     }
+
+
+
 }
 

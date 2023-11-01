@@ -8,6 +8,20 @@ public class Actividad {
     private String descripcion;
     private int seguidores;
     private List<String> listaEventosIds;
+    private String imagenUrl;
+
+
+
+    public Actividad() {
+    }
+
+    public Actividad(String id, String nombre, String descripcion, int seguidores, List<String> listaEventosIds) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.seguidores = seguidores;
+        this.listaEventosIds = listaEventosIds;
+    }
 
     public String getId() {
         return id;
@@ -47,6 +61,14 @@ public class Actividad {
 
     public void setListaEventosIds(List<String> listaEventosIds) {
         this.listaEventosIds = listaEventosIds;
+    }
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    // Método setter para la URL de la imagen
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 }
 

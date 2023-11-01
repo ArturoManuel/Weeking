@@ -1,11 +1,14 @@
 package com.example.weeking.dataHolder;
 
+import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
 
 public class DataHolder {
 
         private static final DataHolder ourInstance = new DataHolder();
+         private Actividad actividadSeleccionada;
+
         private EventoClass eventoSeleccionado;
 
         private ListaDon donacionseleccionado;
@@ -32,6 +35,17 @@ public class DataHolder {
         public EventoClass getEventoSeleccionado() {
             return eventoSeleccionado;
         }
+
+
+
+
+    public Actividad getActividadSeleccionada() {
+        return actividadSeleccionada;
+    }
+
+    public void setActividadSeleccionada(Actividad actividad) {
+        this.actividadSeleccionada = actividad;
+    }
 
 
 

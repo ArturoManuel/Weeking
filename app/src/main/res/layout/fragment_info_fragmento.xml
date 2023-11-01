@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <!-- Contenido original -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/nombreActividad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mi Título"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <!-- Imagen Circular -->
+        <ImageView
+            android:id="@+id/miImagenCircular"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/circular_background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circular_shape"
+        android:layout_gravity="center"/>
+
+        <!-- ImageButton para subir la imagen -->
+
+
+        <!-- CardView con Descripción -->
+
+        <ImageButton
+            android:id="@+id/uploadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_upload" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="246dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- Icono de Editar en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:src="@drawable/baseline_mode_edit_24"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+    />
+    <ImageButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:src="@drawable/baseline_person_add_24"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="56dp"
+    />
+
+</FrameLayout>

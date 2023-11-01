@@ -40,7 +40,19 @@ public class MainActivity extends AppCompatActivity {
         // Inflar el layout aquí antes de llamar a setContentView()
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Inicializar Firebase Auth
         auth = FirebaseAuth.getInstance();
+
+        // Verificar si el usuario ya ha iniciado sesión
+        if (auth.getCurrentUser() != null) {
+            // Si el usuario ya está autenticado, navega a VistaPrincipal y termina MainActivity
+            startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
+            finish();
+            return; // No procesar más el método onCreate
+        }
+
+
         crearCanalesNotificacion();
         binding.iniciarSesion.setOnClickListener(v -> {
             String correo = binding.correo.getText().toString();

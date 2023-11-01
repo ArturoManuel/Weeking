@@ -84,6 +84,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     private boolean isMainFragment = true;
     private int backPressCount = 0;
+    private long lastBackPressedTime;
 
 
     @Override
@@ -150,10 +151,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             });
         }
 
-
-
-
-
         db = FirebaseFirestore.getInstance();
         db.collection("Eventos").addSnapshotListener((collection, error) -> {
             if (error != null) {
@@ -218,40 +215,24 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         finish();
     }
 
+    @Override
     public void onBackPressed() {
-        super.onBackPressed();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
         if (isMainFragment) {
-            if (backPressCount == 0) {
-                // Si ya estamos en el mainFragmento y es la primera vez que se presiona, cerrar la actividad
-                finish();
+            if (backPressCount == 0 || (System.currentTimeMillis() - lastBackPressedTime > 2000)) {
+                backPressCount++;
+                lastBackPressedTime = System.currentTimeMillis();
             } else {
-                // Resetea el contador
-                backPressCount = 0;
+                finish();
             }
         } else {
-            // Intenta volver al fragmento anterior
-            if (!navController.popBackStack()) {
-                // Si no se puede, ve al mainFragmento
-                navController.navigate(R.id.mainFragmento);
-            } else {
-                // Incrementa el contador porque logramos regresar al fragmento anterior
-                backPressCount++;
-            }
+            navController.navigate(R.id.mainFragmento);
         }
     }
 
 
 
-    private void setupImageSlider(ImageSlider imageSlider) {
-        ArrayList<SlideModel> imageList = new ArrayList<>();
-        imageList.add(new SlideModel("https://drive.google.com/file/d/1Zna5-06QK4mboQ3nVOHBOs-dBf_HuR_N/view?usp=drive_link", "Inauguran el “XVII Festival de Teatro Saliendo de la Caja” en el Centro Cultural PUCP", ScaleTypes.CENTER_CROP));
-        imageList.add(new SlideModel("https://drive.google.com/file/d/1kaW0CsG51sfXP0JfEUgsnOesGHTzTBr4/view?usp=drive_link", "Torneos exclusivos de la fibra", ScaleTypes.CENTER_CROP));
-        imageList.add(new SlideModel("https://drive.google.com/file/d/1Jpzx9V7z5PO_2sCJA5Nd60-GNm9g7kMu/view?usp=drive_link", "Sábado el baileton", ScaleTypes.CENTER_CROP));
-        // Configura el ImageSlider pasado como parámetro
-        imageSlider.setImageList(imageList);
-    }
+
 
 
 }

@@ -149,11 +149,6 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         return sb.toString().trim();
     }
 
-    private void updateLikeInFirebase(String eventId, boolean newLikeState) {
-        db.collection("Eventos").document(eventId)
-                .update("estado", newLikeState)
-                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Like updated successfully!"))
-                .addOnFailureListener(e -> Log.w("Firebase", "Error updating like", e));
-    }
+
 
 }

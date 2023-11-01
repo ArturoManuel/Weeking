@@ -95,7 +95,7 @@
                     app:srcCompat="@drawable/calendar2" />
 
                 <Button
-                    android:id="@+id/btnActDA"
+                    android:id="@+id/btnAssignActivity"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

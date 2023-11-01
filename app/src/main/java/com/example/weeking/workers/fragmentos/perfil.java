@@ -31,6 +31,9 @@ public class perfil extends Fragment {
     private Button btnAccount;
     private Button btnLogOut;
     private Button contrasenia;
+
+    private FirebaseAuth mAuth;
+
     private ImageView imageView;
     private LogoutListener logoutListener;
 
@@ -55,6 +58,9 @@ public class perfil extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        mAuth = FirebaseAuth.getInstance();
+
+
         btnStatus = view.findViewById(R.id.btnStatus);
         btnStatus.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), StatusActivity.class);
@@ -73,7 +79,16 @@ public class perfil extends Fragment {
             startActivity(intent);
         });
         btnLogOut = view.findViewById(R.id.btnLogout);
-        btnLogOut.setOnClickListener(view13 -> logoutListener.onLogout());
+        btnLogOut.setOnClickListener(view13 -> {
+            // Cierra la sesión con Firebase
+            mAuth.signOut();
+
+            // Notifica al listener que el usuario ha cerrado la sesión
+            if (logoutListener != null) {
+                logoutListener.onLogout();
+            }
+        });
+
         return view;
 
     }
