@@ -25,6 +25,7 @@ public class imagen_completa extends AppCompatActivity {
             actionBar.setTitle("Imagen");
         }
         Intent intent=getIntent();
+
         int posicion = intent.getExtras().getInt("misImagenes");
         galeriaFotosAdapter=new GaleriaFotosAdapter(this);
         imageView.setImageResource(galeriaFotosAdapter.imageArray[posicion]);
