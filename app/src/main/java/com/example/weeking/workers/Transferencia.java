@@ -16,8 +16,7 @@ public class Transferencia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transferencia);
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
         Button siguiente = findViewById(R.id.button10);
         siguiente.setOnClickListener(v -> {
             Intent intent = new Intent(this, Pago.class);

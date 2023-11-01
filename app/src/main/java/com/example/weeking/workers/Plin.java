@@ -15,8 +15,7 @@ public class Plin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plin);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
         Button siguiente = findViewById(R.id.button9);
         siguiente.setOnClickListener(v -> {
             Intent intent = new Intent(this, Pago.class);

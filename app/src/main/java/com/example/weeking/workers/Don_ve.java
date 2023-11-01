@@ -26,8 +26,8 @@ public class Don_ve extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_don_ve);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
+
         TextInputEditText monto = findViewById(R.id.input);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();

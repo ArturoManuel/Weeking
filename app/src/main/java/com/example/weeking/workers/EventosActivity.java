@@ -33,8 +33,7 @@ public class EventosActivity extends AppCompatActivity {
         });
         init();
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 
     public void init(){

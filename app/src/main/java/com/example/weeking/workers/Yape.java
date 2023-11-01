@@ -16,8 +16,7 @@ public class Yape extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yape);
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
 
         Button siguiente = findViewById(R.id.button9);
         siguiente.setOnClickListener(v -> {

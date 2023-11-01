@@ -16,8 +16,8 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
+
 
 
     }

@@ -24,15 +24,6 @@ public class ContrasenaRecuperacion_Activity extends AppCompatActivity {
             finish();
         });
 
-        TextView textView = findViewById(R.id.volver);
-        textView.setOnClickListener(view -> {
-            Intent intent = new Intent(ContrasenaRecuperacion_Activity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
 
-        });
-
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
     }
 }

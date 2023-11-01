@@ -19,8 +19,7 @@ public class Pago extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pago);
         db = FirebaseFirestore.getInstance();
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
         Button comprobante = findViewById(R.id.button11);
         comprobante.setOnClickListener(v -> {
             /*db.collection("usuarios").document(codigo).set(user)

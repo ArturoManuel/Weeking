@@ -53,7 +53,6 @@ public class Lista_don extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listaAdapter);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 }

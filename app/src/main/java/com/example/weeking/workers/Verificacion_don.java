@@ -21,8 +21,7 @@ public class Verificacion_don extends AppCompatActivity {
         ListaDon donacionSeleccionado = DataHolder.getInstance().getDonacionseleccionado();
         TextView nombre = findViewById(R.id.textView48);
         nombre.setText(donacionSeleccionado.getNombre()+" "+donacionSeleccionado.getCodigo());
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
         Button confirma = findViewById(R.id.button12);
         Button negar = findViewById(R.id.button13);
         confirma.setOnClickListener(v -> {

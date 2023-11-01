@@ -36,8 +36,7 @@ public class ApoyosActivity extends AppCompatActivity {
             finish();
         });
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 
 }

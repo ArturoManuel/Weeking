@@ -24,8 +24,7 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         Button btnStatus=findViewById(R.id.btnStatus);
         Button btnAccount = findViewById(R.id.btnAccount);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
 
         btnAccount.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,7 +14,6 @@ public class VistaDelegadoGeneralActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_delegado_general);
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 }

@@ -17,8 +17,8 @@ public class Donacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donacion);
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
+
         RadioButton tranferencia = findViewById(R.id.transferencia);
         RadioButton plin = findViewById(R.id.plin);
         RadioButton yape = findViewById(R.id.yape);
