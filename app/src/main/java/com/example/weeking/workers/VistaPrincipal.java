@@ -19,6 +19,7 @@ import com.example.weeking.entity.EventoDto;
 import com.example.weeking.workers.fragmentos.mainFragmento;
 import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -91,6 +92,9 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        setSupportActionBar(toolbar);
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         db = FirebaseFirestore.getInstance();
