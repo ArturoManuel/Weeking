@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
@@ -24,14 +25,26 @@ public class ActividadActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Actividad actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
+        Log.d("msg", actividadSeleccionada.getId().toString());
 
-        cargarInfoFragmento();
-        cargarEventoFragmento();
+        ListaFragmento fragmentoEventos = new ListaFragmento(actividadSeleccionada.getId().toString());
 
         binding.addEvent.setOnClickListener(v -> {
-            navigateToActivity(NuevoEventoActivity.class);
+            String idActividad = actividadSeleccionada.getId().toString();
+            if (idActividad != null && !idActividad.isEmpty()) {
+                Intent intent = new Intent(ActividadActivity.this, NuevoEventoActivity.class);
+                intent.putExtra("id_actividad", idActividad);
+                startActivity(intent);
+            } else {
+                Log.d("msg", "ID de actividad es nulo o vacío");
+            }
         });
+
+        cargarInfoFragmento();
+        cargarEventoFragmento(fragmentoEventos);
     }
+
+
 
     private void cargarInfoFragmento() {
         InfoFragmento infoFragmento = new InfoFragmento();
@@ -41,14 +54,12 @@ public class ActividadActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void cargarEventoFragmento() {
-        ListaFragmento eventoFragment = new ListaFragmento();
+    private void cargarEventoFragmento(ListaFragmento fragmentoEventos) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.evento, eventoFragment);
+        fragmentTransaction.replace(R.id.evento, fragmentoEventos);
         fragmentTransaction.commit();
     }
-
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(ActividadActivity.this, destinationClass);
         startActivity(intent);

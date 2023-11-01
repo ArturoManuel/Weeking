@@ -18,6 +18,10 @@ public class EventoClass {
     private String nombre; // "pepito"
     private String ubicacion; //
 
+    private String idActividad;
+
+    private double latitud;
+    private double longitud;
 
     private  String eventId;
 
@@ -29,6 +33,16 @@ public class EventoClass {
     // Constructor vacío necesario para Firestore
     public EventoClass() {
     }
+
+
+    public String getIdActividad() {
+        return idActividad;
+    }
+
+    public void setIdActividad(String idActividad) {
+        this.idActividad = idActividad;
+    }
+
     public List<String> getListaUsuariosIds() {
         return listaUsuariosIds;
     }
@@ -52,7 +66,21 @@ public class EventoClass {
         this.eventId=eventId;
     }
 
+    public double getLatitud() {
+        return latitud;
+    }
 
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
 
     public String getEventId() {
         return eventId;

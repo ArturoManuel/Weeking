@@ -1,18 +1,26 @@
 package com.example.weeking.workers.fragmentos;
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import com.example.weeking.Adapter.EventosAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +31,19 @@ public class ListaFragmento extends Fragment {
     private EventosAdapter adapter;  // Cambiado de RecyclerView.Adapter a EventosAdapter
     private List<EventoClass> elements;  // Cambiado de List<ListaEven> a List<EventoClass>
 
+    private FirebaseFirestore db;
+    private String idActividad;  // Este es el ID de la actividad para la que deseas obtener los eventos
+
+
     public ListaFragmento() {
         // Required empty public constructor
     }
+
+    public ListaFragmento(String idActividad) {
+        this.idActividad = idActividad;
+        db = FirebaseFirestore.getInstance();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,33 +56,34 @@ public class ListaFragmento extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewEventos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        elements = generarDatosFicticios();  // Usa el método para obtener datos ficticios
-        adapter = new EventosAdapter(elements, getActivity()); // Usando EventosAdapter
-        recyclerView.setAdapter(adapter);
+       obtenerEventosDeFirestore();;  // Usa el método para obtener datos ficticios
 
         return view;
     }
 
-    private List<EventoClass> generarDatosFicticios() {
-        List<EventoClass> listaDeEventos = new ArrayList<>();
 
-        for (int i = 1; i <= 8; i++) {
-            EventoClass evento = new EventoClass(
-                    "Descripción del evento " + i,
-                    true,
-                    new Timestamp(new Date()), // Fecha actual
-                    "URL_ficticia_de_imagen_" + i,
-                    i,
-                    "Nombre del evento " + i,
-                    "Ubicación " + i,
-                    "ID_evento_" + i
-            );
-            listaDeEventos.add(evento);
-        }
+    private void obtenerEventosDeFirestore() {
+        CollectionReference eventosRef = db.collection("Eventos");
 
-        return listaDeEventos;
+        // Suponiendo que los eventos tienen un campo 'idActividad' que indica a qué actividad pertenecen
+        eventosRef.whereEqualTo("idActividad", idActividad)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<EventoClass> listaDeEventos = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        EventoClass evento = document.toObject(EventoClass.class);
+                        listaDeEventos.add(evento);
+                    }
+                    // Actualiza el adaptador con los eventos obtenidos
+                    adapter = new EventosAdapter(listaDeEventos, getActivity());
+                    recyclerView.setAdapter(adapter);
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Error obteniendo eventos", e);
+                    Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
+                });
     }
+
 
 
 
