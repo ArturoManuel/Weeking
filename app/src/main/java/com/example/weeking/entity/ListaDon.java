@@ -2,14 +2,45 @@ package com.example.weeking.entity;
 
 public class ListaDon {
     private String nombre;
-    private int monto;
-    private Boolean veri;
+    private Integer monto;
+    private boolean egresado;
+    private String rechazo;
 
-    public ListaDon(String nombre, int monto, Boolean veri, String codigo) {
+    public ListaDon(String nombre, Integer monto, boolean egresado, String rechazo, String codigo) {
         this.nombre = nombre;
         this.monto = monto;
-        this.veri = veri;
+        this.egresado = egresado;
+        this.rechazo = rechazo;
         this.codigo = codigo;
+    }
+
+    public Integer getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Integer monto) {
+        this.monto = monto;
+    }
+
+    public boolean isEgresado() {
+        return egresado;
+    }
+
+    public void setEgresado(boolean egresado) {
+        this.egresado = egresado;
+    }
+
+    public String getRechazo() {
+        return rechazo;
+    }
+
+    public void setRechazo(String rechazo) {
+        this.rechazo = rechazo;
+    }
+
+    private String codigo;
+
+    public ListaDon() {
     }
 
     public String getNombre() {
@@ -20,22 +51,6 @@ public class ListaDon {
         this.nombre = nombre;
     }
 
-    public int getMonto() {
-        return monto;
-    }
-
-    public void setMonto(int monto) {
-        this.monto = monto;
-    }
-
-    public Boolean getVeri() {
-        return veri;
-    }
-
-    public void setVeri(Boolean veri) {
-        this.veri = veri;
-    }
-
     public String getCodigo() {
         return codigo;
     }
@@ -43,7 +58,4 @@ public class ListaDon {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
-    private String codigo;
-
 }

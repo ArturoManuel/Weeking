@@ -1,48 +1,59 @@
 package com.example.weeking.workers;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
-import com.example.weeking.Adapter.Adaptador;
 import com.example.weeking.Adapter.AdaptadorDon;
 import com.example.weeking.R;
-import com.example.weeking.entity.LIstaAct;
 import com.example.weeking.entity.ListaDon;
+import com.example.weeking.workers.viewModels.AppViewModel;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Lista_don extends AppCompatActivity {
-    List<ListaDon> elements;
+    List<ListaDon> donadores = new ArrayList<>();
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_don);
-        init();
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
-    }
-
-    public void init(){
-        elements = new ArrayList<>();
-        elements.add(new ListaDon("Jorge Guillem",230,true,"20190234"));
-        elements.add(new ListaDon("Javie Espinoza",330,true,"20191234"));
-        elements.add(new ListaDon("Manuel Carrera",50,false,"20200234"));
-        elements.add(new ListaDon("Cesar Acuna",230,true,"20210234"));
-        elements.add(new ListaDon("Jose Peralta",350,false,"201491234"));
-        elements.add(new ListaDon("Andres Carlos",30,true,"20180334"));
-        elements.add(new ListaDon("Jorge Guillem",230,true,"20190234"));
-        elements.add(new ListaDon("Jorge Guillem",230,true,"20190234"));
-        elements.add(new ListaDon("Jorge Guillem",230,true,"20190234"));
-
-        AdaptadorDon listaAdapter = new AdaptadorDon(elements,this);
+        AppViewModel appViewModel= new ViewModelProvider(this).get(AppViewModel.class);
+        db = FirebaseFirestore.getInstance();
+        db.collection("donaciones").addSnapshotListener((collection, error) -> {
+            if (error != null) {
+                Log.d("lectura", "Error listening for document changes.");
+                return;
+            }
+            if (collection != null && !collection.isEmpty()) {
+                for (QueryDocumentSnapshot document : collection) {
+                    ListaDon dona = document.toObject(ListaDon.class);
+                    donadores.add(dona);
+                }
+                appViewModel.getListaDona().postValue(donadores);
+            }
+        });
+        if(donadores !=null){
+            Log.d("lectura", "adfghd");
+        }
+        AdaptadorDon listaAdapter = new AdaptadorDon(donadores,this);
         RecyclerView recyclerView = findViewById(R.id.lista_don);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listaAdapter);
+        TextView volver =findViewById(R.id.volver);
+        volver.setOnClickListener(v -> finish());
     }
 }

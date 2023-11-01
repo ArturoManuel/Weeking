@@ -44,7 +44,6 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
         ViewHolder(View itemView){
             super(itemView);
             actividad = itemView.findViewById(R.id.txtActivityView);
-
         }
 
         void bindData(final LIstaAct item){

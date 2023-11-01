@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.entity.ListaDon;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +13,14 @@ import java.util.List;
 public class AppViewModel extends ViewModel {
 
     private final MutableLiveData<List<EventoClass>> listaEventos= new MutableLiveData<>();
+    private final MutableLiveData<List<ListaDon>> listaDona= new MutableLiveData<>();
 
     public MutableLiveData<List<EventoClass>> getListaEventos() {
         return listaEventos;
+    }
+
+    public MutableLiveData<List<ListaDon>> getListaDona() {
+        return listaDona;
     }
 
     public MutableLiveData<List<EventoClass>> getEventosByLikes() {
@@ -29,7 +35,6 @@ public class AppViewModel extends ViewModel {
                 eventosSortedByLikes.setValue(top5List);
             }
         });
-
         return eventosSortedByLikes;
     }
 

@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -40,10 +41,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
-
         crearCanalesNotificacion();
-
-
         binding.iniciarSesion.setOnClickListener(v -> {
             String correo = binding.correo.getText().toString();
             String contrasena = binding.password.getText().toString();
@@ -52,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!contrasena.isEmpty()) {
                     auth.signInWithEmailAndPassword(correo, contrasena)
                             .addOnSuccessListener(authResult -> {
-
                                 notificarImportanceDefault();
-
                                 startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
                                 finish();
                             })

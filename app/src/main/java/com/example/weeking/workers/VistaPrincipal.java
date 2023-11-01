@@ -154,6 +154,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
 
 
+        db = FirebaseFirestore.getInstance();
         db.collection("Eventos").addSnapshotListener((collection, error) -> {
             if (error != null) {
                 Log.w(TAG, "Error listening for document changes.", error);
