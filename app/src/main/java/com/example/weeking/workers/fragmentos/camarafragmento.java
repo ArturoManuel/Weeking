@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.Manifest;
 import android.widget.Toast;
@@ -39,8 +40,10 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int REQUEST_GALLERY_PERMISSION = 2;
     private ImageView imageView;
-    private Button bt_pick;
-    private Button bt_galera;
+    private ImageButton bt_pick;
+    private ImageButton bt_galera;
+
+
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
     public camarafragmento() {
