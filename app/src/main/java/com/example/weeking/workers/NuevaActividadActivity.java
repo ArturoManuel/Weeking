@@ -35,7 +35,6 @@ public class NuevaActividadActivity extends AppCompatActivity {
         binding.btnSaveActivity.setOnClickListener(v->{
             String nombre = binding.nombreActividad.getText().toString();
             String descripcion = binding.descriptionEditText.getText().toString();
-            Log.d("inputs",nombre+descripcion);
             crearNuevaActividad(nombre, descripcion, new ArrayList<>());
             navigateToActivity(ActividadesActivity.class);
         });
