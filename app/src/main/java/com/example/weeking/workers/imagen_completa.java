@@ -13,6 +13,7 @@ import com.example.weeking.workers.adaptador.GaleriaFotosAdapter;
 public class imagen_completa extends AppCompatActivity {
 
     GaleriaFotosAdapter galeriaFotosAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
