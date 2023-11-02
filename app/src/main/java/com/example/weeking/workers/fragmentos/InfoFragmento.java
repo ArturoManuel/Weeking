@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class InfoFragmento extends Fragment {
     private TextView descripcionText;
     // ... (otros componentes para mostrar la información de la actividad)
 
+    private    Actividad actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
+
     private ImageView añadir;
 
     private  ImageView editar;
@@ -43,13 +46,13 @@ public class InfoFragmento extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         nombreActividadTextView = view.findViewById(R.id.nombreActividad);
         descripcionText = view.findViewById(R.id.descriptionTextView);
-
         añadir = view.findViewById(R.id.btn_add);
+        Log.d("idActividadSelecionada",actividadSeleccionada.getId());
         añadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(getActivity() instanceof ActividadActivity) {
-                    ((ActividadActivity) getActivity()).cargarFragmentoAñadir();
+                    ((ActividadActivity) getActivity()).cargarFragmentoAnadir();
                 }
             }
         });
@@ -69,7 +72,6 @@ public class InfoFragmento extends Fragment {
     }
 
     private void cargarDatosActividad() {
-        Actividad actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
         if (actividadSeleccionada != null) {
             nombreActividadTextView.setText(actividadSeleccionada.getNombre());
             descripcionText.setText(actividadSeleccionada.getDescripcion());

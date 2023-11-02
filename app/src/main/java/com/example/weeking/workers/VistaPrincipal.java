@@ -130,7 +130,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
                         if ("administrador".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_general;
-                        } else if ("actividad".equals(rol)) {
+                        } else if ("delegado_de_actividad".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_actividad;
                         } else if ("alumno".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado;

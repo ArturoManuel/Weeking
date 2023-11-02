@@ -94,7 +94,6 @@ public class RegistroActivity extends AppCompatActivity {
                                 navigateToActivity(VistaPrincipal.class); // Navega a la siguiente actividad solo si el registro es exitoso
                             })
                             .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-
                 } else {
                     Log.d("msg","no sale");
                     Toast.makeText(RegistroActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
