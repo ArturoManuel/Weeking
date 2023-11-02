@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.Actividad;
+import com.example.weeking.workers.ActividadActivity;
 
 
 public class InfoFragmento extends Fragment {
@@ -24,6 +26,9 @@ public class InfoFragmento extends Fragment {
     private TextView descripcionText;
     // ... (otros componentes para mostrar la información de la actividad)
 
+    private ImageView añadir;
+
+    private  ImageView editar;
     public InfoFragmento() {
         // Required empty public constructor
     }
@@ -38,6 +43,28 @@ public class InfoFragmento extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         nombreActividadTextView = view.findViewById(R.id.nombreActividad);
         descripcionText = view.findViewById(R.id.descriptionTextView);
+
+        añadir = view.findViewById(R.id.btn_add);
+        añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() instanceof ActividadActivity) {
+                    ((ActividadActivity) getActivity()).cargarFragmentoAñadir();
+                }
+            }
+        });
+
+        editar = view.findViewById(R.id.btn_edit);
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() instanceof ActividadActivity) {
+                    ((ActividadActivity) getActivity()).cargarFragmentoEditar();
+                }
+            }
+        });
+
+
         cargarDatosActividad();
     }
 

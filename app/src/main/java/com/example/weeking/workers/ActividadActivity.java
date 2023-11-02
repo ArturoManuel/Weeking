@@ -12,6 +12,8 @@ import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.databinding.ActivityActividadBinding;
 import com.example.weeking.entity.Actividad;
+import com.example.weeking.workers.fragmentos.AnadirFragmento;
+import com.example.weeking.workers.fragmentos.EditarFragmento;
 import com.example.weeking.workers.fragmentos.InfoFragmento;
 import com.example.weeking.workers.fragmentos.ListaFragmento;
 
@@ -63,6 +65,21 @@ public class ActividadActivity extends AppCompatActivity {
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(ActividadActivity.this, destinationClass);
         startActivity(intent);
+    }
+
+
+    public void cargarFragmentoAñadir() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.añadir, new AnadirFragmento()); // AñadirFragmento es el fragmento que quieres cargar.
+        transaction.addToBackStack(null);  // Para que el usuario pueda volver al fragmento anterior.
+        transaction.commit();
+    }
+
+    public void cargarFragmentoEditar() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.editar, new EditarFragmento()); // EditarFragmento es el fragmento que quieres cargar.
+        transaction.addToBackStack(null);  // Para que el usuario pueda volver al fragmento anterior.
+        transaction.commit();
     }
 
 }
