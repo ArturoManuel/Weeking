@@ -81,6 +81,20 @@ public class ListaFragmentoActividad extends Fragment implements ActividadesAdap
         startActivity(intent);
     }
 
+    @Override
+    public void onEliminarActividadClick(int position) {
+        // Obtiene la actividad actual para eliminar
+        Actividad actividadParaEliminar = appViewModel.listaActividades.getValue().get(position);
+
+
+        // Llama al método en tu ViewModel para eliminar la actividad
+        appViewModel.eliminarActividad(actividadParaEliminar);
+
+        // No es necesario actualizar la lista aquí,
+        // ya que el observer de 'listaActividades' se encargará de actualizar el RecyclerView automáticamente.
+    }
+
+
 }
 
 

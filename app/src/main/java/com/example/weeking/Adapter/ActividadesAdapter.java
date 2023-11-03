@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,12 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     public void onBindViewHolder(@NonNull ActividadViewHolder holder, int position) {
         Actividad actividad = listaActividades.get(position);
         holder.bindData(actividad);
+        // Establecer el listener para el botón de eliminar
+        holder.eliminarImageView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEliminarActividadClick(position);
+            }
+        });
     }
 
     @Override
@@ -47,11 +54,14 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     public class ActividadViewHolder extends RecyclerView.ViewHolder {
         TextView nombreTextView;
         TextView descripcionTextView;
+        ImageView eliminarImageView;
         // Agrega otros componentes que necesites
 
         public ActividadViewHolder(@NonNull View itemView) {
             super(itemView);
             nombreTextView = itemView.findViewById(R.id.nombreActividad);
+            eliminarImageView = itemView.findViewById(R.id.btnEliminarActividad);
+
             // Inicializa otros componentes
 
             itemView.setOnClickListener(v -> {
@@ -70,6 +80,7 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     }
     public interface OnActividadClickListener {
         void onActividadClick(Actividad actividad);
+        void onEliminarActividadClick(int position);
     }
 
     private OnActividadClickListener listener;

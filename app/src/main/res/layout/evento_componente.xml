@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -13,52 +12,71 @@
     android:outlineSpotShadowColor="@android:color/black"
     android:outlineAmbientShadowColor="@android:color/black">
 
-<LinearLayout
-android:id="@+id/linearLayout10"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginStart="12dp"
-android:layout_marginTop="12dp"
-android:layout_marginEnd="12dp"
-android:layout_marginBottom="12dp"
-android:orientation="horizontal">
+    <!-- Usamos un RelativeLayout para posicionar el botón de eliminar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<ImageButton
-    android:id="@+id/foto"
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:src="@drawable/dota2"
-    android:scaleType="fitXY"
-    android:background="@android:color/transparent"/>
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center"
-android:background="@android:color/transparent">
+            <ImageButton
+                android:id="@+id/foto"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/dota2"
+                android:scaleType="fitXY"
+                android:background="@android:color/transparent" />
 
-<TextView
-    android:id="@+id/nombre"
-    android:layout_width="120dp"
-    android:layout_height="wrap_content"
-    android:text="ACTIVIDAD"
-    android:textAlignment="center"
-    android:textSize="16sp"
-    android:textStyle="bold"
-    android:background="@android:color/transparent"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@android:color/transparent">
 
-<!-- Nuevo TextView para la fecha -->
-<TextView
-    android:id="@+id/fechaEvento"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="01/01/2023"
-    android:textAlignment="center"
-    android:textSize="14sp"
-    android:layout_marginTop="8dp"
-    android:background="@android:color/transparent"/>
+                <TextView
+                    android:id="@+id/nombre"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="ACTIVIDAD"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent" />
 
-</LinearLayout>
-    </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <!-- Nuevo TextView para la fecha -->
+                <TextView
+                    android:id="@+id/fechaEvento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="01/01/2023"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Nuevo ImageButton para eliminar en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_delete_24"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

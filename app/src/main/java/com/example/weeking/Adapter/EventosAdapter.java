@@ -23,10 +23,15 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
 
     private List<EventoClass> listaEventos;
     private Context context;
+    private OnEventoListener onEventoListener;
 
-    public EventosAdapter(List<EventoClass> listaEventos, Context context) {
+    public EventosAdapter(List<EventoClass> listaEventos, Context context, OnEventoListener onEventoListener) {
         this.listaEventos = listaEventos;
         this.context = context;
+        this.onEventoListener = onEventoListener;
+    }
+    public interface OnEventoListener {
+        void onEliminarClicked(int position);
     }
 
     @NonNull
@@ -40,7 +45,15 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
         EventoClass evento = listaEventos.get(position);
         holder.bindData(evento);
+        holder.eliminarImageView.setOnClickListener(v -> {
+            // Usar getAdapterPosition() para asegurarse de que se tiene la posición correcta
+            int adapterPos = holder.getAdapterPosition();
+            if(adapterPos != RecyclerView.NO_POSITION) {
+                onEventoListener.onEliminarClicked(adapterPos);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -53,11 +66,14 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
 
         TextView fecha;
 
+        ImageView eliminarImageView;
+
         public EventoViewHolder(@NonNull View itemView) {
             super(itemView);
             nombreTextView = itemView.findViewById(R.id.nombre);
             eventoImageView = itemView.findViewById(R.id.foto);
             fecha = itemView.findViewById(R.id.fechaEvento);
+            eliminarImageView=itemView.findViewById(R.id.btnEliminar);
         }
 
         void bindData(EventoClass evento) {

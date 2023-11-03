@@ -18,7 +18,9 @@ import com.example.weeking.R;
 import com.example.weeking.entity.Alumno;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -75,28 +77,39 @@ public class AnadirFragmento extends Fragment {
     private void consultarAlumnosDesdeFirestore() {
         db.collection("usuarios")
                 .whereNotEqualTo("rol", "administrador")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                // El listener reaccionará a los cambios en tiempo real
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("AnadirFragmento", "Listen failed.", e);
+                            return;
+                        }
+
+                        List<Alumno> alumnosFiltrados = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : value) {
+                            // Verificar si el campo "activity" existe y si contiene el idActividad
+                            List<String> actividades = (List<String>) document.get("activity");
+                            if (actividades == null || !actividades.contains(idActividad)) {
                                 String nombre = document.getString("nombre");
                                 String rol = document.getString("rol");
                                 String codigo = document.getString("codigo");
                                 Alumno alumno = new Alumno(nombre, rol, codigo);
-                                listaAlumnos.add(alumno);
+                                alumnosFiltrados.add(alumno);
                             }
-                            // Establecer el adaptador en el RecyclerView
-                            alumnoAdapter = new AlumnoAdapter(getContext(), listaAlumnos , idActividad);
-                            recyclerViewAlumnos.setAdapter(alumnoAdapter);
+                        }
 
-                        } else {
-                            Log.w("AnadirFragmento", "Error getting documents.", task.getException());
+                        // Establecer el adaptador en el RecyclerView con los alumnos filtrados
+                        if (getContext() != null) {
+                            alumnoAdapter = new AlumnoAdapter(getContext(), alumnosFiltrados, idActividad);
+                            recyclerViewAlumnos.setAdapter(alumnoAdapter);
                         }
                     }
                 });
     }
+
+
+
 
 }
 

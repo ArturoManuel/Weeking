@@ -1,5 +1,7 @@
 package com.example.weeking.workers.viewModels;
 
+import static android.content.ContentValues.TAG;
+
 import android.util.Log;
 
 import androidx.constraintlayout.helper.widget.MotionEffect;
@@ -24,6 +26,10 @@ public class AppViewModel extends ViewModel {
     public final MutableLiveData<List<Actividad>> listaActividades = new MutableLiveData<>(); // Añadido
 
     public final MutableLiveData<Usuario> currentUser = new MutableLiveData<>();
+    public MutableLiveData<List<Actividad>> getListaActividades() {
+        return listaActividades;
+    }
+
 
 
 
@@ -65,6 +71,39 @@ public class AppViewModel extends ViewModel {
             }
         });
     }
+
+    public void eliminarActividad(Actividad actividad) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Primero, eliminar los eventos asociados con la actividad
+        db.collection("Eventos")
+                .whereEqualTo("idActividad", actividad.getId())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Eventos").document(document.getId()).delete();
+                        }
+
+                        // Luego, eliminar la actividad de Firestore
+                        db.collection("activity").document(actividad.getId())
+                                .delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    // Eliminación exitosa, ahora actualiza la lista localmente
+                                    List<Actividad> currentActividades = listaActividades.getValue();
+                                    if (currentActividades != null) {
+                                        currentActividades.remove(actividad);
+                                        listaActividades.setValue(currentActividades);
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.w(TAG, "Error eliminando la actividad", e);
+                                });
+                    } else {
+                        Log.w(TAG, "Error obteniendo eventos asociados con la actividad", task.getException());
+                    }
+                });
+    }
+
 
 
     public void setCurrentUser(Usuario user) {

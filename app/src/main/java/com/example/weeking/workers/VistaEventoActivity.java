@@ -37,15 +37,21 @@ public class VistaEventoActivity extends AppCompatActivity {
         ImageView imagen = findViewById(R.id.imageView2);
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
 
-        String even =eventoSeleccionado.getNombre().toString();
-        String descri =eventoSeleccionado.getDescripcion().toString();
-        String ubica = eventoSeleccionado.getUbicacion().toString();
-        String foto =eventoSeleccionado.getFoto();
+// Asumiendo que EventoClass puede devolver valores null para sus métodos
+        String even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "Falta llenar el campo nombre del evento";
+        String descri = (eventoSeleccionado.getDescripcion() != null) ? eventoSeleccionado.getDescripcion() : "Falta llenar el campo descripción";
+        String ubica = (eventoSeleccionado.getUbicacion() != null) ? eventoSeleccionado.getUbicacion() : "Falta llenar el campo ubicación";
+        String foto = eventoSeleccionado.getFoto();
         evento.setText(even);
         descrip.setText(descri);
         ubi.setText(ubica);
-        Glide.with(imagen.getContext())
-                .load(foto)
-                .into(imagen);
+
+// Verifica que la URL de la foto no sea nula o vacía antes de cargarla con Glide
+        if (foto != null && !foto.isEmpty()) {
+            Glide.with(imagen.getContext())
+                    .load(foto)
+                    .into(imagen);
+        }
+
     }
 }
