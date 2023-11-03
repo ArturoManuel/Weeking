@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.weeking.Adapter.AdaptadorPrin;
 import com.example.weeking.R;
@@ -33,18 +34,14 @@ public class mainFragmento extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPorLikes;
     private RecyclerView.Adapter adapter;
-
     // Añadir instancia del ViewModel
     private AppViewModel appViewModel;
-
     public mainFragmento() {
         // Required empty public constructor
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Obtener la instancia del ViewModel
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
     }
@@ -58,31 +55,44 @@ public class mainFragmento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Identificar los TextView de los títulos
+        TextView tituloListaPrincipal = view.findViewById(R.id.todosLosEventos);
+        TextView tituloListaPorLikes = view.findViewById(R.id.eventosPopulares);
+
+        // Lista principal
         recyclerView = view.findViewById(R.id.lista_prin);
-        // Configurar el RecyclerView y el adaptador
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        // Observar cambios en la lista de eventos
         appViewModel.getListaEventos().observe(getViewLifecycleOwner(), eventoClasses -> {
-            // Actualiza tu UI aquí
-            if (eventoClasses != null) {
+            if (eventoClasses != null && !eventoClasses.isEmpty()) {
                 adapter = new AdaptadorPrin(eventoClasses, getContext());
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+                // Si la lista tiene elementos, muestra el título
+                tituloListaPrincipal.setVisibility(View.VISIBLE);
+            } else {
+                // Si la lista no tiene elementos, oculta el título
+                tituloListaPrincipal.setVisibility(View.GONE);
             }
         });
 
-        recyclerViewPorLikes=view.findViewById(R.id.lista_populares);
+        // Lista por likes
+        recyclerViewPorLikes = view.findViewById(R.id.lista_populares);
         recyclerViewPorLikes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
         appViewModel.getEventosByLikes().observe(getViewLifecycleOwner(), eventoClasses -> {
-            if (eventoClasses != null) {
+            if (eventoClasses != null && !eventoClasses.isEmpty()) {
                 adapter = new AdaptadorPrin(eventoClasses, getContext());
                 recyclerViewPorLikes.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+                // Si la lista tiene elementos, muestra el título
+                tituloListaPorLikes.setVisibility(View.VISIBLE);
+            } else {
+                // Si la lista no tiene elementos, oculta el título
+                tituloListaPorLikes.setVisibility(View.GONE);
             }
         });
-
-
-
     }
+
+
 }

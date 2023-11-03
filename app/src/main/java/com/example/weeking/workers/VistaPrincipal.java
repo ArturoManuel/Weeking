@@ -99,12 +99,9 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
-
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         db = FirebaseFirestore.getInstance();
-
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.mainFragmento);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
