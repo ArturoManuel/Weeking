@@ -11,32 +11,44 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
+import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.Contrasena3Activity;
+import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import androidx.fragment.app.Fragment;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.weeking.R;
 import com.example.weeking.workers.AccountActivity;
 import com.example.weeking.workers.StatusActivity;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class perfil extends Fragment {
-
     private Button btnStatus;
     private Button btnAccount;
     private Button btnLogOut;
     private Button contrasenia;
-
     private FirebaseAuth mAuth;
-
+    private AppViewModel appViewModel;
     private ImageView imageView;
     private LogoutListener logoutListener;
 
+    private TextView userName ,codigo;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -46,18 +58,23 @@ public class perfil extends Fragment {
             throw new ClassCastException(context.toString() + " must implement LogoutListener");
         }
     }
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
-
+        userName = view.findViewById(R.id.textNombre); // Asume que tienes un TextView con el ID "userName" en tu layout.
+        codigo = view.findViewById(R.id.textCodigoPerfil);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -89,11 +106,29 @@ public class perfil extends Fragment {
             }
         });
 
+        appViewModel.getCurrentUser().observe(getViewLifecycleOwner(), usuario -> {
+            if (usuario != null) {
+                // Actualizar la UI del fragmento con los datos del usuario
+                actualizarUI(usuario);
+            }
+        });
+
+
         return view;
 
     }
     public interface LogoutListener {
         void onLogout();
     }
+
+    private void actualizarUI(Usuario usuario) {
+
+        Log.d("codigoalumno",usuario.getCodigo().toString());
+        userName.setText(usuario.getNombre());
+        codigo.setText(usuario.getCodigo());
+
+    }
+
+
 
 }

@@ -12,7 +12,28 @@
           "package_name": "com.example.weeking"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1094221592976-6cqhp516e3aru1epmk4e3rkl2bglrgvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.weeking",
+            "certificate_hash": "0cca89980954d495f4cd4be199676a310ec1e05f"
+          }
+        },
+        {
+          "client_id": "1094221592976-a3vs13fhgf8rvbg5vpd73dgobvlejl2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.weeking",
+            "certificate_hash": "72c0ddab4ef37037f9b911006b23092eeb784ee4"
+          }
+        },
+        {
+          "client_id": "1094221592976-b3mh285pbdrks40eg6qjjcshlfmomars.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBtz50C_wiXdU09a6QfxhqVaKbjrSXZv10"
@@ -20,7 +41,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094221592976-b3mh285pbdrks40eg6qjjcshlfmomars.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

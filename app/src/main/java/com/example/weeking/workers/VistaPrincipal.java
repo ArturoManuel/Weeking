@@ -16,9 +16,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.weeking.databinding.ActivityVistaPrincipalBinding;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.EventoDto;
+import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.fragmentos.mainFragmento;
 import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -55,6 +58,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -65,8 +70,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutListener {
 
@@ -82,7 +89,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     ListenerRegistration snapshotListener;
 
-
+    TextView nombre, estado, codigo;
     private boolean isMainFragment = true;
     private int backPressCount = 0;
     private long lastBackPressedTime;
@@ -127,7 +134,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                         DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asume que solo hay un documento que coincide
                         String rol = document.getString("rol"); // Asume que el campo del rol se llama "rol"
                         int menuLayoutId;
-
+                        obtenerCodigoDelAlumno(userId);
                         if ("administrador".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_general;
                         } else if ("delegado_de_actividad".equals(rol)) {
@@ -170,6 +177,46 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             }
         });
 
+
+    }
+
+    private void obtenerCodigoDelAlumno(String authID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference colRef = db.collection("usuarios");
+
+        Query query = colRef.whereEqualTo("authUID", authID);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                String codigoAlumno = document.getId();
+                // Aquí obtenemos el código del alumno, que es el ID del documento
+                Log.d("codigoencontrado",codigoAlumno);
+                cargarDatosUsuarioDesdeFirestore(codigoAlumno);
+            } else {
+                Log.d("mensajeError","no se encontro el codigo");
+            }
+        }).addOnFailureListener(e -> {
+            // Maneja cualquier error que ocurra al tratar de obtener el documento.
+            Log.d("fallo en encontrar el documento","no se encontro");
+        });
+    }
+
+
+    private void cargarDatosUsuarioDesdeFirestore(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                    if (usuario != null) {
+                        // Guarda el usuario en AppViewModel
+                        Log.d("datos",usuario.getNombre());
+                        AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
+                        appViewModel.setCurrentUser(usuario);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(VistaPrincipal.this, "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void navigateToActivity(Class<?> destinationClass) {

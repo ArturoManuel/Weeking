@@ -43,7 +43,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializar Firebase Auth
         auth = FirebaseAuth.getInstance();
+        /*ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+                new FirebaseAuthUIActivityResultContract(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        Log.d("msg-test", "Firebase uid: " + user.getUid());
+                    } else {
+                        Log.d("msg-test", "Canceló el Log-in");
+                    }
+                }
+        );
 
+        Intent intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build()
+                ))
+                .build();
+
+        signInLauncher.launch(intent);*/
         // Verificar si el usuario ya ha iniciado sesión
         if (auth.getCurrentUser() != null) {
             // Si el usuario ya está autenticado, navega a VistaPrincipal y termina MainActivity
@@ -86,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
     }
 
+
+
+
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(MainActivity.this, destinationClass);
         startActivity(intent);
@@ -119,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, canal1)
                 .setSmallIcon(R.drawable.logo_48) // Cambia esto por tu propio icono
-                .setContentTitle("Bienvenidos a la weeking")  // Título modificado
+                .setContentTitle("Bienvenidos a Weeking")  // Título modificado
                 .setContentText("Gracias por unirte a nosotros") // Texto modificado
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)

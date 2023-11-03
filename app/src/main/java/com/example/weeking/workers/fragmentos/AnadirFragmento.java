@@ -84,11 +84,9 @@ public class AnadirFragmento extends Fragment {
                                 String nombre = document.getString("nombre");
                                 String rol = document.getString("rol");
                                 String codigo = document.getString("codigo");
-
                                 Alumno alumno = new Alumno(nombre, rol, codigo);
                                 listaAlumnos.add(alumno);
                             }
-
                             // Establecer el adaptador en el RecyclerView
                             alumnoAdapter = new AlumnoAdapter(getContext(), listaAlumnos , idActividad);
                             recyclerViewAlumnos.setAdapter(alumnoAdapter);
