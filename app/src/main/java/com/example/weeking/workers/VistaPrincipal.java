@@ -175,7 +175,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             }
         });
         nombre = findViewById(R.id.textNombre);
-        estado = findViewById(R.id.textEstado);
         codigo = findViewById(R.id.textCodigoPerfil);
         String nombrePerfil = nombre.getText().toString().trim();
         String estadoPerfil = estado.getText().toString().trim();
