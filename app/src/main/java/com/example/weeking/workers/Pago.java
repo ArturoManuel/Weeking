@@ -50,7 +50,6 @@ public class Pago extends AppCompatActivity {
     String download_uri = "";
     ProgressDialog progressDialog;
 
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,41 +63,6 @@ public class Pago extends AppCompatActivity {
         foto.setOnClickListener(v -> {
                 uploadPhoto();
         });
-        comprobante.setOnClickListener(v -> {
-            Query query = db.collection("usuarios").whereEqualTo("authUID",mAuth.getUid());
-            query.get().addOnCompleteListener(task ->{
-                if(task.isSuccessful()){
-                    QuerySnapshot queryDocumentSnapshot = task.getResult();
-                    if(!queryDocumentSnapshot.isEmpty()){
-                        DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
-                        String codigo = document.getString("nombre");
-                        Query query1 = db.collection("donaciones").whereEqualTo("codigo",codigo);
-                        query1.get().addOnCompleteListener(task1 ->{
-                            if(task.isSuccessful()){
-                                QuerySnapshot queryDocumentSnapshot1 = task1.getResult();
-                                if(!queryDocumentSnapshot1.isEmpty()){
-                                    DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
-                                    HashMap<String, Object> map = new HashMap<>();
-                                    map.put("foto",storage_path + mAuth.getUid());
-                                    db.collection("donaciones").document(document.getString("codigo")).update(map);
-                                }else{
-
-                                    HashMap<String, Object> map = new HashMap<>();
-                                    map.put("foto", download_uri);
-                                    map.put("nombre",document.getString("nombre"));
-                                    map.put("codigo",document.getString("codigo"));
-                                    map.put("monto",0);
-                                    map.put("rechazo","1");
-                                    map.put("egresado",true);
-                                    db.collection("donaciones").document(document.getString("codigo")).set(map);
-                                }
-                            }
-                        } );
-                    }
-                }
-            } );
-        });
-
     }
 
     private void uploadPhoto() {
@@ -134,9 +98,39 @@ public class Pago extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             download_uri = uri.toString();
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("foto", download_uri);
-                            Log.d("anssd",download_uri);
+                            Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            query.get().addOnCompleteListener(task ->{
+                                if(task.isSuccessful()){
+                                    QuerySnapshot queryDocumentSnapshot = task.getResult();
+                                    if(!queryDocumentSnapshot.isEmpty()){
+                                        DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                                        String codigo = document.getString("codigo");
+                                        Query query1 = db.collection("donaciones").whereEqualTo("codigo",codigo);
+                                        query1.get().addOnCompleteListener(task1 ->{
+                                            if(task.isSuccessful()){
+                                                Log.d("nombre",codigo);
+                                                QuerySnapshot queryDocumentSnapshot1 = task1.getResult();
+                                                if(!queryDocumentSnapshot1.isEmpty()){
+                                                    DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
+                                                    HashMap<String, Object> map = new HashMap<>();
+                                                    map.put("foto",download_uri);
+                                                    db.collection("donaciones").document(document.getString("codigo")).update(map);
+                                                }else{
+
+                                                    HashMap<String, Object> map = new HashMap<>();
+                                                    map.put("foto", download_uri);
+                                                    map.put("nombre",document.getString("nombre"));
+                                                    map.put("codigo",document.getString("codigo"));
+                                                    map.put("monto",0);
+                                                    map.put("rechazo","1");
+                                                    map.put("egresado",true);
+                                                    db.collection("donaciones").document(document.getString("codigo")).set(map);
+                                                }
+                                            }
+                                        } );
+                                    }
+                                }
+                            } );
                             Toast.makeText(Pago.this, "Foto actualizada", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
