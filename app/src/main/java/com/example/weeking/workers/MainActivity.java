@@ -2,6 +2,7 @@ package com.example.weeking.workers;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -23,7 +24,12 @@ import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityMainBinding;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +49,26 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializar Firebase Auth
         auth = FirebaseAuth.getInstance();
+        /*ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+                new FirebaseAuthUIActivityResultContract(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        Log.d("msg-test", "Firebase uid: " + user.getUid());
+                    } else {
+                        Log.d("msg-test", "Canceló el Log-in");
+                    }
+                }
+        );
 
+        Intent intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build()
+                ))
+                .build();
+
+        signInLauncher.launch(intent);*/
         // Verificar si el usuario ya ha iniciado sesión
         if (auth.getCurrentUser() != null) {
             // Si el usuario ya está autenticado, navega a VistaPrincipal y termina MainActivity
@@ -119,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, canal1)
                 .setSmallIcon(R.drawable.logo_48) // Cambia esto por tu propio icono
-                .setContentTitle("Bienvenidos a la weeking")  // Título modificado
+                .setContentTitle("Bienvenidos a Weeking")  // Título modificado
                 .setContentText("Gracias por unirte a nosotros") // Texto modificado
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)

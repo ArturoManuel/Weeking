@@ -19,6 +19,8 @@ import com.example.weeking.entity.EventoDto;
 import com.example.weeking.workers.fragmentos.mainFragmento;
 import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -55,6 +57,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -65,8 +68,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutListener {
 
@@ -82,7 +87,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     ListenerRegistration snapshotListener;
 
-
+    TextView nombre, estado, codigo;
     private boolean isMainFragment = true;
     private int backPressCount = 0;
     private long lastBackPressedTime;
@@ -169,7 +174,26 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                 appViewModel.getListaEventos().postValue(eventos);
             }
         });
+        nombre = findViewById(R.id.textNombre);
+        estado = findViewById(R.id.textEstado);
+        codigo = findViewById(R.id.textCodigoPerfil);
+        String nombrePerfil = nombre.getText().toString().trim();
+        String estadoPerfil = estado.getText().toString().trim();
+        String codigoPerfil = codigo.getText().toString().trim();
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("nombre", nombrePerfil);
+        map.put("estado", estadoPerfil);
+        map.put("codigo", codigoPerfil);
+
+        db.collection("usuarios").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+
+            }
+        }).addOnFailureListener(e -> {
+
+        });
     }
 
     private void navigateToActivity(Class<?> destinationClass) {

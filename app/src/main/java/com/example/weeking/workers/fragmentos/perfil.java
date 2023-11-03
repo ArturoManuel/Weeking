@@ -13,6 +13,8 @@ import android.os.Bundle;
 
 import com.example.weeking.workers.Contrasena3Activity;
 import com.google.firebase.auth.FirebaseAuth;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import android.widget.ImageView;
 import com.example.weeking.R;
 import com.example.weeking.workers.AccountActivity;
 import com.example.weeking.workers.StatusActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class perfil extends Fragment {
 
@@ -33,7 +37,8 @@ public class perfil extends Fragment {
     private Button contrasenia;
 
     private FirebaseAuth mAuth;
-
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
     private ImageView imageView;
     private LogoutListener logoutListener;
 
@@ -59,8 +64,9 @@ public class perfil extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-
+        databaseReference = firebaseDatabase.getReference().child("usuarios");
         btnStatus = view.findViewById(R.id.btnStatus);
         btnStatus.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), StatusActivity.class);
