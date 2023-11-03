@@ -37,8 +37,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class perfil extends Fragment {
 
+public class perfil extends Fragment {
     private Button btnStatus;
     private Button btnAccount;
     private Button btnLogOut;
@@ -49,13 +49,21 @@ public class perfil extends Fragment {
     private LogoutListener logoutListener;
 
     private TextView userName ,codigo;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof LogoutListener) {
+            logoutListener = (LogoutListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implement LogoutListener");
+        }
+    }
 
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
     }
 
@@ -112,6 +120,7 @@ public class perfil extends Fragment {
     public interface LogoutListener {
         void onLogout();
     }
+
     private void actualizarUI(Usuario usuario) {
 
         Log.d("codigoalumno",usuario.getCodigo().toString());
@@ -119,5 +128,7 @@ public class perfil extends Fragment {
         codigo.setText(usuario.getCodigo());
 
     }
+
+
 
 }
