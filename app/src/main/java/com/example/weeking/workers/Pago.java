@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,13 +19,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
 import com.example.weeking.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -41,6 +46,8 @@ public class Pago extends AppCompatActivity {
     String photo = "photo";
     String idd;
     ImageView foto;
+
+    String download_uri = "";
     ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
@@ -50,10 +57,7 @@ public class Pago extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pago);
         db = FirebaseFirestore.getInstance();
-        String codigoactual = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("idauth",codigoactual);
         progressDialog = new ProgressDialog(this);
-        mAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         foto = findViewById(R.id.image);
         Button comprobante = findViewById(R.id.button11);
@@ -61,8 +65,40 @@ public class Pago extends AppCompatActivity {
                 uploadPhoto();
         });
         comprobante.setOnClickListener(v -> {
-            Log.d("idauth",mAuth.getUid());
+            Query query = db.collection("usuarios").whereEqualTo("authUID",mAuth.getUid());
+            query.get().addOnCompleteListener(task ->{
+                if(task.isSuccessful()){
+                    QuerySnapshot queryDocumentSnapshot = task.getResult();
+                    if(!queryDocumentSnapshot.isEmpty()){
+                        DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                        String codigo = document.getString("nombre");
+                        Query query1 = db.collection("donaciones").whereEqualTo("codigo",codigo);
+                        query1.get().addOnCompleteListener(task1 ->{
+                            if(task.isSuccessful()){
+                                QuerySnapshot queryDocumentSnapshot1 = task1.getResult();
+                                if(!queryDocumentSnapshot1.isEmpty()){
+                                    DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("foto",storage_path + mAuth.getUid());
+                                    db.collection("donaciones").document(document.getString("codigo")).update(map);
+                                }else{
+
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("foto", download_uri);
+                                    map.put("nombre",document.getString("nombre"));
+                                    map.put("codigo",document.getString("codigo"));
+                                    map.put("monto",0);
+                                    map.put("rechazo","1");
+                                    map.put("egresado",true);
+                                    db.collection("donaciones").document(document.getString("codigo")).set(map);
+                                }
+                            }
+                        } );
+                    }
+                }
+            } );
         });
+
     }
 
     private void uploadPhoto() {
@@ -70,10 +106,23 @@ public class Pago extends AppCompatActivity {
         i.setType("image/*");
         startActivityForResult(i, COD_SEL_IMAGE);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == RESULT_OK){
+            if (requestCode == COD_SEL_IMAGE){
+                image_url = data.getData();
+                subirPhoto(image_url);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void subirPhoto(Uri image_url) {
-        progressDialog.setMessage("Actualizando foto");
+        progressDialog.setMessage("Subiendo foto");
         progressDialog.show();
-        String rute_storage_photo = storage_path + "" + photo + "" + mAuth.getUid() +""+ idd;
+        String rute_storage_photo = storage_path +""+ FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d("abssd", rute_storage_photo);
         StorageReference reference = storageReference.child(rute_storage_photo);
         reference.putFile(image_url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -84,10 +133,10 @@ public class Pago extends AppCompatActivity {
                     uriTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            String download_uri = uri.toString();
+                            download_uri = uri.toString();
                             HashMap<String, Object> map = new HashMap<>();
                             map.put("foto", download_uri);
-                            db.collection("donaciones").document(idd).update(map);
+                            Log.d("anssd",download_uri);
                             Toast.makeText(Pago.this, "Foto actualizada", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
