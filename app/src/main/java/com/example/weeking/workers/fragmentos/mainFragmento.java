@@ -70,9 +70,10 @@ public class mainFragmento extends Fragment {
 
         appViewModel.getListaEventos().observe(getViewLifecycleOwner(), eventoClasses -> {
             if (eventoClasses != null && !eventoClasses.isEmpty()) {
-                adaptadorPrincipal.updateData(eventoClasses); // Actualizamos datos en vez de crear un nuevo adaptador
+                adaptadorPrincipal.updateData(eventoClasses);
                 tituloListaPrincipal.setVisibility(View.VISIBLE);
             } else {
+                adaptadorPrincipal.updateData(new ArrayList<>()); // Asegúrate de que la lista está vacía si no hay datos
                 tituloListaPrincipal.setVisibility(View.GONE);
             }
         });

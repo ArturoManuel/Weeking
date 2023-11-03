@@ -106,6 +106,9 @@ public class AppViewModel extends ViewModel {
                         batch.delete(db.collection("Eventos").document(document.getId()));
                     }
                     return batch.commit();
+                }).addOnSuccessListener(aVoid -> {
+                    // Aquí es donde actualizas tu lista local después de eliminar con éxito los eventos asociados
+                    removeEventosByActividadId(actividadId);
                 });
 
         // Una vez que las tareas anteriores se hayan completado, procedemos a eliminar la actividad
@@ -131,6 +134,13 @@ public class AppViewModel extends ViewModel {
 
 
 
+    public void removeEventosByActividadId(String actividadId) {
+        List<EventoClass> currentEventos = listaEventos.getValue();
+        if (currentEventos != null) {
+            currentEventos.removeIf(evento -> actividadId.equals(evento.getIdActividad()));
+            listaEventos.setValue(currentEventos);
+        }
+    }
 
 
     public void setCurrentUser(Usuario user) {
