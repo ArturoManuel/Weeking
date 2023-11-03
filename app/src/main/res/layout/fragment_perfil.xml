@@ -43,7 +43,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageButton
-                android:id="@+id/uploadButton"
+                android:id="@+id/uploadButtonPerfil"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
