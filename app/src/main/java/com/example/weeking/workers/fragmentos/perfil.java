@@ -98,6 +98,14 @@ public class perfil extends Fragment {
             }
         });
 
+        appViewModel.getCurrentUser().observe(getViewLifecycleOwner(), usuario -> {
+            if (usuario != null) {
+                // Actualizar la UI del fragmento con los datos del usuario
+                actualizarUI(usuario);
+            }
+        });
+
+
         return view;
 
     }
