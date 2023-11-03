@@ -13,6 +13,7 @@ import com.example.weeking.workers.adaptador.GaleriaFotosAdapter;
 public class imagen_completa extends AppCompatActivity {
 
     GaleriaFotosAdapter galeriaFotosAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +25,7 @@ public class imagen_completa extends AppCompatActivity {
             actionBar.setTitle("Imagen");
         }
         Intent intent=getIntent();
+
         int posicion = intent.getExtras().getInt("misImagenes");
         galeriaFotosAdapter=new GaleriaFotosAdapter(this);
         imageView.setImageResource(galeriaFotosAdapter.imageArray[posicion]);

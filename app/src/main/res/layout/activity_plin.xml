@@ -7,17 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".workers.Plin">
 
-    <TextView
-        android:id="@+id/volver"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/baseline_keyboard_return_24"
-        android:text="Volver"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/button9"
@@ -51,6 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:cardCornerRadius="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

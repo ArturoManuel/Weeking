@@ -19,18 +19,14 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
+            android:background="#E80B89DD"
             app:menu="@menu/top_menu"
             app:navigationIcon="@drawable/logo_48"
             app:title="Weeking"
-            app:titleTextColor="@android:color/black">
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextColor="@android:color/black"></com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-
-
-
-<fragment
+    <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
@@ -42,19 +38,33 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:navGraph="@navigation/navegation_main" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+
+        android:src="@drawable/baseline_add_circle_24"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+     app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-    android:layout_gravity="bottom"
-    android:background="@android:color/white"
-    app:itemIconSize="25dp"
-    app:itemTextColor="@android:color/black"
-    app:labelVisibilityMode="unlabeled"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:menu="@menu/bottom_menu" />
+        android:layout_gravity="bottom"
+        android:background="#E80B89DD"
+        app:itemIconSize="25dp"
+        app:itemTextColor="@android:color/black"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

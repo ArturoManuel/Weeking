@@ -7,17 +7,7 @@
     android:background="@drawable/iniciofondo"
     tools:context=".workers.EventosActivity">
 
-    <TextView
-        android:id="@+id/volver"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/baseline_keyboard_return_24"
-        android:text="Volver"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textEventos"

@@ -15,6 +15,7 @@ import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.VistaEventoActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,8 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
     private List<EventoClass> mdata;
     private LayoutInflater minflater;
     private Context context;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     public AdaptadorPrin(List<EventoClass> itemlist, Context context) {
         this.minflater = LayoutInflater.from(context);
@@ -60,6 +63,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         TextView ubicacion;
 
         TextView descripcion, fotito;
+        ImageView likeButton;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +84,9 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
                 intent.putExtra("foto", (String) fotito.getText());
                 context.startActivity(intent);
             });
+            likeButton = itemView.findViewById(R.id.like_btn);
+
+
         }
 
         void bindData(final EventoClass item) {
@@ -99,6 +106,23 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             Glide.with(foto.getContext())
                     .load(imageUrl)
                     .into(foto);  // `foto` es tu ImageView
+
+//            if (!item.getLike()) {
+//                likeButton.setImageResource(R.drawable.ic_outline_heart);  // Cambia ic_not_liked por tu ícono de like no activo
+//            } else {  // Cambia isEstado() por el método que verifica si tiene like o no
+//                likeButton.setImageResource(R.drawable.ic_filled_heart);  // Cambia ic_liked por tu ícono de like activo
+//            }
+//
+//            likeButton.setOnClickListener(v -> {
+//                item.toggleLike(); // Este método cambiará el estado de "like" del evento
+//                updateLikeInFirebase(item.getEventId(), item.isEstado()); // Asumiendo que tienes un método getId() en tu clase EventoClass para obtener el ID único del evento.
+//                if(item.getLike()) {
+//                    likeButton.setImageResource(R.drawable.ic_filled_heart);
+//                } else {
+//                    likeButton.setImageResource(R.drawable.ic_outline_heart);
+//                }
+//            });
+
         }
 
     }
@@ -124,5 +148,14 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         // Elimina el espacio adicional al final y devuelve la cadena resultante.
         return sb.toString().trim();
     }
+
+    public void updateData(List<EventoClass> newData) {
+        this.mdata = newData;
+        notifyDataSetChanged();
+    }
+
+
+
+
 
 }

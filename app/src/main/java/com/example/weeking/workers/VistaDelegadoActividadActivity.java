@@ -36,7 +36,6 @@ public class VistaDelegadoActividadActivity extends AppCompatActivity {
             finish();
         });
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 }

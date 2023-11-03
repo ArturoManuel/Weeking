@@ -12,9 +12,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
+import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
 import com.example.weeking.workers.ActividadesActivity;
 import com.example.weeking.workers.NuevoEventoActivity;
+import com.example.weeking.workers.Verificacion_don;
+import com.example.weeking.workers.VistaEventoActivity;
 
 import java.util.List;
 
@@ -52,18 +56,26 @@ public class AdaptadorDon extends RecyclerView.Adapter<AdaptadorDon.ViewHolder>{
             nombre = itemView.findViewById(R.id.txtnombredon);
             monto = itemView.findViewById(R.id.txtmonto);
             veri = itemView.findViewById(R.id.btnVeri);
+            veri.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                ListaDon dona = mdata.get(position);
+                DataHolder.getInstance().setDonacionseleccionado(dona);
+                Intent intent = new Intent(context, Verificacion_don.class);
+                context.startActivity(intent);
+            });
         }
 
         void bindData(final ListaDon item){
+            if(item != null){
             nombre.setText(item.getNombre()+" - "+item.getCodigo());
             monto.setText("S/"+item.getMonto());
-            if(item.getVeri()){
-                veri.setText("Verificado");
-                veri.setEnabled(false);
-            }else {
+            if(item.getRechazo().equals("1")){
                 veri.setEnabled(true);
                 veri.setText("Verificar");
-            }
+            }else {
+                veri.setText("Verificado");
+                veri.setEnabled(false);
+            }}
         }
     }
 

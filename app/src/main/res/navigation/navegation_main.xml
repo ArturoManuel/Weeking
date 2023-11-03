@@ -12,8 +12,11 @@
     <fragment
         android:id="@+id/mapafragmento"
         android:name="com.example.weeking.workers.fragmentos.mapafragmento"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:label="fragment_mapafragmento"
         tools:layout="@layout/fragment_mapafragmento" />
+
     <fragment
         android:id="@+id/chatfragmento"
         android:name="com.example.weeking.workers.fragmentos.chatfragmento"

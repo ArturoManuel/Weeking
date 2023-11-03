@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class EventoClass {
 
@@ -17,31 +18,44 @@ public class EventoClass {
     private String nombre; // "pepito"
     private String ubicacion; //
 
-    private String rol;
+    private String idActividad;
 
-    private  String apoyo;
+    private double latitud;
+    private double longitud;
 
-    public String getApoyo() {
-        return apoyo;
-    }
+    private  String eventId;
 
-    public void setApoyo(String apoyo) {
-        this.apoyo = apoyo;
-    }
+
+    private List<String> listaUsuariosIds;
+
+
 
     // Constructor vacío necesario para Firestore
     public EventoClass() {
     }
 
-    public String getRol() {
-        return rol;
+
+    public String getIdActividad() {
+        return idActividad;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setIdActividad(String idActividad) {
+        this.idActividad = idActividad;
     }
 
-    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion,String rol ,String apoyo) {
+    public List<String> getListaUsuariosIds() {
+        return listaUsuariosIds;
+    }
+
+
+    public void setListaUsuariosIds(List<String> listaUsuariosIds) {
+        this.listaUsuariosIds = listaUsuariosIds;
+    }
+
+
+
+
+    public EventoClass(String descripcion, Boolean estado, Timestamp fecha_evento, String foto, Integer likes, String nombre, String ubicacion, String eventId) {
         this.descripcion = descripcion;
         this.estado = estado;
         this.fecha_evento = fecha_evento;
@@ -49,9 +63,35 @@ public class EventoClass {
         this.likes = likes;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
-        this.apoyo=apoyo;
-        this.rol=rol;
+        this.eventId=eventId;
     }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+
+
 
     public String getDescripcion() {
         return descripcion;

@@ -7,13 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.weeking.Adapter.Adaptador;
 import com.example.weeking.Adapter.AdaptadorE;
 import com.example.weeking.R;
-import com.example.weeking.entity.LIstaAct;
 import com.example.weeking.entity.ListaEven;
 
 import java.util.ArrayList;
@@ -30,14 +27,13 @@ public class EventosActivity extends AppCompatActivity {
 
         Button btnAddEvent =  findViewById(R.id.btnAddEvent);
         btnAddEvent.setOnClickListener(v -> {
-            Intent intent =  new Intent(EventosActivity.this, NuevoEventoActivity.class);
+            Intent intent =  new Intent(EventosActivity.this, ActividadActivity.class);
             startActivity(intent);
             finish();
         });
         init();
 
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 
     public void init(){

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -68,18 +69,28 @@
                         android:layout_marginTop="4dp" />
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="Favorito"
-                    android:src="@drawable/heart" />
+                <!-- Contenedor para los íconos -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="12dp"
-                    android:contentDescription="Compartir"
-                    android:src="@drawable/baseline_share_24" />
+                    <ImageView
+                        android:id="@+id/like_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_filled_heart"/>
+
+                    <ImageView
+                        android:id="@+id/share_btn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:contentDescription="Compartir"
+                        android:src="@drawable/baseline_share_24"/>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/descripcion"
                     android:layout_width="0dp"
@@ -90,6 +101,6 @@
                     android:layout_height="0dp"/>
 
             </LinearLayout>
-0dp
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

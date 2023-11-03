@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -46,11 +47,39 @@ public class MainActivity extends AppCompatActivity {
         binding.imageView.setOnClickListener(v -> navigateToActivity(Donacion.class));
         binding.bienvenidos.setOnClickListener(v -> navigateToActivity(VistaDelegadoGeneralActivity.class));
         setContentView(binding.getRoot());
+
+        // Inicializar Firebase Auth
         auth = FirebaseAuth.getInstance();
+        /*ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
+                new FirebaseAuthUIActivityResultContract(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        Log.d("msg-test", "Firebase uid: " + user.getUid());
+                    } else {
+                        Log.d("msg-test", "Canceló el Log-in");
+                    }
+                }
+        );
+
+        Intent intent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build()
+                ))
+                .build();
+
+        signInLauncher.launch(intent);*/
+        // Verificar si el usuario ya ha iniciado sesión
+        if (auth.getCurrentUser() != null) {
+            // Si el usuario ya está autenticado, navega a VistaPrincipal y termina MainActivity
+            startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
+            finish();
+            return; // No procesar más el método onCreate
+        }
+
 
         crearCanalesNotificacion();
-
-
         binding.iniciarSesion.setOnClickListener(v -> {
             String correo = binding.correo.getText().toString();
             String contrasena = binding.password.getText().toString();
@@ -59,10 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!contrasena.isEmpty()) {
                     auth.signInWithEmailAndPassword(correo, contrasena)
                             .addOnSuccessListener(authResult -> {
-
-                                Toast.makeText(MainActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                                 notificarImportanceDefault();
-
                                 startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
                                 finish();
                             })
@@ -85,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
         binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
         binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
     }
+
+
+
 
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(MainActivity.this, destinationClass);
@@ -119,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, canal1)
                 .setSmallIcon(R.drawable.logo_48) // Cambia esto por tu propio icono
-                .setContentTitle("Bienvenidos a la weeking")  // Título modificado
+                .setContentTitle("Bienvenidos a Weeking")  // Título modificado
                 .setContentText("Gracias por unirte a nosotros") // Texto modificado
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)

@@ -22,13 +22,6 @@ public class Cotrasena2Activity extends AppCompatActivity {
             finish();
         });
 
-        TextView textView = findViewById(R.id.volver);
-        textView.setOnClickListener(view -> {
-            Intent intent = new Intent(Cotrasena2Activity.this, ContrasenaRecuperacion_Activity.class);
-            startActivity(intent);
-            finish();
-        });
-        TextView volver =findViewById(R.id.volver);
-        volver.setOnClickListener(v -> finish());
+
     }
 }
