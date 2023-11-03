@@ -2,7 +2,6 @@ package com.example.weeking.workers;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -24,12 +23,7 @@ import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityMainBinding;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -110,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
         binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
     }
+
+
+
 
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(MainActivity.this, destinationClass);

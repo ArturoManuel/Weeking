@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
+import com.example.weeking.entity.Usuario;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -21,6 +22,9 @@ public class AppViewModel extends ViewModel {
     private final MutableLiveData<List<EventoClass>> listaEventos= new MutableLiveData<>();
     private final MutableLiveData<List<ListaDon>> listaDona= new MutableLiveData<>();
     public final MutableLiveData<List<Actividad>> listaActividades = new MutableLiveData<>(); // Añadido
+
+    public final MutableLiveData<Usuario> currentUser = new MutableLiveData<>();
+
 
 
     public MutableLiveData<List<EventoClass>> getListaEventos() {
@@ -63,5 +67,11 @@ public class AppViewModel extends ViewModel {
     }
 
 
+    public void setCurrentUser(Usuario user) {
+        currentUser.setValue(user);
+    }
 
+    public MutableLiveData<Usuario> getCurrentUser() {
+        return currentUser;
+    }
 }
