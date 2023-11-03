@@ -28,11 +28,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Yape extends AppCompatActivity {
     FirebaseFirestore db;
     StorageReference storageReference;
-    String storage_path = "donacion/*";
+    String storage_path = "usuarios/*";
 
     private static final int COD_SEL_STORAGE = 200;
     private static final int COD_SEL_IMAGE = 300;
@@ -70,7 +71,7 @@ public class Yape extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if (requestCode == COD_SEL_IMAGE){
                 image_url = data.getData();
-                subirPhoto(image_url);
+                subirPhotoNueva(image_url);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,4 +142,39 @@ public class Yape extends AppCompatActivity {
             }
         });
     }
+    private void subirPhotoNueva(Uri image_url) {
+        progressDialog.setMessage("Subiendo foto");
+        progressDialog.show();
+
+        // Obtener el ID único del usuario actual.
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Generar un nombre de archivo único para la imagen.
+        String uniqueFileName = UUID.randomUUID().toString() + ".jpg"; // Añade .jpg si quieres que el archivo sea un JPEG.
+
+        // Crear la ruta completa donde se guardará la imagen, e.g., "usuarios/userId/uniqueFileName"
+        String storagePath = "usuarios/" + userId + "/" + uniqueFileName;
+
+        StorageReference reference = storageReference.child(storagePath);
+        reference.putFile(image_url)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Obtiene la URL de descarga
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        download_uri = uri.toString();
+                        // Aquí actualizas la base de datos con la nueva URL de la foto
+                        // ...
+
+                        Toast.makeText(Yape.this, "Foto subida con éxito", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+
+                        // Sigue con el flujo de tu aplicación, por ejemplo, lanzar otra actividad
+                        startActivity(new Intent(Yape.this, VistaPrincipal.class));
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(Yape.this, "Error al subir la foto: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
 }
