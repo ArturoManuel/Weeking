@@ -149,6 +149,13 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         return sb.toString().trim();
     }
 
+    public void updateData(List<EventoClass> newEventData) {
+        this.mdata.clear();  // Limpia la data actual
+        this.mdata.addAll(newEventData);  // Añade la nueva data
+        notifyDataSetChanged();  // Notifica que la data ha cambiado
+    }
+
+
 
 
 }

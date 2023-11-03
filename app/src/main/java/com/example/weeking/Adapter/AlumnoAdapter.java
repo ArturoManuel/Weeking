@@ -12,9 +12,11 @@ import com.example.weeking.R;
 import com.example.weeking.entity.Alumno;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import java.util.Map;
 
 public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder> {
 
@@ -65,6 +68,27 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoView
                         .update("rol", "delegado_de_actividad")
                         .addOnSuccessListener(aVoid -> Log.d("AlumnoAdapter", "Rol actualizado con éxito."))
                         .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error actualizando el rol", e));
+
+                // Crear un nuevo documento en la colección UsuarioActividad
+                Map<String, Object> usuarioActividad = new HashMap<>();
+                usuarioActividad.put("usuarioId", alumnoId);
+                usuarioActividad.put("idActividad", idactividad);
+
+                db.collection("UsuarioActividad")
+                        .add(usuarioActividad)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("AlumnoAdapter", "UsuarioActividad añadido con ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("AlumnoAdapter", "Error añadiendo UsuarioActividad", e);
+                            }
+                        });
+
 
                 // Agregar el idActividad a una lista en el documento del alumno
                 // Suponemos que tienes un campo en el documento llamado 'actividades' que es un tipo Array

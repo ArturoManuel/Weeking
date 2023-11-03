@@ -22,29 +22,33 @@ import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.EventoDto;
 import com.example.weeking.entity.ListaEven;
 import com.example.weeking.workers.viewModels.AppViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 public class mainFragmento extends Fragment {
-
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPorLikes;
     private RecyclerView.Adapter adapter;
     // Añadir instancia del ViewModel
     private AppViewModel appViewModel;
+
+
+    private AdaptadorPrin adaptadorPrincipal;
+    private AdaptadorPrin adaptadorPorLikes;
+
+
     public mainFragmento() {
         // Required empty public constructor
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Obtener la instancia del ViewModel
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        adaptadorPrincipal = new AdaptadorPrin(new ArrayList<>(), getContext());
+        adaptadorPorLikes = new AdaptadorPrin(new ArrayList<>(), getContext());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,16 +66,13 @@ public class mainFragmento extends Fragment {
         // Lista principal
         recyclerView = view.findViewById(R.id.lista_prin);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adaptadorPrincipal); // Seteamos el adaptador aquí
+
         appViewModel.getListaEventos().observe(getViewLifecycleOwner(), eventoClasses -> {
             if (eventoClasses != null && !eventoClasses.isEmpty()) {
-                adapter = new AdaptadorPrin(eventoClasses, getContext());
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                // Si la lista tiene elementos, muestra el título
+                adaptadorPrincipal.updateData(eventoClasses); // Actualizamos datos en vez de crear un nuevo adaptador
                 tituloListaPrincipal.setVisibility(View.VISIBLE);
             } else {
-                // Si la lista no tiene elementos, oculta el título
                 tituloListaPrincipal.setVisibility(View.GONE);
             }
         });
@@ -79,20 +80,20 @@ public class mainFragmento extends Fragment {
         // Lista por likes
         recyclerViewPorLikes = view.findViewById(R.id.lista_populares);
         recyclerViewPorLikes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewPorLikes.setAdapter(adaptadorPorLikes); // Seteamos el adaptador aquí
+
         appViewModel.getEventosByLikes().observe(getViewLifecycleOwner(), eventoClasses -> {
             if (eventoClasses != null && !eventoClasses.isEmpty()) {
-                adapter = new AdaptadorPrin(eventoClasses, getContext());
-                recyclerViewPorLikes.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                // Si la lista tiene elementos, muestra el título
+                adaptadorPorLikes.updateData(eventoClasses); // Actualizamos datos en vez de crear un nuevo adaptador
                 tituloListaPorLikes.setVisibility(View.VISIBLE);
             } else {
-                // Si la lista no tiene elementos, oculta el título
                 tituloListaPorLikes.setVisibility(View.GONE);
             }
         });
     }
+
+
+
 
 
 }

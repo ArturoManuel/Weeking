@@ -12,35 +12,32 @@ import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class AppViewModel extends ViewModel {
-
     private final MutableLiveData<List<EventoClass>> listaEventos= new MutableLiveData<>();
     private final MutableLiveData<List<ListaDon>> listaDona= new MutableLiveData<>();
     public final MutableLiveData<List<Actividad>> listaActividades = new MutableLiveData<>(); // Añadido
-
     public final MutableLiveData<Usuario> currentUser = new MutableLiveData<>();
     public MutableLiveData<List<Actividad>> getListaActividades() {
         return listaActividades;
     }
-
-
-
-
     public MutableLiveData<List<EventoClass>> getListaEventos() {
         return listaEventos;
     }
-
     public MutableLiveData<List<ListaDon>> getListaDona() {
         return listaDona;
     }
-
     public MutableLiveData<List<EventoClass>> getEventosByLikes() {
         MutableLiveData<List<EventoClass>> eventosSortedByLikes = new MutableLiveData<>();
 
@@ -74,35 +71,65 @@ public class AppViewModel extends ViewModel {
 
     public void eliminarActividad(Actividad actividad) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Primero, eliminar los eventos asociados con la actividad
-        db.collection("Eventos")
-                .whereEqualTo("idActividad", actividad.getId())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            db.collection("Eventos").document(document.getId()).delete();
-                        }
+        String actividadId = actividad.getId();
 
-                        // Luego, eliminar la actividad de Firestore
-                        db.collection("activity").document(actividad.getId())
-                                .delete()
-                                .addOnSuccessListener(aVoid -> {
-                                    // Eliminación exitosa, ahora actualiza la lista localmente
-                                    List<Actividad> currentActividades = listaActividades.getValue();
-                                    if (currentActividades != null) {
-                                        currentActividades.remove(actividad);
-                                        listaActividades.setValue(currentActividades);
-                                    }
-                                })
-                                .addOnFailureListener(e -> {
-                                    Log.w(TAG, "Error eliminando la actividad", e);
-                                });
-                    } else {
-                        Log.w(TAG, "Error obteniendo eventos asociados con la actividad", task.getException());
+        // Eliminar registros en UsuarioActividad
+        Task<Void> eliminarUsuariosActividadTask = db.collection("UsuarioActividad")
+                .whereEqualTo("idActividad", actividadId)
+                .get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
+                    WriteBatch batch = db.batch();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String userId = document.getString("usuarioId");
+                        // Aquí eliminas el registro de UsuarioActividad
+                        batch.delete(db.collection("UsuarioActividad").document(document.getId()));
+                        if (userId != null) {
+                            batch.update(db.collection("usuarios").document(userId), "activity", FieldValue.arrayRemove(actividadId));
+                        }
+                    }
+                    return batch.commit();
+                });
+
+        // Eliminar eventos relacionados con la actividad
+        Task<Void> eliminarEventosTask = db.collection("Eventos")
+                .whereEqualTo("idActividad", actividadId)
+                .get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    WriteBatch batch = db.batch();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        batch.delete(db.collection("Eventos").document(document.getId()));
+                    }
+                    return batch.commit();
+                });
+
+        // Una vez que las tareas anteriores se hayan completado, procedemos a eliminar la actividad
+        Tasks.whenAllSuccess(eliminarUsuariosActividadTask, eliminarEventosTask).addOnSuccessListener(tasks -> {
+                    db.collection("activity").document(actividadId)
+                            .delete()
+                            .addOnSuccessListener(aVoid -> {
+                                List<Actividad> currentActividades = listaActividades.getValue();
+                                if (currentActividades != null) {
+                                    currentActividades.remove(actividad);
+                                    listaActividades.setValue(currentActividades);
+                                }
+                                Log.d("DEBUG", "Actividad y registros relacionados eliminados con éxito.");
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.w("ERROR", "Error eliminando la actividad", e);
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("ERROR", "Error eliminando registros relacionados con la actividad", e);
                 });
     }
+
+
 
 
 
