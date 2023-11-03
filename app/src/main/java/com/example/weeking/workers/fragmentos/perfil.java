@@ -1,6 +1,8 @@
 package com.example.weeking.workers.fragmentos;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.weeking.entity.Usuario;
@@ -22,13 +25,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.workers.AccountActivity;
@@ -36,6 +42,14 @@ import com.example.weeking.workers.StatusActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.IOException;
+import java.util.List;
+
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 public class perfil extends Fragment {
@@ -47,8 +61,11 @@ public class perfil extends Fragment {
     private AppViewModel appViewModel;
     private ImageView imageView;
     private LogoutListener logoutListener;
-
+    private ImageButton uploadButtonPerfil;
     private TextView userName ,codigo;
+    private static final int REQUEST_GALLERY_PERMISSION = 1;
+    private static final int REQUEST_PICK_IMAGE = 1;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -76,8 +93,14 @@ public class perfil extends Fragment {
         userName = view.findViewById(R.id.textNombre); // Asume que tienes un TextView con el ID "userName" en tu layout.
         codigo = view.findViewById(R.id.textCodigoPerfil);
         mAuth = FirebaseAuth.getInstance();
-
-
+        uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
+        imageView = view.findViewById(R.id.imageView);
+        uploadButtonPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGallery();
+            }
+        });
         btnStatus = view.findViewById(R.id.btnStatus);
         btnStatus.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), StatusActivity.class);
@@ -116,6 +139,20 @@ public class perfil extends Fragment {
 
         return view;
 
+    }
+
+    private void openGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PICK_IMAGE && resultCode == getActivity().RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            imageView.setImageURI(selectedImageUri);
+        }
     }
     public interface LogoutListener {
         void onLogout();
