@@ -71,7 +71,7 @@ public class Yape extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if (requestCode == COD_SEL_IMAGE){
                 image_url = data.getData();
-                subirPhotoNueva(image_url);
+                subirPhoto(image_url);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
