@@ -5,6 +5,15 @@ public class ListaDon {
     private Integer monto;
     private boolean egresado;
     private String rechazo;
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public ListaDon(String nombre, Integer monto, boolean egresado, String rechazo, String codigo) {
         this.nombre = nombre;
