@@ -72,10 +72,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_mode_edit_24"
-        android:layout_toStartOf="@id/btnEliminar"
-        android:layout_alignParentTop="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="8dp" />
+            android:layout_toStartOf="@id/btnEliminar"
+            android:layout_alignParentTop="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp" />
 
         <!-- ImageButton para eliminar en la esquina superior derecha -->
         <ImageButton

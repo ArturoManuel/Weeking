@@ -1,6 +1,7 @@
 package com.example.weeking.workers.fragmentos;
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,10 +18,12 @@ import android.widget.Toast;
 import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.workers.NuevoEventoActivity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDate;
@@ -30,6 +33,8 @@ import java.util.List;
 
 public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoListener {
     private RecyclerView recyclerView;
+
+    private ListenerRegistration eventListenerRegistration;
     private EventosAdapter adapter;  // Cambiado de RecyclerView.Adapter a EventosAdapter
     private List<EventoClass> elements;  // Cambiado de List<ListaEven> a List<EventoClass>
 
@@ -44,6 +49,21 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
     public ListaFragmento(String idActividad) {
         this.idActividad = idActividad;
         db = FirebaseFirestore.getInstance();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        obtenerEventosDeFirestore();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Remueve el listener cuando el fragmento ya no es visible
+        if (eventListenerRegistration != null) {
+            eventListenerRegistration.remove();
+        }
     }
 
 
@@ -64,25 +84,34 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
     }
 
 
+
     private void obtenerEventosDeFirestore() {
         CollectionReference eventosRef = db.collection("Eventos");
 
-        eventosRef.whereEqualTo("idActividad", idActividad)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    elements = new ArrayList<>(); // Inicializa tu lista de elementos aquí
+        // Adjunta el listener y guarda la referencia para poder removerlo más tarde
+        eventListenerRegistration = eventosRef.whereEqualTo("idActividad", idActividad)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Error escuchando los eventos", e);
+                        Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    List<EventoClass> elements = new ArrayList<>(); // Inicializa tu lista de elementos aquí
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         EventoClass evento = document.toObject(EventoClass.class);
                         evento.setEventId(document.getId());
-                        elements.add(evento); // Asegúrate de que estás añadiendo a 'elements'
+                        elements.add(evento); // Añade eventos a la lista
                     }
+
                     // Inicializa y establece el adaptador aquí para asegurar que los datos están disponibles
-                    adapter = new EventosAdapter(elements, getActivity(), this); // Ahora pasas la lista correcta
-                    recyclerView.setAdapter(adapter);
-                })
-                .addOnFailureListener(e -> {
-                    Log.w(TAG, "Error obteniendo eventos", e);
-                    Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
+                    if (adapter == null) {
+                        adapter = new EventosAdapter(elements, getActivity(), this);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter.setListaEventos(elements); // Suponiendo que tienes un método para actualizar los datos
+                        adapter.notifyDataSetChanged();
+                    }
                 });
     }
 
@@ -120,6 +149,13 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
 
     }
 
+    @Override
+    public void onEditarClicked(String eventoId, String actividadId) {
+        Intent intent = new Intent(getActivity(), NuevoEventoActivity.class);
+        intent.putExtra("id_evento", eventoId);
+        intent.putExtra("id_actividad", actividadId);
+        startActivity(intent);
+    }
 
 
 

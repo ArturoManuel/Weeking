@@ -41,6 +41,7 @@ import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -51,6 +52,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class NuevoEventoActivity extends AppCompatActivity {
 
@@ -66,6 +68,7 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
     ActivityNuevoEventoBinding binding;
     String  idActividad;
+    String idEvento;
 
 
     @Override
@@ -73,34 +76,39 @@ public class NuevoEventoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNuevoEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        idActividad = getIntent().getStringExtra("id_actividad").toString();
-        Log.d("idActividad",idActividad);
+
+        idActividad = getIntent().getStringExtra("id_actividad");
+        idEvento = getIntent().getStringExtra("id_evento");
+
+        // Log para verificar los IDs obtenidos de la actividad anterior
+        Log.d("idActividad:Activity", idActividad != null ? idActividad : "null or not found");
+        Log.d("idEvento:Activity", idEvento != null ? idEvento : "null or not found");
+
         binding.saveEventButton.setOnClickListener(v -> {
             String nombre = binding.nombreEvento.getText().toString();
             String descripcion = binding.descriptionEditText.getText().toString();
             String fecha = binding.tvSelectedDate.getText().toString();
             String hora = binding.tvSelectedTime.getText().toString();
-            crearNuevoEvento(nombre, descripcion, fecha, hora);
-            Intent intent = new Intent(NuevoEventoActivity.this, ActividadActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
 
+            // Llamar a la función para crear o actualizar el evento
+            crearOActualizarEvento(nombre, descripcion, fecha, hora);
+            // Navegar de regreso a la Actividad principal o donde sea necesario
+            finish(); // Finalizar esta actividad si no necesitas volver a ella
         });
 
+        // Otros listeners y configuraciones...
+        // ...
 
-        binding.lugar.setOnClickListener(v -> {
-            Intent mapIntent = new Intent(NuevoEventoActivity.this, MapaActivity.class);
-            startActivityForResult(mapIntent, MAP_REQUEST_CODE);
-        });
+        // Cargar datos del evento si el idEvento no es nulo y no está vacío
+        if (idEvento != null && !idEvento.isEmpty()) {
+            cargarDatosEvento(idEvento);
+        }
 
-
-
-
-
+        // Mostrar dialogo de fecha y hora cuando se hacen clic en los iconos respectivos
         binding.iconSelectDate.setOnClickListener(v -> mostrarDialogoFecha());
         binding.iconSelectTime.setOnClickListener(v -> mostrarDialogoHora());
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,6 +122,7 @@ public class NuevoEventoActivity extends AppCompatActivity {
         }
 
     }
+
 
 
 
@@ -167,10 +176,40 @@ public class NuevoEventoActivity extends AppCompatActivity {
         });
     }
 
-    private void crearNuevoEvento(String nombre, String descripcion, String fecha, String hora) {
+    private  void cargarDatosEvento(String idEvento) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference eventosRef = db.collection("Eventos");
-        // Crear un nuevo objeto de evento
+        DocumentReference eventoRef = db.collection("Eventos").document(idEvento);
+
+        eventoRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document != null && document.exists()) {
+                    // Aquí asignas los valores a los campos de la UI con los datos del evento
+                    EventoClass evento = document.toObject(EventoClass.class);
+                    if(evento != null){
+                        binding.nombreEvento.setText(evento.getNombre());
+                        binding.descriptionEditText.setText(evento.getDescripcion());
+                        // ... más asignaciones de campos
+                        // También debes convertir la fecha y la hora del timestamp a String y mostrarlo en los TextViews correspondientes
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                        binding.tvSelectedDate.setText(sdf.format(evento.getFecha_evento().toDate()));
+                        // Para la hora, posiblemente necesites ajustar el formato para que coincida con cómo se muestra en la UI
+                    }
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
+    }
+
+
+
+    private void crearOActualizarEvento(String nombre, String descripcion, String fecha, String hora) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Preparar el objeto evento con los datos recibidos
         EventoClass evento = new EventoClass();
         evento.setNombre(nombre);
         evento.setDescripcion(descripcion);
@@ -179,40 +218,53 @@ public class NuevoEventoActivity extends AppCompatActivity {
         evento.setLatitud(latitud);
         evento.setLongitud(longitud);
         evento.setIdActividad(idActividad);
+        evento.setFoto("url_a_la_foto");
+        evento.setLikes(0);
+        evento.setListaUsuariosIds(new ArrayList<>());
+
         // Convertir la fecha y hora en un objeto Timestamp para Firestore
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         try {
             Date fechaHora = sdf.parse(fecha + " " + hora);
             evento.setFechaEvento(new Timestamp(fechaHora));
         } catch (ParseException e) {
             e.printStackTrace();
-            // Manejar el error o establecer una fecha/hora predeterminada si es necesario
             evento.setFechaEvento(new Timestamp(new Date()));
         }
-        evento.setFoto("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Chess_board_with_chess_set_in_opening_position_2012_PD_03.jpg/1024px-Chess_board_with_chess_set_in_opening_position_2012_PD_03.jpg");
-        evento.setLikes(0);
-        evento.setListaUsuariosIds(new ArrayList<>());
-        // Agregar el evento a Firestore
-        eventosRef.add(evento)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d(TAG, "Documento añadido con ID: " + documentReference.getId());
-                    // Actualizar el ID en el objeto evento y en Firestore
-                    evento.setEventId(documentReference.getId());
-                    eventosRef.document(documentReference.getId()).set(evento);
 
-                    // Actualizar la lista de eventos en el documento de la colección 'activity'
-                    CollectionReference actividadRef = db.collection("activity");
-                    actividadRef.document(idActividad)
-                            .update("listaEventosIds", FieldValue.arrayUnion(documentReference.getId()));
-                    // Mostrar un Toast de éxito
-                    Toast.makeText(NuevoEventoActivity.this, "Evento creado con éxito!", Toast.LENGTH_SHORT).show();
+        DocumentReference eventoRef;
 
+        // Verificar si el idEvento ya existe para actualizar el evento existente
+        if (idEvento != null && !idEvento.isEmpty()) {
+            eventoRef = db.collection("Eventos").document(idEvento);
+            evento.setEventId(idEvento); // Asegúrate de establecer el ID del evento si lo estás actualizando
+        } else {
+            eventoRef = db.collection("Eventos").document(); // Crea un nuevo documento con un ID único
+            // No necesitas establecer el ID del evento aquí porque se generará uno nuevo
+        }
+
+        // Agregar o actualizar el evento en Firestore
+        eventoRef.set(evento)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "Evento guardado con éxito con ID: " + eventoRef.getId());
+
+                    // Si es un evento nuevo, actualiza la lista de eventos en 'actividad'
+                    if (idEvento == null || idEvento.isEmpty()) {
+                        CollectionReference actividadRef = db.collection("actividad");
+                        actividadRef.document(idActividad)
+                                .update("listaEventosIds", FieldValue.arrayUnion(eventoRef.getId()));
+                    }
+
+                    Toast.makeText(NuevoEventoActivity.this, "Evento guardado con éxito!", Toast.LENGTH_SHORT).show();
+
+                    // Finalizar la actividad o actualizar la interfaz de usuario según sea necesario
+                    finish();
                 })
-                .addOnFailureListener(e -> {Log.w(TAG, "Error añadiendo el documento", e);
-                    Toast.makeText(NuevoEventoActivity.this, "No se logró crear el evento.", Toast.LENGTH_SHORT).show();
-
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Error al guardar el evento", e);
+                    Toast.makeText(NuevoEventoActivity.this, "Error al guardar el evento.", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 }
