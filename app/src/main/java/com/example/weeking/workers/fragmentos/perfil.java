@@ -2,6 +2,7 @@ package com.example.weeking.workers.fragmentos;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.os.Bundle;
 
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.Contrasena3Activity;
+import com.example.weeking.workers.VistaPrincipal;
+import com.example.weeking.workers.Yape;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,9 +45,12 @@ import com.example.weeking.workers.StatusActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
@@ -63,8 +69,10 @@ public class perfil extends Fragment {
     private LogoutListener logoutListener;
     private ImageButton uploadButtonPerfil;
     private TextView userName ,codigo;
-    private static final int REQUEST_GALLERY_PERMISSION = 1;
     private static final int REQUEST_PICK_IMAGE = 1;
+    StorageReference storageReference;
+    ProgressDialog progressDialog;
+    String download_uri = "";
 
     @Override
     public void onAttach(Context context) {
@@ -152,6 +160,7 @@ public class perfil extends Fragment {
         if (requestCode == REQUEST_PICK_IMAGE && resultCode == getActivity().RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
             imageView.setImageURI(selectedImageUri);
+            cargaImagen(selectedImageUri);
         }
     }
     public interface LogoutListener {
@@ -167,5 +176,29 @@ public class perfil extends Fragment {
     }
 
 
+    private void cargaImagen(Uri imageUri){
 
+        // Obtener el ID único del usuario actual.
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (imageUri != null) {
+            // Generar un nombre de archivo único para la imagen.
+
+            // Crear la ruta completa donde se guardará la imagen, e.g., "usuarios/userId/uniqueFileName"
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("usuarios/" + UUID.randomUUID().toString());
+            storageReference.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Obtiene la URL de descarga
+                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                            download_uri = uri.toString();
+                            // Aquí actualizas la base de datos con la nueva URL de la foto
+                            // ...
+
+
+                            // Sigue con el flujo de tu aplicación, por ejemplo, lanzar otra actividad
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                    });
+        }
+    }
 }
