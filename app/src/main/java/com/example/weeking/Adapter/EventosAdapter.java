@@ -115,6 +115,10 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
         // Elimina el espacio adicional al final y devuelve la cadena resultante.
         return sb.toString().trim();
     }
+    public void setEventos(List<EventoClass> nuevosEventos) {
+        this.listaEventos = nuevosEventos;
+        notifyDataSetChanged(); // Notifica a RecyclerView que los datos han cambiado
+    }
 
 }
 

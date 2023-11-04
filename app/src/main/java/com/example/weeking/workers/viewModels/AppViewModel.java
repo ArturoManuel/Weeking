@@ -23,6 +23,7 @@ import com.google.firebase.firestore.WriteBatch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AppViewModel extends ViewModel {
     private final MutableLiveData<List<EventoClass>> listaEventos= new MutableLiveData<>();
@@ -68,6 +69,23 @@ public class AppViewModel extends ViewModel {
             }
         });
     }
+
+
+    public MutableLiveData<List<EventoClass>> getEventosByActividadId(String actividadId) {
+        MutableLiveData<List<EventoClass>> eventosByActividadId = new MutableLiveData<>();
+
+        getListaEventos().observeForever(eventoClasses -> {
+            if (eventoClasses != null) {
+                List<EventoClass> filteredList = eventoClasses.stream()
+                        .filter(evento -> actividadId.equals(evento.getIdActividad()))
+                        .collect(Collectors.toList());
+                eventosByActividadId.setValue(filteredList);
+            }
+        });
+
+        return eventosByActividadId;
+    }
+
 
     public Task<List<String>> eliminarActividad(Actividad actividad) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
