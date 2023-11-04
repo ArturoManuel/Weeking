@@ -49,7 +49,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import droidninja.filepicker.FilePickerBuilder;
@@ -192,7 +194,7 @@ public class perfil extends Fragment {
                             download_uri = uri.toString();
                             // Aquí actualizas la base de datos con la nueva URL de la foto
                             // ...
-
+                            guardarFirestore(download_uri);
 
                             // Sigue con el flujo de tu aplicación, por ejemplo, lanzar otra actividad
                         });
@@ -200,5 +202,21 @@ public class perfil extends Fragment {
                     .addOnFailureListener(e -> {
                     });
         }
+
+
+    }
+    private void guardarFirestore(String urlImagen){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> datos = new HashMap<>();
+        datos.put("urlImagen", urlImagen);
+        db.collection("usuario")
+                .add(datos)
+                .addOnSuccessListener(documentReference -> {
+
+                })
+                .addOnFailureListener(e -> {
+
+                });
+
     }
 }
