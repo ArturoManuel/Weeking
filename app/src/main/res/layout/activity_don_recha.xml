@@ -54,6 +54,7 @@
                 tools:layout_editor_absoluteY="486dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/recha"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Ingrese el Motivo" />

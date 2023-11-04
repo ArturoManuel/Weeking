@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.weeking.Adapter.AdaptadorDon;
@@ -53,6 +55,10 @@ public class Lista_don extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listaAdapter);
-
+        Button volver = findViewById(R.id.button4);
+        volver.setOnClickListener(view -> {
+            Intent intent = new Intent(this, VistaPrincipal.class);
+            startActivity(intent);
+        });
     }
 }

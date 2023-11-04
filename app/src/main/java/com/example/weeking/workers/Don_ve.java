@@ -27,7 +27,6 @@ public class Don_ve extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_don_ve);
 
-
         TextInputEditText monto = findViewById(R.id.input);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -43,11 +42,8 @@ public class Don_ve extends AppCompatActivity {
         confirmar.setOnClickListener(v -> {
             donacion = donacion + Integer.parseInt(String.valueOf(monto.getText()));
             Map<String, Object> map = new HashMap<>();
-            map.put("codigo",codigo);
             map.put("monto",donacion);
-            map.put("nombre",nombre);
-            map.put("rechazo",rechazo_don);
-            map.put("egresado",egresado);
+            map.put("rechazo","0");
             Log.d("monto", String.valueOf(donacion));
             db.collection("donaciones").document(codigo).update(map);
             Intent intent1 = new Intent(this, Lista_don.class);

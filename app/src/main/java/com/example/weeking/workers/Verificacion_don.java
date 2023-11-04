@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
+import com.squareup.picasso.Picasso;
 
 public class Verificacion_don extends AppCompatActivity {
 
@@ -21,7 +23,9 @@ public class Verificacion_don extends AppCompatActivity {
         ListaDon donacionSeleccionado = DataHolder.getInstance().getDonacionseleccionado();
         TextView nombre = findViewById(R.id.textView48);
         nombre.setText(donacionSeleccionado.getNombre()+" "+donacionSeleccionado.getCodigo());
-
+        ImageView imagen = findViewById(R.id.imageView11);
+        String imageUrl = donacionSeleccionado.getFoto(); // URL de la imagen que quieres cargar
+        Picasso.get().load(imageUrl).into(imagen);
         Button confirma = findViewById(R.id.button12);
         Button negar = findViewById(R.id.button13);
         confirma.setOnClickListener(v -> {
