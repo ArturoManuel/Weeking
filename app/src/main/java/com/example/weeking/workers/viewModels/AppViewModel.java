@@ -69,9 +69,10 @@ public class AppViewModel extends ViewModel {
         });
     }
 
-    public void eliminarActividad(Actividad actividad) {
+    public Task<List<String>> eliminarActividad(Actividad actividad) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String actividadId = actividad.getId();
+        List<String> userIds = new ArrayList<>();
 
         // Eliminar registros en UsuarioActividad
         Task<Void> eliminarUsuariosActividadTask = db.collection("UsuarioActividad")
@@ -87,6 +88,7 @@ public class AppViewModel extends ViewModel {
                         // Aquí eliminas el registro de UsuarioActividad
                         batch.delete(db.collection("UsuarioActividad").document(document.getId()));
                         if (userId != null) {
+                            userIds.add(userId);
                             batch.update(db.collection("usuarios").document(userId), "activity", FieldValue.arrayRemove(actividadId));
                         }
                     }
@@ -111,26 +113,25 @@ public class AppViewModel extends ViewModel {
                     removeEventosByActividadId(actividadId);
                 });
 
-        // Una vez que las tareas anteriores se hayan completado, procedemos a eliminar la actividad
-        Tasks.whenAllSuccess(eliminarUsuariosActividadTask, eliminarEventosTask).addOnSuccessListener(tasks -> {
-                    db.collection("activity").document(actividadId)
-                            .delete()
-                            .addOnSuccessListener(aVoid -> {
-                                List<Actividad> currentActividades = listaActividades.getValue();
-                                if (currentActividades != null) {
-                                    currentActividades.remove(actividad);
-                                    listaActividades.setValue(currentActividades);
-                                }
-                                Log.d("DEBUG", "Actividad y registros relacionados eliminados con éxito.");
-                            })
-                            .addOnFailureListener(e -> {
-                                Log.w("ERROR", "Error eliminando la actividad", e);
-                            });
-                })
-                .addOnFailureListener(e -> {
-                    Log.w("ERROR", "Error eliminando registros relacionados con la actividad", e);
+        // Una vez que las tareas anteriores se hayan completado, procedemos a eliminar la actividad y retornar la lista de userIds
+        return Tasks.whenAllSuccess(eliminarUsuariosActividadTask, eliminarEventosTask)
+                .continueWithTask(task -> {
+                    return db.collection("activity").document(actividadId).delete();
+                }).continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        List<Actividad> currentActividades = listaActividades.getValue();
+                        if (currentActividades != null) {
+                            currentActividades.remove(actividad);
+                            listaActividades.setValue(currentActividades);
+                        }
+                        Log.d("DEBUG", "Actividad y registros relacionados eliminados con éxito.");
+                        return userIds; // Retornamos los userIds al final
+                    } else {
+                        throw task.getException();
+                    }
                 });
     }
+
 
 
 

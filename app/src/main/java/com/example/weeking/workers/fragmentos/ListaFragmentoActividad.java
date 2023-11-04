@@ -20,6 +20,8 @@ import com.example.weeking.entity.Actividad;
 import com.example.weeking.workers.ActividadActivity;
 import com.example.weeking.workers.ActividadesActivity;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,13 +88,30 @@ public class ListaFragmentoActividad extends Fragment implements ActividadesAdap
         // Obtiene la actividad actual para eliminar
         Actividad actividadParaEliminar = appViewModel.listaActividades.getValue().get(position);
 
-
         // Llama al método en tu ViewModel para eliminar la actividad
-        appViewModel.eliminarActividad(actividadParaEliminar);
+        appViewModel.eliminarActividad(actividadParaEliminar).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<String> userIds = task.getResult();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                for (String userId : userIds) {
+                    DocumentReference userRef = db.collection("usuarios").document(userId);
+                    userRef.get().addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            List<String> activities = (List<String>) documentSnapshot.get("activity");
+                            if (activities == null || activities.isEmpty()) {
+                                userRef.update("rol", "alumno");
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
         // No es necesario actualizar la lista aquí,
         // ya que el observer de 'listaActividades' se encargará de actualizar el RecyclerView automáticamente.
     }
+
 
 
 }
