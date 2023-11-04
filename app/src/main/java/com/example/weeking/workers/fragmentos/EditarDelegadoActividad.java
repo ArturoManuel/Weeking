@@ -128,7 +128,6 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
                     }
                 });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -170,7 +169,6 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
                         Toast.makeText(getContext(), "Error al eliminar evento", Toast.LENGTH_SHORT).show();
                     });
         }
-
     }
 
     @Override
@@ -180,7 +178,6 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         intent.putExtra("id_actividad", actividadId);
         startActivity(intent);
     }
-
     private void abrirNuevoEventoActivityConIdActividad(String actividadId,String eventoId) {
         Intent intent = new Intent(getActivity(), NuevoEventoActivity.class);
         intent.putExtra("id_evento", eventoId);

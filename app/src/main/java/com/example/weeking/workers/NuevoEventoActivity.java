@@ -103,6 +103,10 @@ public class NuevoEventoActivity extends AppCompatActivity {
         if (idEvento != null && !idEvento.isEmpty()) {
             cargarDatosEvento(idEvento);
         }
+        binding.lugar.setOnClickListener(v -> {
+            Intent mapIntent = new Intent(NuevoEventoActivity.this, MapaActivity.class);
+            startActivityForResult(mapIntent, MAP_REQUEST_CODE);
+        });
 
         // Mostrar dialogo de fecha y hora cuando se hacen clic en los iconos respectivos
         binding.iconSelectDate.setOnClickListener(v -> mostrarDialogoFecha());
