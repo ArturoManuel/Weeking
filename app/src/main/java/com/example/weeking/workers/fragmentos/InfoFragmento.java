@@ -27,7 +27,7 @@ public class InfoFragmento extends Fragment {
     private TextView descripcionText;
     // ... (otros componentes para mostrar la información de la actividad)
 
-    private    Actividad actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
+    private    Actividad actividadSeleccionada;
 
     private ImageView añadir;
 
@@ -46,35 +46,40 @@ public class InfoFragmento extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         nombreActividadTextView = view.findViewById(R.id.nombreActividad);
         descripcionText = view.findViewById(R.id.descriptionTextView);
+        actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
         añadir = view.findViewById(R.id.btn_add);
         Log.d("idActividadSelecionada",actividadSeleccionada.getId());
-        añadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getActivity() instanceof ActividadActivity) {
-                    ((ActividadActivity) getActivity()).cargarFragmentoAnadir();
-                }
+        añadir.setOnClickListener(v -> {
+            if(getActivity() instanceof ActividadActivity) {
+                ((ActividadActivity) getActivity()).cargarFragmentoAnadir();
             }
         });
-
         editar = view.findViewById(R.id.btn_edit);
-        editar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getActivity() instanceof ActividadActivity) {
-                    ((ActividadActivity) getActivity()).cargarFragmentoEditar();
-                }
+        editar.setOnClickListener(v -> {
+            if(getActivity() instanceof ActividadActivity) {
+                ((ActividadActivity) getActivity()).cargarFragmentoEditar();
             }
         });
-
 
         cargarDatosActividad();
     }
 
     private void cargarDatosActividad() {
         if (actividadSeleccionada != null) {
-            nombreActividadTextView.setText(actividadSeleccionada.getNombre());
-            descripcionText.setText(actividadSeleccionada.getDescripcion());
+            if(nombreActividadTextView != null) {
+                nombreActividadTextView.setText(actividadSeleccionada.getNombre());
+            } else {
+                Log.e("InfoFragmento", "nombreActividadTextView is null");
+            }
+
+            if(descripcionText != null) {
+                descripcionText.setText(actividadSeleccionada.getDescripcion());
+            } else {
+                Log.e("InfoFragmento", "descripcionText is null");
+            }
+        } else {
+            Log.e("InfoFragmento", "actividadSeleccionada is null");
         }
     }
+
 }

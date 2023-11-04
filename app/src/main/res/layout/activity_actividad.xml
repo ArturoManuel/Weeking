@@ -6,19 +6,16 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@drawable/iniciofondo">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".workers.ActividadActivity">
+
         <FrameLayout
             android:id="@+id/infoFragmento"
             android:name="com.example.weeking.workers.fragmentos.InfoFragmento"
-            android:layout_width="387dp"
-            android:layout_height="398dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="413dp"
+            android:layout_height="386dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,8 +24,8 @@
             android:id="@+id/addEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="Agregar Evento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/infoFragmento" />
@@ -56,12 +53,12 @@
 
         <FrameLayout
             android:id="@+id/editar"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="409dp"
+            android:layout_height="902dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

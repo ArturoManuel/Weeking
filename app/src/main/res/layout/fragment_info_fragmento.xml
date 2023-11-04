@@ -2,64 +2,57 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
-
+    android:layout_height="match_parent">
     <!-- Contenido original -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:padding="16dp">
 
-        <!-- Título -->
-        <TextView
+        <!-- Rectangular image view as a background for the description -->
+        <ImageView
+            android:id="@+id/imagenActividad"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+
+        <!-- Title TextView -->
+        <com.google.android.material.chip.Chip
             android:id="@+id/nombreActividad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mi Título"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
-
-        <!-- Imagen Circular -->
-        <ImageView
-            android:id="@+id/miImagenCircular"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/circular_background"
-        android:scaleType="centerCrop"
-        android:src="@drawable/circular_shape"
-        android:layout_gravity="center"/>
-
-        <!-- ImageButton para subir la imagen -->
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginEnd="0dp"
+            android:text="Título de la Actividad"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/white"
+            android:elevation="5dp"
+            app:chipStrokeColor="@color/colorPrimaryDark"
+            app:chipStrokeWidth="1dp" />
 
 
-        <!-- CardView con Descripción -->
-
-        <ImageButton
-            android:id="@+id/uploadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_upload" />
-
+        <!-- CardView for Description -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_below="@id/imagenActividad"
+            android:layout_marginTop="-10dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
             <LinearLayout
+                android:id="@+id/decripcionLayout"
                 android:layout_width="match_parent"
-                android:layout_height="246dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="50dp">
 
+                <!-- Description TextView -->
                 <TextView
                     android:id="@+id/descriptionTextView"
                     android:layout_width="wrap_content"
@@ -69,28 +62,34 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-    </LinearLayout>
 
-    <!-- Icono de Editar en la esquina superior derecha -->
-    <ImageButton
-        android:id="@+id/btn_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:src="@drawable/baseline_mode_edit_24"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-    />
-    <ImageButton
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:src="@drawable/baseline_person_add_24"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="56dp"
-    />
+        <!-- Edit Button with Circular Background -->
 
+        <!-- Add Button with Circular Background -->
+        <ImageButton
+            android:id="@+id/btn_edit"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circular_background"
+            android:elevation="6dp"
+            android:src="@drawable/baseline_mode_edit_24" />
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/circular_background"
+            android:elevation="6dp"
+            android:src="@drawable/baseline_person_add_24" />
+
+    </RelativeLayout>
 </FrameLayout>

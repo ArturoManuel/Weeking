@@ -89,16 +89,11 @@ public class NuevoEventoActivity extends AppCompatActivity {
             String descripcion = binding.descriptionEditText.getText().toString();
             String fecha = binding.tvSelectedDate.getText().toString();
             String hora = binding.tvSelectedTime.getText().toString();
-
             // Llamar a la función para crear o actualizar el evento
             crearOActualizarEvento(nombre, descripcion, fecha, hora);
             // Navegar de regreso a la Actividad principal o donde sea necesario
             finish(); // Finalizar esta actividad si no necesitas volver a ella
         });
-
-        // Otros listeners y configuraciones...
-        // ...
-
         // Cargar datos del evento si el idEvento no es nulo y no está vacío
         if (idEvento != null && !idEvento.isEmpty()) {
             cargarDatosEvento(idEvento);
