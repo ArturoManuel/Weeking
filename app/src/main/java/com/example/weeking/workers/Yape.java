@@ -109,6 +109,7 @@ public class Yape extends AppCompatActivity {
                                                     DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
                                                     HashMap<String, Object> map = new HashMap<>();
                                                     map.put("foto",download_uri);
+                                                    map.put("rechazo","1");
                                                     db.collection("donaciones").document(document.getString("codigo")).update(map);
                                                     Intent intent = new Intent(Yape.this, VistaPrincipal.class);
                                                     startActivity(intent);

@@ -106,6 +106,7 @@ public class perfil extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
+
         uploadButtonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
