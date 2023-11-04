@@ -88,10 +88,22 @@ public class ActividadActivity extends AppCompatActivity {
 
 
     public void cargarFragmentoEditar() {
+        EditarFragmento fragmentoEditar = new EditarFragmento();
+
+        // Crear un Bundle para pasar datos.
+        Bundle args = new Bundle();
+        args.putString("idActividad", actividadSeleccionada.getId());
+        args.putString("nombreActividad", actividadSeleccionada.getNombre());
+        args.putString("descripcionActividad", actividadSeleccionada.getDescripcion());
+        // ... (añade otros datos si los necesitas)
+
+        fragmentoEditar.setArguments(args);
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.editar, new EditarFragmento()); // EditarFragmento es el fragmento que quieres cargar.
-        transaction.addToBackStack(null);  // Para que el usuario pueda volver al fragmento anterior.
+        transaction.replace(R.id.editar, fragmentoEditar);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
 }

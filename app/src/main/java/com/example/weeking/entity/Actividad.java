@@ -1,8 +1,9 @@
 package com.example.weeking.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Actividad {
+public class Actividad implements Serializable {
     private String id;
     private String nombre;
     private String descripcion;
