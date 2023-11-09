@@ -16,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.Contrasena3Activity;
 import com.example.weeking.workers.VistaPrincipal;
@@ -51,6 +52,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
