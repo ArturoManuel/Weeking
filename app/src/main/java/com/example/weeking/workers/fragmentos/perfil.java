@@ -46,8 +46,11 @@ import com.example.weeking.workers.StatusActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -106,7 +109,18 @@ public class perfil extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.get().addOnCompleteListener(task ->{
+            if(task.isSuccessful()){
+                QuerySnapshot queryDocumentSnapshot = task.getResult();
+                if(!queryDocumentSnapshot.isEmpty()){
+                    DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                    String url = document.getString("imagen_url");
+                    if(!url.equals("tu_url_por_defecto_aqui")){
+                        Picasso.get().load(url).into(imageView);
+                    }
+                }}});
         uploadButtonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,16 +230,20 @@ public class perfil extends Fragment {
     }
     private void guardarFirestore(String urlImagen){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.get().addOnCompleteListener(task ->{
+            if(task.isSuccessful()){
+                QuerySnapshot queryDocumentSnapshot = task.getResult();
+                if(!queryDocumentSnapshot.isEmpty()){
+                    DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                    String codigo = document.getString("codigo");
         Map<String, Object> datos = new HashMap<>();
-        datos.put("urlImagen", urlImagen);
-        db.collection("usuario")
-                .add(datos)
+        datos.put("imagen_url", urlImagen);
+        db.collection("usuarios").document(codigo)
+                .update(datos)
                 .addOnSuccessListener(documentReference -> {
-
                 })
                 .addOnFailureListener(e -> {
-
                 });
-
-    }
+    }}});}
 }
