@@ -9,9 +9,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="397dp"
+        android:layout_width="match_parent"
         android:layout_height="593dp"
         android:layout_marginTop="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="18dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,16 +102,6 @@
             android:textSize="18sp"
             app:cornerRadius="0dp" />
 
-        <Button
-            android:id="@+id/btnStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#220A9ECC"
-            android:drawableLeft="@drawable/baseline_how_to_reg_24"
-            android:drawablePadding="8dp"
-            android:text="Establecer Estado"
-            android:textSize="18sp"
-            app:cornerRadius="0dp" />
 
 
         <Button
