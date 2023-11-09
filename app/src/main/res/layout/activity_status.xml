@@ -7,31 +7,31 @@
     android:background="@drawable/iniciofondo"
     tools:context=".workers.StatusActivity">
 
+
     <TextView
         android:id="@+id/textHeaderStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="40dp"
-        android:text="Establecer Estado"
+        android:text="Donaciones"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         app:cardCornerRadius="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,56 +48,55 @@
             android:layout_marginBottom="16dp"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Queremos saber si estás estudiando actualmente en la PUCP o si ya culminaste tus estudios."
+                android:layout_marginTop="12dp"
+                android:text="Monto Total que has donado:"
                 android:textAlignment="center"
-                android:textStyle="bold"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/Donacion"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="Monto: 0"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.471"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <RadioButton
-                    android:id="@+id/rbtnEstudiante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estudiante"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/Donacion1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Donacion no verificado:"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <RadioButton
-                    android:id="@+id/rbtnEgresado"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Egresado" />
-            </RadioGroup>
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/btnSaveStatus"
-        android:layout_width="218dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="160dp"
-        android:text="Guardar Cambios"
-        android:textSize="20sp"
-        android:backgroundTint="#19CA4B"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cartView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

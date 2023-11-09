@@ -130,6 +130,11 @@ public class perfil extends Fragment {
                 openGallery();
             }
         });
+        btnStatus = view.findViewById(R.id.btnDon);
+        btnStatus.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), StatusActivity.class);
+            startActivity(intent);
+        });
 
         btnAccount = view.findViewById(R.id.btnAccount);
         btnAccount.setOnClickListener(view12 -> {
