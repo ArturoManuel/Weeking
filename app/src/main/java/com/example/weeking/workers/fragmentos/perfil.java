@@ -216,11 +216,7 @@ public class perfil extends Fragment {
                             // Aquí actualizas la base de datos con la nueva URL de la foto
                             // ...
                             guardarFirestore(download_uri);
-                            // Guardar la URL de la foto de perfil en SharedPreferences
-                            SharedPreferences preferences = getActivity().getSharedPreferences("MiPreferencia", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("photoUrl", download_uri); // imageUrl es la URL de la foto de perfil
-                            editor.apply();
+
 
                             // Sigue con el flujo de tu aplicación, por ejemplo, lanzar otra actividad
                         });
