@@ -52,6 +52,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import org.w3c.dom.Text;
 
@@ -78,6 +81,7 @@ public class perfil extends Fragment {
     private LogoutListener logoutListener;
     private ImageButton uploadButtonPerfil;
     private TextView userName ,codigo;
+    private TextView txtCountFollow, txtCountLikes;
     private static final int REQUEST_PICK_IMAGE = 1;
     StorageReference storageReference;
     ProgressDialog progressDialog;
@@ -105,10 +109,12 @@ public class perfil extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         userName = view.findViewById(R.id.textNombre); // Asume que tienes un TextView con el ID "userName" en tu layout.
         codigo = view.findViewById(R.id.textCodigoPerfil);
+        //Para aplicar el contador//
+        txtCountFollow = view.findViewById(R.id.txtCountFollow);
+        txtCountLikes = view.findViewById(R.id.txtCountLike);
         mAuth = FirebaseAuth.getInstance();
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
@@ -135,13 +141,11 @@ public class perfil extends Fragment {
             Intent intent = new Intent(getActivity(), StatusActivity.class);
             startActivity(intent);
         });
-
         btnAccount = view.findViewById(R.id.btnAccount);
         btnAccount.setOnClickListener(view12 -> {
             Intent intent = new Intent(getActivity(), AccountActivity.class);
             startActivity(intent);
         });
-
         contrasenia = view.findViewById(R.id.button3);
         contrasenia.setOnClickListener(view112 -> {
             Intent intent = new Intent(getActivity(), Contrasena3Activity.class);
@@ -151,21 +155,21 @@ public class perfil extends Fragment {
         btnLogOut.setOnClickListener(view13 -> {
             // Cierra la sesión con Firebase
             mAuth.signOut();
-
             // Notifica al listener que el usuario ha cerrado la sesión
             if (logoutListener != null) {
                 logoutListener.onLogout();
             }
         });
-
         appViewModel.getCurrentUser().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
                 // Actualizar la UI del fragmento con los datos del usuario
                 actualizarUI(usuario);
             }
         });
-
-
+        //Acá ira la función para actualizar los seguidore y likes//
+        //Por ahora estará harcodeado//
+        txtCountFollow.setText("5");
+        txtCountLikes.setText("30");
         return view;
 
     }
@@ -173,19 +177,39 @@ public class perfil extends Fragment {
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_PICK_IMAGE && resultCode == getActivity().RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
-            imageView.setImageURI(selectedImageUri);
-            cargaImagen(selectedImageUri);
+                startCropActivity(selectedImageUri);
+                imageView.setImageURI(selectedImageUri);
+                cargaImagen(selectedImageUri);
 
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
+            if (resultCode == Activity.RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imageView.setImageURI(resultUri);
+                cargaImagen(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                // Manejar el error según tus necesidades
+            }
         }
     }
+
+    private void startCropActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(requireContext(), this);
+    }
+
     public interface LogoutListener {
         void onLogout();
     }
