@@ -80,6 +80,7 @@ public class perfil extends Fragment {
     private ImageView imageView;
     private LogoutListener logoutListener;
     private ImageButton uploadButtonPerfil;
+    private ImageButton deleteButtonPerfil;
     private TextView userName ,codigo;
     private TextView txtCountFollow, txtCountLikes;
     private static final int REQUEST_PICK_IMAGE = 1;
@@ -117,6 +118,7 @@ public class perfil extends Fragment {
         txtCountLikes = view.findViewById(R.id.txtCountLike);
         mAuth = FirebaseAuth.getInstance();
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
+        deleteButtonPerfil = view.findViewById(R.id.deleteButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -130,12 +132,8 @@ public class perfil extends Fragment {
                         Picasso.get().load(url).into(imageView);
                     }
                 }}});
-        uploadButtonPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGallery();
-            }
-        });
+        uploadButtonPerfil.setOnClickListener(view14 -> openGallery());
+        deleteButtonPerfil.setOnClickListener(view15 -> eliminarFotoPerfil());
         btnStatus = view.findViewById(R.id.btnDon);
         btnStatus.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), StatusActivity.class);
@@ -178,6 +176,39 @@ public class perfil extends Fragment {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
 
+    }
+
+    private void eliminarFotoPerfil() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+        builder.setTitle("Eliminar Foto");
+        builder.setMessage("¿Estás seguro de que deseas eliminar tu foto de perfil?");
+        builder.setPositiveButton("Sí", (dialog, which) -> {
+            // Obtén una referencia a la imagen actual del usuario en Firebase Storage
+            // Debes ajustar la ruta de la referencia según cómo estés almacenando las imágenes
+
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("usuarios/" + userId);
+
+            // Elimina la imagen actual
+            storageReference.delete()
+                    .addOnSuccessListener(aVoid -> {
+                        // La imagen se eliminó correctamente
+                        // Ahora puedes establecer la imagen por defecto en imageView y actualizar la URL en la base de datos
+                        imageView.setImageResource(R.drawable.anonimo);
+                        guardarFirestore("tu_url_por_defecto_aqui");
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Ocurrió un error al intentar eliminar la imagen
+                        // Maneja el error según tus necesidades
+                    });
+        });
+        builder.setNegativeButton("No", (dialog, which) -> {
+            // El usuario optó por no eliminar la foto, no se realiza ninguna acción
+        });
+
+        // Muestra el AlertDialog
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
@@ -247,6 +278,7 @@ public class perfil extends Fragment {
                     })
                     .addOnFailureListener(e -> {
                     });
+
         }
 
 
