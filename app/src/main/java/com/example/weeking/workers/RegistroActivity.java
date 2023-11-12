@@ -71,7 +71,7 @@ public class RegistroActivity extends AppCompatActivity {
 
             Log.d("msg-erroe","acá");
             // Crear usuario con correo y contraseña en Firebase Authentication
-            auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
+            /*auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d("msg-error","Se envía");
                     String authUID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
@@ -99,11 +99,64 @@ public class RegistroActivity extends AppCompatActivity {
                     Toast.makeText(RegistroActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+       */
+            checkEmailAndAlumnoCodeUnique(correo, codigo);
         });
 
 
     }
 
+    private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {
+        // Verifica si el correo electrónico ya está en uso
+        auth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getSignInMethods() != null && task.getResult().getSignInMethods().size() > 0) {
+                        // El correo electrónico ya está en uso
+                        Toast.makeText(this, "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // El correo electrónico es único, ahora verifica el código de alumno
+                        db.collection("usuarios").document(codigoAlumno).get()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful() && task1.getResult() != null && task1.getResult().exists()) {
+                                        // El código de alumno ya está en uso
+                                        Toast.makeText(this, "El código de alumno ya está en uso", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // Ambos son únicos, procede con el registro
+                                        registerUser(email, codigoAlumno);
+                                    }
+                                });
+                    }
+                });
+    }
+    private void registerUser(String email, String codigoAlumno) {
+        auth.createUserWithEmailAndPassword(email, binding.contrasena1.getText().toString())
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String authUID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+
+                        // Crear un objeto Map para almacenar los valores en Firestore
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("codigo", codigoAlumno);
+                        user.put("nombre", binding.nombre.getText().toString());
+                        user.put("correo", email);
+                        user.put("estado", binding.estados.getText().toString());
+                        user.put("rol", "alumno");
+                        user.put("apoyo", "no_apoya");
+                        user.put("imagen_url", "tu_url_por_defecto_aqui");
+                        user.put("authUID", authUID);
+
+                        // Añadir datos en Firestore
+                        db.collection("usuarios").document(codigoAlumno).set(user)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+                                    navigateToActivity(VistaPrincipal.class);
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    } else {
+                        Toast.makeText(RegistroActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(RegistroActivity.this, destinationClass);
         startActivity(intent);
