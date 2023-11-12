@@ -183,27 +183,8 @@ public class perfil extends Fragment {
         builder.setTitle("Eliminar Foto");
         builder.setMessage("¿Estás seguro de que deseas eliminar tu foto de perfil?");
         builder.setPositiveButton("Sí", (dialog, which) -> {
-            // Obtén una referencia a la imagen actual del usuario en Firebase Storage
-            // Debes ajustar la ruta de la referencia según cómo estés almacenando las imágenes
-
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("usuarios/" + userId);
-
-            // Elimina la imagen actual
-            storageReference.delete()
-                    .addOnSuccessListener(aVoid -> {
-                        // La imagen se eliminó correctamente
-                        // Ahora puedes establecer la imagen por defecto en imageView y actualizar la URL en la base de datos
-                        imageView.setImageResource(R.drawable.anonimo);
-                        guardarFirestore("tu_url_por_defecto_aqui");
-                    })
-                    .addOnFailureListener(exception -> {
-                        // Ocurrió un error al intentar eliminar la imagen
-                        // Maneja el error según tus necesidades
-                    });
         });
         builder.setNegativeButton("No", (dialog, which) -> {
-            // El usuario optó por no eliminar la foto, no se realiza ninguna acción
         });
 
         // Muestra el AlertDialog
@@ -262,6 +243,7 @@ public class perfil extends Fragment {
             // Generar un nombre de archivo único para la imagen.
 
             // Crear la ruta completa donde se guardará la imagen, e.g., "usuarios/userId/uniqueFileName"
+
             StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("usuarios/" + UUID.randomUUID().toString());
             storageReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
