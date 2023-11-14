@@ -2,6 +2,7 @@ package com.example.weeking.workers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,7 +77,11 @@ public class StatusActivity extends AppCompatActivity {
                                     motivo.setText("No has realizado ninguna donacion");
                                     imagen.setVisibility(View.GONE);
                                 }};}});}}});
-
+        ///para acceder a la lista de donaciones
+        btnListaDonaciones.setOnClickListener(view -> {
+            Intent intent = new Intent(StatusActivity.this, ListaDonacionesActivity.class);
+            startActivity(intent);
+        });
     }
 
 }
