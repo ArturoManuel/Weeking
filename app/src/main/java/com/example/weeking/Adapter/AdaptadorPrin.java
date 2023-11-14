@@ -85,6 +85,13 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
                 context.startActivity(intent);
             });
             likeButton = itemView.findViewById(R.id.like_btn);
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //tiene que existir la logica para que contabilice los likes por cada evento
+
+                }
+            });
 
 
         }
@@ -154,7 +161,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         notifyDataSetChanged();
     }
 
-
+    //funcion para likes y/o seguidores
 
 
 
