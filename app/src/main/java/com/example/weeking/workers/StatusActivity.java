@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import com.squareup.picasso.Picasso;
 
 public class StatusActivity extends AppCompatActivity {
     FirebaseFirestore db;
+    private Button btnAdquiereKit;
+    private Button btnListaDonaciones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class StatusActivity extends AppCompatActivity {
         ImageView imagen = findViewById(R.id.imageView4);
         TextView monto = findViewById(R.id.Donacion);
         TextView motivo = findViewById(R.id.Donacion1);
+        btnListaDonaciones = findViewById(R.id.btnListaDonar);
+        btnAdquiereKit = findViewById(R.id.btnKitAccess);
         Query query = db.collection("usuarios").whereEqualTo("authUID", FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.get().addOnCompleteListener(task ->{
             if(task.isSuccessful()){
@@ -50,11 +55,17 @@ public class StatusActivity extends AppCompatActivity {
                                     ListaDon dona = document1.toObject(ListaDon.class);
                                     Log.d("aaaaa","adas3");
                                 monto.setText(dona.getMonto()+" soles");
+                                //Verifica para que se active el boton de adquirir kit (falta relacionarlo con los egresados)
+                                if(dona.getMonto() >= 200){
+                                    btnAdquiereKit.setVisibility(View.VISIBLE);
+                                } else {
+                                    btnAdquiereKit.setVisibility(View.INVISIBLE);
+                                }
                                 String rechazo = document1.getString("rechazo");
                                 if(rechazo.equals("1")){
                                     Picasso.get().load(dona.getFoto()).into(imagen);
                                 } else if (rechazo.equals("0")) {
-                                    motivo.setText("no tienes verificaicon pendiente");
+                                    motivo.setText("Sin verificaciones pendientes");
                                     imagen.setVisibility(View.GONE);
                                 } else {
                                     imagen.setVisibility(View.GONE);
@@ -62,7 +73,7 @@ public class StatusActivity extends AppCompatActivity {
                                 }
                                 }else {
                                     Log.d("aaaaa","adas5");
-                                    motivo.setText("aun no has realizado ninguna donacion");
+                                    motivo.setText("No has realizado ninguna donacion");
                                     imagen.setVisibility(View.GONE);
                                 }};}});}}});
 
