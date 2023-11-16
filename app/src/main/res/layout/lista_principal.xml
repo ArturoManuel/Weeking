@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="260dp"
+    android:layout_width="290dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="160dp"
+    android:layout_marginStart="16dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="12dp"
@@ -18,26 +18,38 @@
 
         <ImageView
             android:id="@+id/foto"
-            android:layout_width="260dp"
+            android:layout_width="298dp"
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:src="@drawable/dota2" />
 
-        <!-- Contenedor para títulos e iconos debajo de la imagen -->
+        <!-- Contenedor principal debajo de la imagen -->
+.
+        <ImageButton
+            android:id="@+id/like_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="150dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/circular_background"
+            android:elevation="6dp"
+            android:src="@drawable/ic_filled_heart" />
+
         <LinearLayout
             android:id="@+id/details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/foto"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingTop="16dp">
 
-            <!-- Resto de elementos como los TextViews y los iconos aquí -->
+            <!-- Contenedor para los detalles del evento -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
@@ -69,41 +81,26 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Contenedor para los íconos -->
+            <!-- Contenedor para el icono de "Me Gusta" y contador de likes -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
+                android:layout_gravity="end"
+                android:orientation="vertical"
                 android:background="#80FFFFFF"
-                android:orientation="horizontal">
+                android:padding="8dp">
 
-                <ImageView
-                    android:id="@+id/like_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_filled_heart" />
-
-                <TextView
-                    android:id="@+id/txtContadorLikes"
-                    android:layout_width="25dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="0"
-                    android:textAlignment="center" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/descripcion"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-
-            <TextView
-                android:id="@+id/fotito"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-
         </LinearLayout>
+        <TextView
+            android:id="@+id/descripcion"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
 
+        <TextView
+            android:id="@+id/fotito"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
