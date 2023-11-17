@@ -126,8 +126,19 @@ public class perfil extends Fragment {
         deleteButtonPerfil = view.findViewById(R.id.deleteButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
         storageReference = FirebaseStorage.getInstance().getReference("usuarios/anonimo.png");
-        cargarYMostrarImagen();
-
+        //cargarYMostrarImagen();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.get().addOnCompleteListener(task ->{
+            if(task.isSuccessful()){
+                QuerySnapshot queryDocumentSnapshot = task.getResult();
+                if(!queryDocumentSnapshot.isEmpty()){
+                    DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                    String url = document.getString("imagen_url");
+                    if(!url.equals("tu_url_por_defecto_aqui")){
+                        Picasso.get().load(url).into(imageView);
+                    }
+                }}});
         uploadButtonPerfil.setOnClickListener(view14 -> openGallery());
         deleteButtonPerfil.setOnClickListener(view15 -> eliminarFotoPerfil());
         btnStatus = view.findViewById(R.id.btnDon);
