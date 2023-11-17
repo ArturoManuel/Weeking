@@ -16,16 +16,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.Contrasena3Activity;
 import com.example.weeking.workers.VistaPrincipal;
 import com.example.weeking.workers.Yape;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -58,7 +61,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,18 +125,9 @@ public class perfil extends Fragment {
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
         deleteButtonPerfil = view.findViewById(R.id.deleteButtonPerfil);
         imageView = view.findViewById(R.id.imageView);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-        query.get().addOnCompleteListener(task ->{
-            if(task.isSuccessful()){
-                QuerySnapshot queryDocumentSnapshot = task.getResult();
-                if(!queryDocumentSnapshot.isEmpty()){
-                    DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
-                    String url = document.getString("imagen_url");
-                    if(!url.equals("tu_url_por_defecto_aqui")){
-                        Picasso.get().load(url).into(imageView);
-                    }
-                }}});
+        storageReference = FirebaseStorage.getInstance().getReference("usuarios/anonimo.png");
+        cargarYMostrarImagen();
+
         uploadButtonPerfil.setOnClickListener(view14 -> openGallery());
         deleteButtonPerfil.setOnClickListener(view15 -> eliminarFotoPerfil());
         btnStatus = view.findViewById(R.id.btnDon);
@@ -233,7 +229,26 @@ public class perfil extends Fragment {
         codigo.setText(usuario.getCodigo());
 
     }
-
+    private void cargarYMostrarImagen() {
+        // Intenta cargar la imagen desde Firebase Storage
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Utiliza Glide para cargar la imagen en el ImageView
+                Glide.with(requireContext())
+                        .load(uri)
+                        .into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Maneja la falla al obtener la URL de descarga
+                // Por ejemplo, puedes establecer una imagen predeterminada aquí
+                //imageView.setImageResource(R.drawable.anonimo);
+                Log.e("FirebaseStorage", "Error al obtener la URL de descarga", e);
+            }
+        });
+    }
 
     private void cargaImagen(Uri imageUri){
 
