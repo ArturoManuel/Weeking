@@ -3,6 +3,7 @@ package com.example.weeking.dataHolder;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.ListaDon;
+import com.example.weeking.entity.Usuario;
 
 public class DataHolder {
 
@@ -12,6 +13,16 @@ public class DataHolder {
         private EventoClass eventoSeleccionado;
 
         private ListaDon donacionseleccionado;
+
+    public Usuario getUsuarioseleccionado() {
+        return usuarioseleccionado;
+    }
+
+    public void setUsuarioseleccionado(Usuario usuarioseleccionado) {
+        this.usuarioseleccionado = usuarioseleccionado;
+    }
+
+    private Usuario usuarioseleccionado;
 
     public ListaDon getDonacionseleccionado() {
         return donacionseleccionado;
