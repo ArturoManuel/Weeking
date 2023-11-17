@@ -72,6 +72,10 @@ public class RegistroActivity extends AppCompatActivity {
                 Toast.makeText(this, "El código de alumno debe ser numérico y tener 8 dígitos", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!isValidEmail(correo)) {
+                Toast.makeText(this, "Formato de correo electrónico no válido", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Log.d("msg-erroe","acá");
             // Crear usuario con correo y contraseña en Firebase Authentication
             /*auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
@@ -111,6 +115,11 @@ public class RegistroActivity extends AppCompatActivity {
     private boolean isValidAlumnoCode(String codigo) {
         // Verifica si el código de alumno es numérico y tiene 8 dígitos
         return codigo.matches("\\d{8}");
+    }
+    private boolean isValidEmail(String email) {
+        // Utilizar una expresión regular para validar el formato del correo electrónico
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        return email.matches(emailPattern);
     }
     private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {
         // Verifica si el correo electrónico ya está en uso
