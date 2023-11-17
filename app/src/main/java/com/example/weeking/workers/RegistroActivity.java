@@ -68,7 +68,10 @@ public class RegistroActivity extends AppCompatActivity {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            if (!isValidAlumnoCode(codigo)) {
+                Toast.makeText(this, "El código de alumno debe ser numérico y tener 8 dígitos", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Log.d("msg-erroe","acá");
             // Crear usuario con correo y contraseña en Firebase Authentication
             /*auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
@@ -105,7 +108,10 @@ public class RegistroActivity extends AppCompatActivity {
 
 
     }
-
+    private boolean isValidAlumnoCode(String codigo) {
+        // Verifica si el código de alumno es numérico y tiene 8 dígitos
+        return codigo.matches("\\d{8}");
+    }
     private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {
         // Verifica si el correo electrónico ya está en uso
         auth.fetchSignInMethodsForEmail(email)
