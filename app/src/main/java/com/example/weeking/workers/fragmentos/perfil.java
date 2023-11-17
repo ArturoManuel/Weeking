@@ -135,7 +135,7 @@ public class perfil extends Fragment {
                 if(!queryDocumentSnapshot.isEmpty()){
                     DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
                     String url = document.getString("imagen_url");
-                    if(!url.equals("tu_url_por_defecto_aqui")){
+                    if(!url.equals("https://firebasestorage.googleapis.com/v0/b/weeking-c2d7c.appspot.com/o/usuarios%2Fanonimo.png?alt=media&token=1eb0b99e-0023-47ce-924c-c0f9846ead19")){
                         Picasso.get().load(url).into(imageView);
                     }
                 }}});
