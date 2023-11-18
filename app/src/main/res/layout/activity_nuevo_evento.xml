@@ -203,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
-                    android:text="(-77.068; -2.064)"
+
                     android:textSize="14sp" />
 
                 <TextView

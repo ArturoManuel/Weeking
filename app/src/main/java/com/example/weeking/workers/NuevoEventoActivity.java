@@ -130,6 +130,18 @@ public class NuevoEventoActivity extends AppCompatActivity {
                 return;
             }
 
+            // Validar que se haya seleccionado una ubicación
+            if (nombreUbicacion == null || nombreUbicacion.isEmpty()) {
+                Toast.makeText(this, "Por favor, seleccione una ubicación", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Validar que se haya seleccionado fecha y hora
+            if (fecha.isEmpty() || hora.isEmpty()) {
+                Toast.makeText(this, "Por favor, seleccione la fecha y hora del evento", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             crearOActualizarEvento(nombre, descripcion, fecha, hora);
         });
 
@@ -169,7 +181,6 @@ public class NuevoEventoActivity extends AppCompatActivity {
             // Formatear la latitud y longitud con tres decimales
             String posicionFormato = String.format(Locale.getDefault(), "(%.3f;%.3f)", longitud, latitud);
             // Actualizar los TextViews con la posición y el nombre de la ubicación
-            binding.punto.setText(posicionFormato);
             binding.nombreLugar.setText(nombreUbicacion);
         }else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK && data != null){
             imagenSeleccionadaUri = data.getData();
@@ -252,13 +263,14 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
                         urlImagenExistente = evento.getFoto();
                         if (urlImagenExistente != null && !urlImagenExistente.isEmpty()) {
+                            binding.imagenCargar.setText("");
                             Glide.with(this).load(urlImagenExistente).into(binding.imageViewBackground);
                             imagenSeleccionada = false; // Importante para no subir una nueva imagen por defecto
                         }
 
 
                         String puntoFormato = String.format(Locale.getDefault(), "(%.3f;%.3f)", longitud, latitud);
-                        binding.punto.setText(puntoFormato);
+
                         // Formato para la fecha
                         SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 // Formato para la hora
