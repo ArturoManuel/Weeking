@@ -24,10 +24,14 @@ import android.widget.Toast;
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    FirebaseFirestore db;
     ActivityMainBinding binding;
 
     FirebaseAuth auth;
@@ -41,11 +45,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        binding.iniciarSesion.setOnClickListener(v -> navigateToActivity(VistaPrincipal.class));
+        db = FirebaseFirestore.getInstance();
         binding.recuperarContrasena.setOnClickListener(v-> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         binding.registrate.setOnClickListener(v->navigateToActivity(RegistroActivity.class));
-        binding.imageView.setOnClickListener(v -> navigateToActivity(Donacion.class));
-        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(VistaDelegadoGeneralActivity.class));
         setContentView(binding.getRoot());
 
         // Inicializar Firebase Auth
@@ -73,9 +75,21 @@ public class MainActivity extends AppCompatActivity {
         // Verificar si el usuario ya ha iniciado sesión
         if (auth.getCurrentUser() != null) {
             // Si el usuario ya está autenticado, navega a VistaPrincipal y termina MainActivity
-            startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
-            finish();
-            return; // No procesar más el método onCreate
+            Query query = db.collection("usuarios").whereEqualTo("authUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+            query.get().addOnCompleteListener(task ->{
+                if(task.isSuccessful()) {
+                    QuerySnapshot queryDocumentSnapshot = task.getResult();
+                    if (!queryDocumentSnapshot.isEmpty()) {
+                        DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                        String ban = document.getString("ban");
+                        if(ban.equals("1")){
+                            startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
+                            finish();
+                        }else {
+                            Toast.makeText(MainActivity.this, "la cuenta aun no esta activado o es baneada", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }});
         }
 
 
@@ -83,26 +97,47 @@ public class MainActivity extends AppCompatActivity {
         binding.iniciarSesion.setOnClickListener(v -> {
             String correo = binding.correo.getText().toString();
             String contrasena = binding.password.getText().toString();
+            Query query = db.collection("usuarios").whereEqualTo("correo",correo);
+            query.get().addOnCompleteListener(task ->{
+                if(task.isSuccessful()) {
+                    QuerySnapshot queryDocumentSnapshot = task.getResult();
+                    if (!queryDocumentSnapshot.isEmpty()) {
+                        try{
+                            DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                            String ban = document.getString("ban");
+                            if(ban.equals("1")){
+                                if (!correo.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+                                    if (!contrasena.isEmpty()) {
+                                        auth.signInWithEmailAndPassword(correo, contrasena)
+                                                .addOnSuccessListener(authResult -> {
+                                                    notificarImportanceDefault();
+                                                    startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
+                                                    finish();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(MainActivity.this, "Validacion incorrecta", Toast.LENGTH_SHORT).show();
+                                                });
+                                    } else {
+                                        binding.password.setError("No se permiten campos vacíos");
+                                    }} else if (correo.isEmpty()) {
+                                    binding.correo.setError("No se permiten campos vacíos");
+                                } else {
+                                    binding.correo.setError("Por favor, introduce un correo electrónico válido");
+                                }
+                            }else {
+                                Toast.makeText(MainActivity.this, "La cuenta no ha sido activada o esta baneada", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Correo no registrado", Toast.LENGTH_SHORT).show();
+                        }
 
-            if (!correo.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-                if (!contrasena.isEmpty()) {
-                    auth.signInWithEmailAndPassword(correo, contrasena)
-                            .addOnSuccessListener(authResult -> {
-                                notificarImportanceDefault();
-                                startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
-                                finish();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(MainActivity.this, "Error en el inicio de sesión: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-                } else {
-                    binding.password.setError("No se permiten campos vacíos");
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Correo no registrado", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            } else if (correo.isEmpty()) {
-                binding.correo.setError("No se permiten campos vacíos");
-            } else {
-                binding.correo.setError("Por favor, introduce un correo electrónico válido");
-            }
+            });
+
         });
 
 

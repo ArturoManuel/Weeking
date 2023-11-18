@@ -160,12 +160,11 @@ public class RegistroActivity extends AppCompatActivity {
                         user.put("imagen_url", "https://firebasestorage.googleapis.com/v0/b/weeking-c2d7c.appspot.com/o/usuarios%2Fanonimo.png?alt=media&token=1eb0b99e-0023-47ce-924c-c0f9846ead19");
                         user.put("authUID", authUID);
                         user.put("ban","0");
-
                         // Añadir datos en Firestore
                         db.collection("usuarios").document(codigoAlumno).set(user)
                                 .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-                                    navigateToActivity(VistaPrincipal.class);
+                                    Toast.makeText(this, "Usuario registrado con éxito, espere que lo verifique", Toast.LENGTH_SHORT).show();
+                                    navigateToActivity(MainActivity.class);
                                 })
                                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     } else {
