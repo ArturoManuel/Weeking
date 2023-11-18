@@ -174,6 +174,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(RegistroActivity.this, destinationClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();
     }

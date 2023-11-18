@@ -34,6 +34,7 @@ public class ActividadActivity extends AppCompatActivity {
         ListaFragmento fragmentoEventos = new ListaFragmento(actividadSeleccionada.getId().toString());
 
         binding.addEvent.setOnClickListener(v -> {
+
             idActividad = actividadSeleccionada.getId().toString();
             if (idActividad != null && !idActividad.isEmpty()) {
                 Intent intent = new Intent(ActividadActivity.this, NuevoEventoActivity.class);
@@ -95,6 +96,8 @@ public class ActividadActivity extends AppCompatActivity {
         args.putString("idActividad", actividadSeleccionada.getId());
         args.putString("nombreActividad", actividadSeleccionada.getNombre());
         args.putString("descripcionActividad", actividadSeleccionada.getDescripcion());
+
+        args.putString("imagen",actividadSeleccionada.getImagenUrl());
         // ... (añade otros datos si los necesitas)
 
         fragmentoEditar.setArguments(args);

@@ -113,23 +113,6 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             Glide.with(foto.getContext())
                     .load(imageUrl)
                     .into(foto);  // `foto` es tu ImageView
-
-//            if (!item.getLike()) {
-//                likeButton.setImageResource(R.drawable.ic_outline_heart);  // Cambia ic_not_liked por tu ícono de like no activo
-//            } else {  // Cambia isEstado() por el método que verifica si tiene like o no
-//                likeButton.setImageResource(R.drawable.ic_filled_heart);  // Cambia ic_liked por tu ícono de like activo
-//            }
-//
-//            likeButton.setOnClickListener(v -> {
-//                item.toggleLike(); // Este método cambiará el estado de "like" del evento
-//                updateLikeInFirebase(item.getEventId(), item.isEstado()); // Asumiendo que tienes un método getId() en tu clase EventoClass para obtener el ID único del evento.
-//                if(item.getLike()) {
-//                    likeButton.setImageResource(R.drawable.ic_filled_heart);
-//                } else {
-//                    likeButton.setImageResource(R.drawable.ic_outline_heart);
-//                }
-//            });
-
         }
 
     }
@@ -155,14 +138,9 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         // Elimina el espacio adicional al final y devuelve la cadena resultante.
         return sb.toString().trim();
     }
-
     public void updateData(List<EventoClass> newData) {
-        this.mdata = newData;
-        notifyDataSetChanged();
+        this.mdata.clear();
+        this.mdata.addAll(newData);
+        notifyDataSetChanged(); // Notifica al adaptador que los datos han cambiado
     }
-
-    //funcion para likes y/o seguidores
-
-
-
 }

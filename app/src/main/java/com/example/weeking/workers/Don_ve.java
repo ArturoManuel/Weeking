@@ -47,6 +47,7 @@ public class Don_ve extends AppCompatActivity {
             Log.d("monto", String.valueOf(donacion));
             db.collection("donaciones").document(codigo).update(map);
             Intent intent1 = new Intent(this, VistaPrincipal.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent1);
         });
     }

@@ -5,12 +5,14 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +22,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityNuevaActividadBinding;
 import com.example.weeking.databinding.ActivityNuevoEventoBinding;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,11 +43,14 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,11 +60,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class NuevoEventoActivity extends AppCompatActivity {
 
     private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private static final int MAP_REQUEST_CODE = 1;
+
+    private static final int MAP_REQUEST_CODE = 2;
+    private static final int REQUEST_PICK_IMAGE = 3;
 
     private LatLng ubicacionSeleccionada;
     private String nombreUbicacion;
@@ -65,10 +75,21 @@ public class NuevoEventoActivity extends AppCompatActivity {
     private  double latitud;
     private  double longitud;
 
+    private Uri imagenSeleccionadaUri;
+
+    private String urlImagenExistente = null;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+
+
 
     ActivityNuevoEventoBinding binding;
     String  idActividad;
     String idEvento;
+
+    private boolean imagenSeleccionada = false;
+
 
 
     @Override
@@ -77,25 +98,44 @@ public class NuevoEventoActivity extends AppCompatActivity {
         binding = ActivityNuevoEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
+
         idActividad = getIntent().getStringExtra("id_actividad");
         idEvento = getIntent().getStringExtra("id_evento");
 
-        // Log para verificar los IDs obtenidos de la actividad anterior
-        Log.d("idActividad:Activity", idActividad != null ? idActividad : "null or not found");
-        Log.d("idEvento:Activity", idEvento != null ? idEvento : "null or not found");
 
         binding.saveEventButton.setOnClickListener(v -> {
             String nombre = binding.nombreEvento.getText().toString();
             String descripcion = binding.descriptionEditText.getText().toString();
             String fecha = binding.tvSelectedDate.getText().toString();
             String hora = binding.tvSelectedTime.getText().toString();
-            // Llamar a la función para crear o actualizar el evento
+
+            // Validaciones básicas de campos requeridos.
+            if (nombre.isEmpty() || descripcion.isEmpty() || fecha.isEmpty() || hora.isEmpty()) {
+                Toast.makeText(this, "Todos los campos deben estar llenos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // En caso de un evento nuevo, asegurarse de que se ha seleccionado una imagen.
+            if ((idEvento == null || idEvento.isEmpty()) && imagenSeleccionadaUri == null) {
+                Toast.makeText(this, "Por favor, seleccione una imagen para el evento", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // En caso de estar editando un evento, si no hay imagen previa y no se seleccionó una nueva, mostrar error.
+            if (idEvento != null && !idEvento.isEmpty() && urlImagenExistente == null && imagenSeleccionadaUri == null) {
+                Toast.makeText(this, "Por favor, seleccione una imagen para el evento", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             crearOActualizarEvento(nombre, descripcion, fecha, hora);
-            // Navegar de regreso a la Actividad principal o donde sea necesario
-            finish(); // Finalizar esta actividad si no necesitas volver a ella
         });
+
+
         // Cargar datos del evento si el idEvento no es nulo y no está vacío
-        if (idEvento != null && !idEvento.isEmpty()) {
+        if (idEvento != null && !idEvento.isEmpty() ) {
             cargarDatosEvento(idEvento);
         }
         binding.lugar.setOnClickListener(v -> {
@@ -106,6 +146,14 @@ public class NuevoEventoActivity extends AppCompatActivity {
         // Mostrar dialogo de fecha y hora cuando se hacen clic en los iconos respectivos
         binding.iconSelectDate.setOnClickListener(v -> mostrarDialogoFecha());
         binding.iconSelectTime.setOnClickListener(v -> mostrarDialogoHora());
+
+        binding.uploadImageButton.setOnClickListener(v -> abrirGaleria());
+    }
+
+
+    private void abrirGaleria() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
     }
 
     @Override
@@ -118,11 +166,20 @@ public class NuevoEventoActivity extends AppCompatActivity {
                 latitud = selectedPoint.latitude;
                 longitud = selectedPoint.longitude;
             }
+            // Formatear la latitud y longitud con tres decimales
+            String posicionFormato = String.format(Locale.getDefault(), "(%.3f;%.3f)", longitud, latitud);
+            // Actualizar los TextViews con la posición y el nombre de la ubicación
+            binding.punto.setText(posicionFormato);
+            binding.nombreLugar.setText(nombreUbicacion);
+        }else if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK && data != null){
+            imagenSeleccionadaUri = data.getData();
+            if (imagenSeleccionadaUri != null) {
+                binding.imageViewBackground.setImageURI(imagenSeleccionadaUri);
+                binding.imagenCargar.setText("");
+                imagenSeleccionada = true;
+            }
         }
-
     }
-
-
 
 
 
@@ -188,11 +245,33 @@ public class NuevoEventoActivity extends AppCompatActivity {
                     if(evento != null){
                         binding.nombreEvento.setText(evento.getNombre());
                         binding.descriptionEditText.setText(evento.getDescripcion());
-                        // ... más asignaciones de campos
-                        // También debes convertir la fecha y la hora del timestamp a String y mostrarlo en los TextViews correspondientes
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-                        binding.tvSelectedDate.setText(sdf.format(evento.getFecha_evento().toDate()));
-                        // Para la hora, posiblemente necesites ajustar el formato para que coincida con cómo se muestra en la UI
+                        binding.nombreLugar.setText(evento.getUbicacion());
+                        latitud = evento.getLatitud();
+                        longitud = evento.getLongitud();
+                        nombreUbicacion=evento.getUbicacion();
+
+                        urlImagenExistente = evento.getFoto();
+                        if (urlImagenExistente != null && !urlImagenExistente.isEmpty()) {
+                            Glide.with(this).load(urlImagenExistente).into(binding.imageViewBackground);
+                            imagenSeleccionada = false; // Importante para no subir una nueva imagen por defecto
+                        }
+
+
+                        String puntoFormato = String.format(Locale.getDefault(), "(%.3f;%.3f)", longitud, latitud);
+                        binding.punto.setText(puntoFormato);
+                        // Formato para la fecha
+                        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+// Formato para la hora
+                        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+// Suponiendo que 'evento.getFecha_evento().toDate()' devuelve un objeto Date con la fecha y hora del evento
+                        Date fechaEvento = evento.getFecha_evento().toDate();
+
+
+                        binding.tvSelectedDate.setText(sdfDate.format(fechaEvento));
+
+                        binding.tvSelectedTime.setText(sdfTime.format(fechaEvento));
+
                     }
                 } else {
                     Log.d(TAG, "No such document");
@@ -205,10 +284,9 @@ public class NuevoEventoActivity extends AppCompatActivity {
 
 
 
+
     private void crearOActualizarEvento(String nombre, String descripcion, String fecha, String hora) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Preparar el objeto evento con los datos recibidos
         EventoClass evento = new EventoClass();
         evento.setNombre(nombre);
         evento.setDescripcion(descripcion);
@@ -217,11 +295,9 @@ public class NuevoEventoActivity extends AppCompatActivity {
         evento.setLatitud(latitud);
         evento.setLongitud(longitud);
         evento.setIdActividad(idActividad);
-        evento.setFoto("url_a_la_foto");
         evento.setLikes(0);
         evento.setListaUsuariosIds(new ArrayList<>());
 
-        // Convertir la fecha y hora en un objeto Timestamp para Firestore
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         try {
             Date fechaHora = sdf.parse(fecha + " " + hora);
@@ -231,39 +307,58 @@ public class NuevoEventoActivity extends AppCompatActivity {
             evento.setFechaEvento(new Timestamp(new Date()));
         }
 
-        DocumentReference eventoRef;
-
-        // Verificar si el idEvento ya existe para actualizar el evento existente
         if (idEvento != null && !idEvento.isEmpty()) {
-            eventoRef = db.collection("Eventos").document(idEvento);
-            evento.setEventId(idEvento); // Asegúrate de establecer el ID del evento si lo estás actualizando
+            // Actualizando un evento existente
+            evento.setEventId(idEvento);
+            if (imagenSeleccionada && imagenSeleccionadaUri != null) {
+                // Subir la nueva imagen antes de actualizar el evento
+                subirImagenYActualizarEvento(imagenSeleccionadaUri, evento);
+            } else {
+                // Mantener la imagen existente y actualizar el evento
+                evento.setFoto(urlImagenExistente);
+                actualizarEventoFirestore(evento);
+            }
         } else {
-            eventoRef = db.collection("Eventos").document(); // Crea un nuevo documento con un ID único
-            // No necesitas establecer el ID del evento aquí porque se generará uno nuevo
+            // Creando un nuevo evento
+            DocumentReference nuevoEventoRef = db.collection("Eventos").document();
+            evento.setEventId(nuevoEventoRef.getId());
+            if (imagenSeleccionadaUri != null) {
+                // Subir imagen antes de crear el evento
+                subirImagenYActualizarEvento(imagenSeleccionadaUri, evento);
+            } else {
+                // Crear evento sin imagen
+                actualizarEventoFirestore(evento);
+            }
         }
+    }
 
-        // Agregar o actualizar el evento en Firestore
-        eventoRef.set(evento)
+    private void subirImagenYActualizarEvento(Uri imageUri, EventoClass evento) {
+        String imagenPath = "eventos/" + evento.getEventId() + "/imagen.jpg";
+        StorageReference fileRef = storageRef.child(imagenPath);
+        fileRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    evento.setFoto(uri.toString());
+                    actualizarEventoFirestore(evento);
+                }))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(NuevoEventoActivity.this, "Error al subir imagen", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void actualizarEventoFirestore(EventoClass evento) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Eventos").document(evento.getEventId())
+                .set(evento)
                 .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "Evento guardado con éxito con ID: " + eventoRef.getId());
-
-                    // Si es un evento nuevo, actualiza la lista de eventos en 'actividad'
-                    if (idEvento == null || idEvento.isEmpty()) {
-                        CollectionReference actividadRef = db.collection("actividad");
-                        actividadRef.document(idActividad)
-                                .update("listaEventosIds", FieldValue.arrayUnion(eventoRef.getId()));
-                    }
-
-                    Toast.makeText(NuevoEventoActivity.this, "Evento guardado con éxito!", Toast.LENGTH_SHORT).show();
-
-                    // Finalizar la actividad o actualizar la interfaz de usuario según sea necesario
+                    Toast.makeText(NuevoEventoActivity.this, "Evento guardado exitosamente.", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    Log.w(TAG, "Error al guardar el evento", e);
                     Toast.makeText(NuevoEventoActivity.this, "Error al guardar el evento.", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
 
 
 }

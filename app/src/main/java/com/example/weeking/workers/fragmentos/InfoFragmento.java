@@ -1,5 +1,6 @@
 package com.example.weeking.workers.fragmentos;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.Actividad;
@@ -31,6 +37,8 @@ public class InfoFragmento extends Fragment {
 
     private ImageView añadir;
 
+    private ImageView imagenactividad;
+
     private  ImageView editar;
     public InfoFragmento() {
         // Required empty public constructor
@@ -46,9 +54,11 @@ public class InfoFragmento extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         nombreActividadTextView = view.findViewById(R.id.nombreActividad);
         descripcionText = view.findViewById(R.id.descriptionTextView);
+        imagenactividad= view.findViewById(R.id.imagenActividad);
         actividadSeleccionada = DataHolder.getInstance().getActividadSeleccionada();
         añadir = view.findViewById(R.id.btn_add);
         Log.d("idActividadSelecionada",actividadSeleccionada.getId());
+        Log.d("url",actividadSeleccionada.getImagenUrl());
         añadir.setOnClickListener(v -> {
             if(getActivity() instanceof ActividadActivity) {
                 ((ActividadActivity) getActivity()).cargarFragmentoAnadir();
@@ -64,10 +74,16 @@ public class InfoFragmento extends Fragment {
         cargarDatosActividad();
     }
 
+
+
+
+
+
     private void cargarDatosActividad() {
         if (actividadSeleccionada != null) {
             if(nombreActividadTextView != null) {
                 nombreActividadTextView.setText(actividadSeleccionada.getNombre());
+
             } else {
                 Log.e("InfoFragmento", "nombreActividadTextView is null");
             }
@@ -77,6 +93,22 @@ public class InfoFragmento extends Fragment {
             } else {
                 Log.e("InfoFragmento", "descripcionText is null");
             }
+
+            Glide.with(getContext())
+                    .load(actividadSeleccionada.getImagenUrl())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Log.e("InfoFragmento", "Error al cargar imagen: ", e);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .into(imagenactividad);
         } else {
             Log.e("InfoFragmento", "actividadSeleccionada is null");
         }
