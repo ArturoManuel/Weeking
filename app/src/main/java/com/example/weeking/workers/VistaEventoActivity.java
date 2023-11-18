@@ -1,14 +1,20 @@
 package com.example.weeking.workers;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,18 +23,37 @@ import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.databinding.ActivityVistaEventoBinding;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.entity.Usuario;
+import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class VistaEventoActivity extends AppCompatActivity {
     ActivityVistaEventoBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityVistaEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser() != null ?
+                FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
 
         binding.btnGaleria.setOnClickListener(view -> {
             Intent intent = new Intent(VistaEventoActivity.this, GaleriaEventos.class);
@@ -97,8 +122,107 @@ public class VistaEventoActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnApoyarEvento.setOnClickListener(v -> {
+            // Si ya tenemos el userId, podemos continuar
+            if (userId != null && !userId.isEmpty()) {
+                verificarApoyoPrevioYMostrarDialogo(userId, eventoSeleccionado.getEventId());
+            } else {
+                // Manejar el caso de que no hay un userId válido
+                Toast.makeText(VistaEventoActivity.this, "No se pudo obtener el identificador del usuario.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
+
+    private void verificarApoyoPrevioYMostrarDialogo(String authId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("usuarios").whereEqualTo("authUID", authId)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        Map<String, Object> comentariosDeApoyo = (Map<String, Object>) documentSnapshot.get("comentariosDeApoyo");
+                        if (comentariosDeApoyo == null || !comentariosDeApoyo.containsKey(eventId)) {
+                            mostrarDialogoDeApoyo(eventId, documentSnapshot.getId());
+                        } else {
+                            Toast.makeText(VistaEventoActivity.this, "Ya has expresado tu apoyo para este evento.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.d("Firestore", "El documento del usuario no fue encontrado.");
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("Firestore", "Error al verificar el apoyo del evento", e));
+    }
+
+    private void mostrarDialogoDeApoyo(String eventId, String documentId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, com.google.android.material.R.style.Theme_MaterialComponents_Light_Dialog_Alert);
+        Log.d("IdDocumento",documentId.toString());
+        // Configurar el título y el mensaje del diálogo
+        builder.setTitle("Formulario de apoyo");
+
+        // Inflar la vista personalizada para el diálogo
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_suport_form, null);
+        Spinner spinner = dialogView.findViewById(R.id.spinner_support_options);
+        EditText inputReason = dialogView.findViewById(R.id.edittext_reason);
+
+        // Crear un ArrayAdapter para el spinner con las opciones
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Participante", "Barra"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Establecer la vista en el diálogo
+        builder.setView(dialogView);
+
+        // Configurar los botones del diálogo
+        builder.setPositiveButton("Enviar", (dialogInterface, i) -> {
+            String supportType = spinner.getSelectedItem().toString();
+            String reason = inputReason.getText().toString();
+
+            // Verificar que se haya seleccionado un tipo de apoyo y que se haya escrito un comentario
+            if (!supportType.isEmpty() && !reason.trim().isEmpty()) {
+                // Construir el mapa con el tipo de apoyo y el comentario
+                Map<String, Object> apoyo = new HashMap<>();
+                apoyo.put("tipoApoyo", supportType);
+                apoyo.put("comentario", reason);
+
+                // Preparar la actualización para Firestore
+                actualizarComentarioDeApoyo(documentId, eventId, apoyo);
+            } else {
+                Toast.makeText(VistaEventoActivity.this, "Por favor, selecciona un tipo de apoyo y escribe un comentario.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", (dialogInterface, i) -> dialogInterface.cancel());
+
+        // Mostrar el diálogo
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
+
+
+    private void actualizarComentarioDeApoyo(String documentId, String idEvento, Map<String, Object> apoyo) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Actualizar el documento del usuario con el nuevo comentario de apoyo
+        db.collection("usuarios").document(documentId)
+                .update("comentariosDeApoyo." + idEvento, apoyo)
+                .addOnSuccessListener(aVoid -> Toast.makeText(VistaEventoActivity.this, "Muchas Gracias por Apoyar", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(VistaEventoActivity.this, "Error al actualizar el apoyo", Toast.LENGTH_SHORT).show());
+    }
+
+
+
+
+
+
+
+
 
     public String capitalize(String str) {
         // Verifica si la cadena está vacía o es nula.

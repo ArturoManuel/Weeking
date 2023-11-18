@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilo de la aplicación base -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Personaliza tu tema aquí -->
+    </style>
+
+    <!-- Estilo para diálogos con Material Design -->
+    <style name="MyMaterialDialogStyle" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <!-- Ajustes de color, tamaño de texto, y más pueden ser personalizados aquí -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
+    </style>
+
+</resources>

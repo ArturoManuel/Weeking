@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <Spinner
+        android:id="@+id/spinner_support_options"
+        android:layout_width="match_parent"
+        android:layout_height="58dp" />
+
+    <EditText
+        android:id="@+id/edittext_reason"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="top|start"
+        android:hint="Escriba sus razones aquí"
+        android:textColor="@color/textColor"
+        android:inputType="textMultiLine"
+        android:maxLength="2000"
+        android:minHeight="358dp"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+
+        android:textSize="16sp" />
+
+</LinearLayout>

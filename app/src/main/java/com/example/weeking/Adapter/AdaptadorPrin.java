@@ -15,6 +15,7 @@ import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.VistaEventoActivity;
+import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
     private List<EventoClass> mdata;
     private LayoutInflater minflater;
     private Context context;
+    private AppViewModel appViewModel;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 

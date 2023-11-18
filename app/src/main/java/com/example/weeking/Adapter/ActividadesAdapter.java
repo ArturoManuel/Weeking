@@ -24,6 +24,8 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     private LayoutInflater inflater;
     private Context context;
 
+
+
     public ActividadesAdapter(List<Actividad> listaActividades, Context context) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
