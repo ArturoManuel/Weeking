@@ -56,14 +56,12 @@ public class alu extends AppCompatActivity {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("ban","1");
                 db.collection("usuarios").document(usuario.getCodigo()).update(map);
-                Intent intent = new Intent(this, Lista_don.class);
-                startActivity(intent);
+                finish();
             }else{
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("ban","0");
                 db.collection("usuarios").document(usuario.getCodigo()).update(map);
-                Intent intent = new Intent(this, Lista_don.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
