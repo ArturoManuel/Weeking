@@ -29,10 +29,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EditarFragmento extends Fragment {
 
@@ -64,59 +67,48 @@ public class EditarFragmento extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Infla la vista.
+        // Infla la vista para este fragmento
         View view = inflater.inflate(R.layout.fragment_editar_fragmento, container, false);
 
-        // Inicializa los componentes de la vista.
-        nombreActividadEditText = view.findViewById(R.id.nombreActividad);  // Asumiendo que tienes un EditText con ese id.
-        descripcionActividadEditText = view.findViewById(R.id.descriptionEditText);  // Aquí accedes a tu TextInputEditText.
+        // Inicializa los componentes de la vista con los IDs de tus elementos de layout
+        nombreActividadEditText = view.findViewById(R.id.nombreActividad);
+        descripcionActividadEditText = view.findViewById(R.id.descriptionEditText);
         uploadedImage = view.findViewById(R.id.uploadedImage);
-        textoimagen=view.findViewById(R.id.imagenCargar);    // Asegúrate de que este es el ID correcto.
+        textoimagen = view.findViewById(R.id.imagenCargar);
+        uploadButton = view.findViewById(R.id.uploadButton); // Asegúrate de que este es el ID correcto en tu layout
 
-        // ... (otros componentes de edición)
-
-        // Recupera los argumentos pasados al fragmento.
+        // Recupera y establece los datos pasados como argumentos al fragmento
         if (getArguments() != null) {
             idActividad = getArguments().getString("idActividad");
             nombreActividad = getArguments().getString("nombreActividad");
             descripcionActividad = getArguments().getString("descripcionActividad");
-            imagen=getArguments().getString("imagen");
-            Log.d("imagen ", imagen);
+            imagen = getArguments().getString("imagen");
 
-            // ... (recupera otros datos si los has pasado)
-
-            // Llena los componentes con los datos recuperados.
             nombreActividadEditText.setText(nombreActividad);
             descripcionActividadEditText.setText(descripcionActividad);
+
+            // Usa Glide para cargar la imagen si la URL no está vacía
             if (imagen != null && !imagen.isEmpty()) {
-                Uri imagenUri = Uri.parse(imagen);
-                if (imagen != null && !imagen.isEmpty()) {
-                    Glide.with(getContext())
-                            .load(imagenUri)
-                            .into(uploadedImage);
-                    textoimagen.setText("");
-                } else {
-                    Log.e("EditarFragmento", "URL de imagen es nula o vacía");
-                }
-
+                Glide.with(this)
+                        .load(imagen)
+                        .into(uploadedImage);
+                textoimagen.setText(""); // Limpia el texto si la imagen se carga correctamente
             } else {
-                Log.e("EditarFragmento", "URL de imagen es nula o vacía");
+                 // R.string.no_image_selected es un placeholder que indica que no hay imagen seleccionada
             }
-
-            // ... (setea otros componentes con los datos recuperados)
         }
 
+        // Asigna el evento onClickListener al botón de subida de imagen
+        uploadButton.setOnClickListener(v -> abrirGaleria());
+
+        // Asigna el evento onClickListener al botón de guardar
         Button guardarButton = view.findViewById(R.id.btnSaveActivity);
-
-        uploadedImage.setOnClickListener(v->{abrirGaleria();});
-
         guardarButton.setOnClickListener(v -> actualizarDatos());
 
-
-
+        // Devuelve la vista inflada
         return view;
     }
+
 
 
     private void abrirGaleria() {
@@ -132,11 +124,12 @@ public class EditarFragmento extends Fragment {
             if (imagenSeleccionadaUri != null) {
                 uploadedImage.setImageURI(imagenSeleccionadaUri);
                 textoimagen.setText("");
-                imagenSeleccionada = true;
+                imagenSeleccionada = true; // Marca que se ha seleccionado una nueva imagen
+                subirImagenYActualizarUrl(imagenSeleccionadaUri);
             }
         }
-
     }
+
 
 
 
@@ -179,4 +172,30 @@ public class EditarFragmento extends Fragment {
                 });
 
     }
+
+
+    private void subirImagenYActualizarUrl(Uri imagenUri) {
+        if (imagenSeleccionada && imagenUri != null) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference imagenRef = storageRef.child("actividades/" + idActividad + "/" + UUID.randomUUID().toString());
+
+            imagenRef.putFile(imagenUri)
+                    .addOnSuccessListener(taskSnapshot -> imagenRef.getDownloadUrl().addOnSuccessListener(this::actualizarImagenUrlEnFirestore))
+                    .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al subir imagen: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        }
+    }
+
+    private void actualizarImagenUrlEnFirestore(Uri downloadUri) {
+        if (imagenSeleccionada) {
+            String imageUrl = downloadUri.toString();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference actividadRef = db.collection("activity").document(idActividad);
+            actividadRef.update("imagenUrl", imageUrl)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Imagen actualizada con éxito", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al actualizar imagen: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        }
+    }
+
+
 }
