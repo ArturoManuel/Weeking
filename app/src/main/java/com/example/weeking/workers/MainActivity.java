@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
         crearCanalesNotificacion();
         binding.iniciarSesion.setOnClickListener(v -> {
-            String correo = binding.correo.getText().toString();
+            String correo = binding.correo.getText().toString().trim();
             String contrasena = binding.password.getText().toString();
             Query query = db.collection("usuarios").whereEqualTo("correo",correo);
             query.get().addOnCompleteListener(task ->{
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                             DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
                             String ban = document.getString("ban");
                             if(ban.equals("1")){
-                                if (!correo.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+                                if (!correo.isEmpty() && isValidEmail(correo)) {
                                     if (!contrasena.isEmpty()) {
                                         auth.signInWithEmailAndPassword(correo, contrasena)
                                                 .addOnSuccessListener(authResult -> {
@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                                     }} else if (correo.isEmpty()) {
                                     binding.correo.setError("No se permiten campos vacíos");
                                 } else {
+                                    binding.correo.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light)); // Cambia el color de fondo a rojo
                                     binding.correo.setError("Por favor, introduce un correo electrónico válido");
                                 }
                             }else {
@@ -294,7 +295,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    private boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|pucp\\.edu\\.pe|pucp\\.pe)";
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.matches(emailPattern);
+    }
 
 
     private void navigateToActivity(Class<?> destinationClass) {
