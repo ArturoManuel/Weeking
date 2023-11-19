@@ -54,13 +54,14 @@ public class RegistroActivity extends AppCompatActivity {
             // Obtener valores de los campos
             String codigo = binding.codigoPucp.getText().toString();
             String nombre = binding.nombre.getText().toString();
+            String apellido = binding.apellido.getText().toString();
             String correo = binding.correo.getText().toString();
             String contrasena = binding.contrasena1.getText().toString();
             String contrasena2 = binding.contrasena2.getText().toString();
             String estado = binding.estados.getText().toString();
 
             // Validaciones
-            if (codigo.isEmpty() || nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || contrasena2.isEmpty() || estado.isEmpty()) {
+            if (codigo.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || contrasena2.isEmpty() || estado.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -152,7 +153,7 @@ public class RegistroActivity extends AppCompatActivity {
                         // Crear un objeto Map para almacenar los valores en Firestore
                         Map<String, Object> user = new HashMap<>();
                         user.put("codigo", codigoAlumno);
-                        user.put("nombre", binding.nombre.getText().toString());
+                        user.put("nombre", binding.nombre.getText().toString() + " " + binding.apellido.getText().toString());
                         user.put("correo", email);
                         user.put("estado", binding.estados.getText().toString());
                         user.put("rol", "alumno");

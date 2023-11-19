@@ -51,12 +51,13 @@
                 android:id="@+id/codigo_pucp_registro"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="40dp"
                 android:hint="Código PUCP"
                 app:helperTextTextColor="@color/cardview_dark_background">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/codigo_pucp"
                     android:layout_width="match_parent"
@@ -76,10 +77,29 @@
                 android:hint="Nombre"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/ic_person">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombre"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
+                    android:maxLength="21" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usuario_registro1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:hint="Apellido"
+                app:helperTextTextColor="@color/cardview_dark_background"
+                app:startIconDrawable="@drawable/ic_person">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/apellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
                     android:maxLength="21" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,10 +115,11 @@
                 android:hint="Correo"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_email_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/correo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="43dp"
                     android:maxLength="30" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,13 +136,14 @@
                 app:endIconMode="password_toggle"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_lock_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contrasena1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:inputType="textPassword"
                     android:maxLength="21"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Ingrese nuevamente -->
@@ -137,13 +159,14 @@
                 app:endIconMode="password_toggle"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_lock_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contrasena2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="39dp"
                     android:inputType="textPassword"
                     android:maxLength="21"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Estado -->
