@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +18,7 @@ import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityRegistroBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -47,6 +50,12 @@ public class RegistroActivity extends AppCompatActivity {
         setItems(autoCompleteTextView);
         db = FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+        binding.codigoPucp.addTextChangedListener(createTextWatcher(binding.codigoPucp));
+        binding.nombre.addTextChangedListener(createTextWatcher(binding.nombre));
+        binding.apellido.addTextChangedListener(createTextWatcher(binding.apellido));
+        binding.correo.addTextChangedListener(createTextWatcher(binding.correo));
+        binding.contrasena1.addTextChangedListener(createTextWatcher(binding.contrasena1));
+        binding.contrasena2.addTextChangedListener(createTextWatcher(binding.contrasena2));
 
         binding.tienescuenta.setOnClickListener(v -> navigateToActivity(MainActivity.class));
 
@@ -113,13 +122,38 @@ public class RegistroActivity extends AppCompatActivity {
 
 
     }
+    private TextWatcher createTextWatcher(final TextInputEditText editText) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // No es necesario realizar acciones antes de que el texto cambie
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Remueve espacios y subrayados del texto
+                String formattedText = charSequence.toString().replaceAll("[\\s_]", "");
+
+                // Actualiza el texto del EditText sin espacios ni subrayados
+                editText.removeTextChangedListener(this);
+                editText.setText(formattedText);
+                editText.setSelection(formattedText.length());
+                editText.addTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // No es necesario realizar acciones después de que el texto cambie
+            }
+        };
+    }
     private boolean isValidAlumnoCode(String codigo) {
         // Verifica si el código de alumno es numérico y tiene 8 dígitos
         return codigo.matches("\\d{8}");
     }
     private boolean isValidEmail(String email) {
-        // Utilizar una expresión regular para validar el formato del correo electrónico
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        // Validacion con correo pucp
+        String emailPattern = "[a-zA-Z0-9._-]+@(pucp\\.edu\\.pe|pucp\\.pe)";
         return email.matches(emailPattern);
     }
     private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {

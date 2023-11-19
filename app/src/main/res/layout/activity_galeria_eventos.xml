@@ -41,7 +41,28 @@
         android:verticalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        />
+        >
+
+    </GridView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flatBtnAddNewPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/baseline_add_circle_24"
+        tools:layout_editor_absoluteX="343dp"
+        tools:layout_editor_absoluteY="31dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flatBtnTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+
+        app:srcCompat="@drawable/baseline_photo_camera_24"
+        tools:layout_editor_absoluteX="242dp"
+        tools:layout_editor_absoluteY="33dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

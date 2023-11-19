@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityMainBinding;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -137,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        //binding.correo.addTextChangedListener(createTextWatcher(binding.correo));
+        //binding.password.addTextChangedListener(createTextWatcher(binding.password));
         // Verificar si el usuario ya ha iniciado sesión
         if (auth.getCurrentUser() != null) {
             verificarEstadoUsuario(auth.getCurrentUser().getUid());
@@ -146,7 +150,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*private TextWatcher createTextWatcher(final TextInputEditText editText) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // No es necesario realizar acciones antes de que el texto cambie
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Remueve espacios y subrayados del texto
+                String formattedText = charSequence.toString().replaceAll("[\\s_]", "");
+
+                // Actualiza el texto del EditText sin espacios ni subrayados
+                editText.removeTextChangedListener(this);
+                editText.setText(formattedText);
+                editText.setSelection(formattedText.length());
+                editText.addTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // No es necesario realizar acciones después de que el texto cambie
+            }
+        };
+    }*/
     private void verificarEstadoUsuario(String uid) {
         db.collection("usuarios").whereEqualTo("authUID", uid)
                 .get().addOnCompleteListener(task -> {
