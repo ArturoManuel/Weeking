@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.helper.widget.MotionEffect;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,8 +15,12 @@ import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
@@ -26,6 +31,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppViewModel extends ViewModel {
+
+    private ListenerRegistration eventosListener;
     private final MutableLiveData<List<EventoClass>> listaEventos= new MutableLiveData<>();
     private final MutableLiveData<List<ListaDon>> listaDona= new MutableLiveData<>();
     public final MutableLiveData<List<Actividad>> listaActividades = new MutableLiveData<>(); // Añadido
@@ -87,6 +94,38 @@ public class AppViewModel extends ViewModel {
     }
 
 
+
+
+
+    public void iniciarListenerEventos() {
+        if (eventosListener == null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            eventosListener = db.collection("Eventos").addSnapshotListener((queryDocumentSnapshots, e) -> {
+                if (e != null) {
+                    Log.e(TAG, "Error al escuchar cambios en los eventos", e);
+                    return;
+                }
+
+                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                    List<EventoClass> eventosActualizados = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        EventoClass evento = document.toObject(EventoClass.class);
+                        evento.setEventId(document.getId());
+                        eventosActualizados.add(evento);
+                    }
+                    listaEventos.setValue(eventosActualizados);
+                }
+            });
+        }
+    }
+
+    public void detenerListenerEventos() {
+        if (eventosListener != null) {
+            eventosListener.remove();
+            eventosListener = null;
+        }
+    }
+
     public Task<List<String>> eliminarActividad(Actividad actividad) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String actividadId = actividad.getId();
@@ -141,9 +180,11 @@ public class AppViewModel extends ViewModel {
                         if (currentActividades != null) {
                             currentActividades.remove(actividad);
                             listaActividades.setValue(currentActividades);
+                            actualizarListaEventosDespuesDeEliminarActividad(actividadId);
+
                         }
                         Log.d("DEBUG", "Actividad y registros relacionados eliminados con éxito.");
-                        return userIds; // Retornamos los userIds al final
+                        return userIds;
                     } else {
                         throw task.getException();
                     }
@@ -151,15 +192,122 @@ public class AppViewModel extends ViewModel {
     }
 
 
+    private void actualizarListaEventosDespuesDeEliminarActividad(String actividadId) {
+        List<EventoClass> eventosActuales = listaEventos.getValue();
+        if (eventosActuales != null) {
+            List<EventoClass> eventosActualizados = eventosActuales.stream()
+                    .filter(evento -> !evento.getIdActividad().equals(actividadId))
+                    .collect(Collectors.toList());
+            listaEventos.postValue(eventosActualizados);
+        }
+    }
+
+    public void actualizarEventosPorActividad(String actividadId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Eventos").whereEqualTo("idActividad", actividadId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e(TAG, "Error al escuchar cambios: ", error);
+                            return;
+                        }
+                        List<EventoClass> nuevosEventos = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : value) {
+                            EventoClass evento = document.toObject(EventoClass.class);
+                            evento.setEventId(document.getId());
+                            nuevosEventos.add(evento);
+                        }
+                        MutableLiveData<List<EventoClass>> liveData = getEventosByActividadId(actividadId);
+                        liveData.setValue(nuevosEventos);
+                    }
+                });
+    }
+
+
+    public void agregarOActualizarEvento(EventoClass evento) {
+        List<EventoClass> eventosActuales = listaEventos.getValue();
+        if (eventosActuales == null) {
+            eventosActuales = new ArrayList<>();
+        }
+        eventosActuales.removeIf(e -> e.getEventId().equals(evento.getEventId())); // Elimina el evento anterior si existe
+        eventosActuales.add(evento); // Agrega el evento actualizado o nuevo
+        listaEventos.postValue(eventosActuales); // Actualiza el LiveData
+    }
+
+
+
 
 
     public void removeEventosByActividadId(String actividadId) {
-        List<EventoClass> currentEventos = listaEventos.getValue();
-        if (currentEventos != null) {
-            currentEventos.removeIf(evento -> actividadId.equals(evento.getIdActividad()));
-            listaEventos.setValue(currentEventos);
+        FirebaseFirestore db = FirebaseFirestore.getInstance(); // Obtén la instancia de Firestore
+
+        db.collection("Eventos")
+                .whereEqualTo("idActividad", actividadId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Crear un batch para realizar todas las eliminaciones en una sola operación atómica
+                        WriteBatch batch = db.batch();
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Añadir cada documento para ser eliminado al batch
+                            batch.delete(document.getReference());
+                        }
+
+                        // Ejecutar el batch
+                        batch.commit().addOnCompleteListener(batchTask -> {
+                            if (batchTask.isSuccessful()) {
+                                // Si la eliminación en batch fue exitosa, actualizar la lista local
+                                List<EventoClass> currentEventos = listaEventos.getValue();
+                                if (currentEventos != null) {
+                                    currentEventos.removeIf(evento -> actividadId.equals(evento.getIdActividad()));
+                                    listaEventos.setValue(currentEventos);
+                                }
+                            } else {
+                                // Manejar errores...
+                                Log.e(TAG, "Error eliminando eventos de Firestore", batchTask.getException());
+                            }
+                        });
+                    } else {
+                        // Manejar errores...
+                        Log.e(TAG, "Error obteniendo eventos de Firestore", task.getException());
+                    }
+                });
+    }
+
+    public void eliminarEventoDeActividad(String idActividad, String idEvento) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference actividadRef = db.collection("activity").document(idActividad);
+
+        actividadRef.update("listaEventosIds", FieldValue.arrayRemove(idEvento))
+                .addOnSuccessListener(aVoid -> {
+                    // Actualiza la lista de eventos en el ViewModel
+                    List<EventoClass> currentEventos = listaEventos.getValue();
+                    if (currentEventos != null) {
+                        currentEventos.removeIf(evento -> evento.getEventId().equals(idEvento));
+                        listaEventos.setValue(currentEventos); // Notifica a los observadores del cambio
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Error eliminando evento de la actividad", e));
+    }
+
+
+    public void actualizarEventosPorActividadId(String actividadId) {
+        // Suponiendo que ya tienes una lista de todos los eventos
+        List<EventoClass> todosLosEventos = listaEventos.getValue();
+        if (todosLosEventos != null) {
+            List<EventoClass> eventosFiltrados = todosLosEventos.stream()
+                    .filter(evento -> actividadId.equals(evento.getIdActividad()))
+                    .collect(Collectors.toList());
+            // Supongamos que tienes un LiveData separado para eventos por actividad
+            MutableLiveData<List<EventoClass>> eventosPorActividadId = getEventosByActividadId(actividadId);
+            eventosPorActividadId.setValue(eventosFiltrados);
         }
     }
+
+
+
 
 
     public void setCurrentUser(Usuario user) {

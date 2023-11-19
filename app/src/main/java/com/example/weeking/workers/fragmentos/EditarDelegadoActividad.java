@@ -25,6 +25,7 @@ import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.ActividadActivity;
 import com.example.weeking.workers.NuevoEventoActivity;
+import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,6 +43,7 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
     private RecyclerView recyclerViewEventos;
     private EventosAdapter eventosAdapter;
     private List<EventoClass> listaEventos;
+    private AppViewModel appViewModel;
     private FirebaseFirestore db;
     private ListenerRegistration eventosListenerRegistration;
 
@@ -72,12 +74,7 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         }
         Button btnAnadir = view.findViewById(R.id.btn_add); // Asegúrate de que "btnAnadir" es el ID correcto de tu botón
 
-        btnAnadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirNuevoEventoActivityConIdActividad(actividad.getId().toString(),"no_evento");
-            }
-        });;
+        btnAnadir.setOnClickListener(v -> abrirNuevoEventoActivityConIdActividad(actividad.getId().toString()));;
         // Inicializa la lista y el adaptador. Aún no tienen datos.
 
 
@@ -104,30 +101,24 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
     private void obtenerEventosDeFirestore(String idActividad) {
         CollectionReference eventosRef = db.collection("Eventos");
 
-        // Establece el listener y guarda la referencia para poder removerla más tarde
         eventosListenerRegistration = eventosRef.whereEqualTo("idActividad", idActividad)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            // En caso de un error al establecer el listener
-                            Log.w("Error", "Error al escuchar los eventos", e);
-                            Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        // Limpiar la lista antigua antes de agregar los nuevos eventos
-                        listaEventos.clear();
-                        for (QueryDocumentSnapshot document : value) {
-                            EventoClass evento = document.toObject(EventoClass.class);
-                            evento.setEventId(document.getId()); // Asegúrate de tener este método en tu clase EventoClass
-                            listaEventos.add(evento); // Añade eventos a la lista
-                        }
-                        // Notifica al adaptador que los datos han cambiado
-                        eventosAdapter.notifyDataSetChanged();
+                .addSnapshotListener((value, e) -> {
+                    if (e != null) {
+                        Log.w("Error", "Error al escuchar los eventos", e);
+                        Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    listaEventos.clear();
+                    for (QueryDocumentSnapshot document : value) {
+                        EventoClass evento = document.toObject(EventoClass.class);
+                        evento.setEventId(document.getId());
+                        listaEventos.add(evento);
+                    }
+                    eventosAdapter.notifyDataSetChanged();
                 });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -138,31 +129,16 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
 
 
     @Override
-    public void onEliminarClicked(int position) {
-
+    public void onEliminarClicked(int position, String eventoID) {
         if (position != RecyclerView.NO_POSITION) {
-            if (position < 0 || position >= listaEventos.size()) {
-                Log.e(TAG, "Posición inválida: " + position);
-                return;
-            }
-
             EventoClass eventoAEliminar = listaEventos.get(position);
             String eventId = eventoAEliminar.getEventId();
-
-            if (eventId == null) {
-                Log.e(TAG, "Evento a eliminar con ID nulo");
-                return;
-            }
-
-            Log.d(TAG, "Eliminando evento con ID: " + eventId);
 
             db.collection("Eventos").document(eventId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Log.d(TAG, "Evento eliminado: " + eventId);
-                        listaEventos.remove(position);
-                        eventosAdapter.notifyItemRemoved(position);
-                        eventosAdapter.notifyItemRangeChanged(position, listaEventos.size());
+                        // No necesitas llamar a removeEvento aquí, el SnapshotListener se encargará de actualizar el RecyclerView.
                     })
                     .addOnFailureListener(e -> {
                         Log.e(TAG, "Error al eliminar evento", e);
@@ -171,6 +147,9 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         }
     }
 
+
+
+
     @Override
     public void onEditarClicked(String eventoId, String actividadId) {
         Intent intent = new Intent(getActivity(), NuevoEventoActivity.class);
@@ -178,9 +157,8 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         intent.putExtra("id_actividad", actividadId);
         startActivity(intent);
     }
-    private void abrirNuevoEventoActivityConIdActividad(String actividadId,String eventoId) {
+    private void abrirNuevoEventoActivityConIdActividad(String actividadId) {
         Intent intent = new Intent(getActivity(), NuevoEventoActivity.class);
-        intent.putExtra("id_evento", eventoId);
         intent.putExtra("id_actividad", actividadId); // asumiendo que 'idactividad' es el ID de la actividad actual.
         startActivity(intent);
     }

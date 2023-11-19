@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -43,13 +44,22 @@ public class Donacion extends AppCompatActivity {
                     cod.setText(document.getString("codigo"));
                     Query query1 = db.collection("donaciones").whereEqualTo("codigo",document.getString("codigo"));
                     query1.get().addOnCompleteListener(task1 ->{
+                        Log.d("asdfg","aa");
                         if(task.isSuccessful()){
+                            Log.d("asdfg","ba");
                             QuerySnapshot queryDocumentSnapshot1 = task1.getResult();
                             if(!queryDocumentSnapshot.isEmpty()){
-                                DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
-                                if(document1.getString("rechazo").equals("1")){
-                                    recha.set(true);
-                                };
+                                Log.d("asdfg","da");
+                                try {
+                                    DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
+                                    Log.d("asdfg", "ea");
+                                    if (document1.getString("rechazo").equals("1")) {
+                                        recha.set(true);
+                                    }
+                                } catch (Exception e) {
+                                    // Manejar la excepción aquí
+                                    Log.d("asdfg", "Se produjo un error: " + e.getMessage());
+                                }
                             }
                         }
                     } );

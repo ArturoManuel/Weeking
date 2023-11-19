@@ -113,8 +113,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:gravity="right|center"
+                android:textAlignment="center"
                 android:text="¿Olvidaste tu contraseña?"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorBlack" />
+
 
             <Button
                 android:id="@+id/iniciarSesion"
@@ -157,7 +159,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="No tienes una cuenta ?   "
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorBlack" />
 
                 <TextView
                     android:id="@+id/registrate"

@@ -33,7 +33,6 @@ public class mainFragmento extends Fragment {
     // Añadir instancia del ViewModel
     private AppViewModel appViewModel;
 
-
     private AdaptadorPrin adaptadorPrincipal;
     private AdaptadorPrin adaptadorPorLikes;
 
@@ -68,6 +67,7 @@ public class mainFragmento extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adaptadorPrincipal); // Seteamos el adaptador aquí
 
+
         appViewModel.getListaEventos().observe(getViewLifecycleOwner(), eventoClasses -> {
             if (eventoClasses != null && !eventoClasses.isEmpty()) {
                 adaptadorPrincipal.updateData(eventoClasses);
@@ -77,6 +77,22 @@ public class mainFragmento extends Fragment {
                 tituloListaPrincipal.setVisibility(View.GONE);
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Lista por likes
         recyclerViewPorLikes = view.findViewById(R.id.lista_populares);

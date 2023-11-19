@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -117,6 +118,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             }
         });
         AppViewModel appViewModel= new ViewModelProvider(VistaPrincipal.this).get(AppViewModel.class);
+        appViewModel.iniciarListenerEventos();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -157,23 +159,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                 }
             });
         }
-
-        db = FirebaseFirestore.getInstance();
-        db.collection("Eventos").addSnapshotListener((collection, error) -> {
-            if (error != null) {
-                Log.w(TAG, "Error listening for document changes.", error);
-                return;
-            }
-            if (collection != null && !collection.isEmpty()) {
-                List<EventoClass> eventos = new ArrayList<>();
-                for (QueryDocumentSnapshot document : collection) {
-                    EventoClass evento = document.toObject(EventoClass.class);
-                    eventos.add(evento);
-                }
-                appViewModel.getListaEventos().postValue(eventos);
-            }
-        });
-
 
     }
 
@@ -218,33 +203,54 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(VistaPrincipal.this, destinationClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
     public void onDonateClick(View view) {
+        view.setEnabled(false); // Deshabilitar el botón
+
+        new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         Intent intent = new Intent(VistaPrincipal.this, Donacion.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void onListaActividadesClick(View view) {
+        view.setEnabled(false); // Deshabilitar el botón
+
+        new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         // Tu código para manejar el click en "Lista de Actividades"
         Intent intent = new Intent(VistaPrincipal.this, ActividadesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void onListaAlumnosClick(View view) {
+        view.setEnabled(false); // Deshabilitar el botón
+
+        new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         // Tu código para manejar el click en "Lista de alumnos"
         Intent intent = new Intent(VistaPrincipal.this, Lista_don.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void onListaEstadisticasClick(View view) {
+        view.setEnabled(false); // Deshabilitar el botón
+
+        new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         // Tu código para manejar el click en "Estadísticas"
         Intent intent = new Intent(VistaPrincipal.this, Stadistics.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
     public void onListaEventosClick(View view) {
+        view.setEnabled(false); // Deshabilitar el botón
+
+        new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         // Tu código para manejar el click en "Lista de Eventos"
         Intent intent = new Intent(VistaPrincipal.this, EventosActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -258,6 +264,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         FirebaseAuth.getInstance().signOut();
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();
     }
@@ -275,6 +282,13 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         } else {
             navController.navigate(R.id.mainFragmento);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
+        appViewModel.detenerListenerEventos();  // Detiene la escucha de eventos
     }
 
 

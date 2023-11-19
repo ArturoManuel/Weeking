@@ -32,6 +32,7 @@ public class VistaDelegadoActividadActivity extends AppCompatActivity {
         Button btnDonacion =  findViewById(R.id.btnDonaDA);
         btnDonacion.setOnClickListener(v -> {
             Intent intent =  new Intent(VistaDelegadoActividadActivity.this, Donacion.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });

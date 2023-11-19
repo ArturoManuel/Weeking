@@ -14,6 +14,16 @@ public class Usuario {
     private String nombre;
     private String rol;
 
+    public String getBan() {
+        return ban;
+    }
+
+    public void setBan(String ban) {
+        this.ban = ban;
+    }
+
+    private String ban;
+
     // Constructor vacío requerido para Firestore
     public Usuario() {}
 

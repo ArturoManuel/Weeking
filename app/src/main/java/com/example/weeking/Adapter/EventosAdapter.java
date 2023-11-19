@@ -1,5 +1,6 @@
 package com.example.weeking.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,16 +28,14 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
     private Context context;
     private OnEventoListener onEventoListener;
 
+
     public EventosAdapter(List<EventoClass> listaEventos, Context context, OnEventoListener onEventoListener) {
         this.listaEventos = listaEventos;
         this.context = context;
         this.onEventoListener = onEventoListener;
     }
 
-    public interface OnEventoListener {
-        void onEliminarClicked(int position);
-        void onEditarClicked(String eventoId, String actividadId); // Método para manejar clic en editar
-    }
+
 
 
     @NonNull
@@ -53,7 +53,15 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
         holder.eliminarImageView.setOnClickListener(v -> {
             int adapterPos = holder.getAdapterPosition();
             if(adapterPos != RecyclerView.NO_POSITION) {
-                onEventoListener.onEliminarClicked(adapterPos);
+                new AlertDialog.Builder(context)
+                        .setTitle("Confirmar eliminación")
+                        .setMessage("¿Estás seguro de que deseas eliminar el evento " + evento.getNombre() + "?")
+                        .setPositiveButton("Eliminar", (dialog, which) -> {
+                            // Usuario confirma la eliminación
+                            onEventoListener.onEliminarClicked(adapterPos, evento.getEventId());
+                        })
+                        .setNegativeButton("Cancelar", null) // null significa que no hace nada al clickear
+                        .show();
             }
         });
 
@@ -133,8 +141,21 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
     }
     public void setListaEventos(List<EventoClass> listaEventos) {
         this.listaEventos = listaEventos;
-        notifyDataSetChanged(); // Esto hará que el RecyclerView se actualice con los nuevos datos
+        notifyDataSetChanged();
+        Log.d("Tamaño de la lista Adapter", String.valueOf(listaEventos.size()));
     }
+
+
+    public interface OnEventoListener {
+        void onEliminarClicked(int position ,String eventoId);
+        void onEditarClicked(String eventoId, String actividadId); // Método para manejar clic en editar
+    }
+
+
+
+
+
+
 
 }
 

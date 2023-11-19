@@ -8,12 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
-
         <!-- Rectangular image view as a background for the description -->
         <ImageView
             android:id="@+id/imagenActividad"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="376dp"
+            android:layout_height="216dp"
             android:scaleType="centerCrop"
             android:src="@drawable/logo" />
 
