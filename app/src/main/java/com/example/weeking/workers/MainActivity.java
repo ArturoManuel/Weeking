@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private boolean isValidEmail(String email) {
-        String emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|pucp\\.edu\\.pe|pucp\\.pe)";
+        String emailPattern = "[a-zA-Z0-9._%+-]+@(pucp\\.edu\\.pe|pucp\\.pe)";
         return Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.matches(emailPattern);
     }
 
