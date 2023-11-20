@@ -89,6 +89,7 @@ public class perfil extends Fragment {
     private TextView userName ,codigo;
     private TextView txtCountFollow, txtCountLikes;
     private static final int REQUEST_PICK_IMAGE = 1;
+
     StorageReference storageReference;
     ProgressDialog progressDialog;
     String download_uri = "";
