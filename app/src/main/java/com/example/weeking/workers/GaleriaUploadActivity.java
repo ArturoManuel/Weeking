@@ -54,6 +54,7 @@ public class GaleriaUploadActivity extends AppCompatActivity {
                 Toast.makeText(GaleriaUploadActivity.this, "Seleccione una imagen", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void openGallery() {
