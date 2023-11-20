@@ -12,7 +12,7 @@
         android:id="@+id/textView26"
         android:layout_width="322dp"
         android:layout_height="80dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="24dp"
         android:text="Galeria de Fotos de Evento"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -31,17 +31,19 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26"
-        android:numColumns="2"
-        android:columnWidth="90dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        >
+        app:layout_constraintVertical_bias="1.0">
+
 
     </GridView>
 
@@ -49,20 +51,38 @@
         android:id="@+id/flatBtnAddNewPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:clickable="true"
-        app:srcCompat="@drawable/baseline_add_circle_24"
-        tools:layout_editor_absoluteX="343dp"
-        tools:layout_editor_absoluteY="31dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_add_circle_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/flatBtnTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/flatBtnGalleryPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_photo_camera_24" />
 
-        app:srcCompat="@drawable/baseline_photo_camera_24"
-        tools:layout_editor_absoluteX="242dp"
-        tools:layout_editor_absoluteY="33dp" />
-
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/flatBtnGalleryPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/flatBtnAddNewPhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_photo_black_48dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
