@@ -3,6 +3,8 @@ package com.example.weeking.workers;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.workers.adaptador.GaleriaFotosAdapter;
+import com.example.weeking.workers.fragmentos.camarafragmento;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
@@ -40,6 +43,7 @@ public class GaleriaEventos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_eventos);
+
         anadir = findViewById(R.id.flatBtnAddNewPhoto);
         camara = findViewById(R.id.flatBtnTakePhoto);
         galeria = findViewById(R.id.flatBtnGalleryPhoto);
@@ -54,6 +58,7 @@ public class GaleriaEventos extends AppCompatActivity {
 
             }
         });
+
         anadir.setOnClickListener(view -> {
             if(aBoolean){
 
@@ -67,7 +72,12 @@ public class GaleriaEventos extends AppCompatActivity {
             }
         });
         camara.setOnClickListener(view -> requestCameraPermission());
-    }
+        galeria.setOnClickListener(view -> {
+            Intent intent = new Intent(GaleriaEventos.this, GaleriaUploadActivity.class);
+            startActivity(intent);
+        });
+
+        }
 
     /*private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
