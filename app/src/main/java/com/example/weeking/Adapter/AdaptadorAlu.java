@@ -20,6 +20,7 @@ import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.Verificacion_don;
 import com.example.weeking.workers.alu;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

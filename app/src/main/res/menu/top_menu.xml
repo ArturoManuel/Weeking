@@ -16,6 +16,4 @@
         android:title="Notification"
     app:showAsAction="always"/>
 
-
-
 </menu>
