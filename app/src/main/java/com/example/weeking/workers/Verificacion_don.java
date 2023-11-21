@@ -36,6 +36,7 @@ public class Verificacion_don extends AppCompatActivity {
             intent.putExtra("recha",donacionSeleccionado.getRechazo());
             intent.putExtra("egre",donacionSeleccionado.isEgresado());
             startActivity(intent);
+            finish();
         });
         negar.setOnClickListener(v -> {
             Intent intent = new Intent(this, Don_recha.class);
@@ -45,6 +46,7 @@ public class Verificacion_don extends AppCompatActivity {
             intent.putExtra("recha",donacionSeleccionado.getRechazo());
             intent.putExtra("egre",donacionSeleccionado.isEgresado());
             startActivity(intent);
+            finish();
         });
     }
 }

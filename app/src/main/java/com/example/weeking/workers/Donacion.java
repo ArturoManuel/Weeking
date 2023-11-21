@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 import com.example.weeking.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -42,30 +45,32 @@ public class Donacion extends AppCompatActivity {
                     DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
                     nombre.setText(document.getString("nombre"));
                     cod.setText(document.getString("codigo"));
-                    Query query1 = db.collection("donaciones").whereEqualTo("codigo",document.getString("codigo"));
-                    query1.get().addOnCompleteListener(task1 ->{
-                        Log.d("asdfg","aa");
-                        if(task.isSuccessful()){
-                            Log.d("asdfg","ba");
-                            QuerySnapshot queryDocumentSnapshot1 = task1.getResult();
-                            if(!queryDocumentSnapshot.isEmpty()){
-                                Log.d("asdfg","da");
+                    Query query1 = db.collection("donaciones").whereEqualTo("codigo", document.getString("codigo"));
+
+                    query1.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot snapshots,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w("asdfg", "Escucha fallida.", e);
+                                return;
+                            }
+
+                            if (snapshots != null && !snapshots.isEmpty()) {
+                                Log.d("asdfg", "Cambios detectados en la colección");
                                 try {
-                                    DocumentSnapshot document1 = queryDocumentSnapshot1.getDocuments().get(0);
-                                    Log.d("asdfg", "ea");
+                                    DocumentSnapshot document1 = snapshots.getDocuments().get(0);
                                     if (document1.getString("rechazo").equals("1")) {
                                         recha.set(true);
                                     }
-                                } catch (Exception e) {
-                                    // Manejar la excepción aquí
-                                    Log.d("asdfg", "Se produjo un error: " + e.getMessage());
+                                } catch (Exception ex) {
+                                    Log.d("asdfg", "Se produjo un error: " + ex.getMessage());
                                 }
                             }
                         }
-                    } );
-                }
-            }
-        } );
+                    });
+                    }}
+                });
         boton.setOnClickListener(view -> {
             if(recha.get()){
                 Toast.makeText(this, "tines una donacion pendiendo de verificar", Toast.LENGTH_SHORT).show();

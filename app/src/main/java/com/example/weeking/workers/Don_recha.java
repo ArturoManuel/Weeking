@@ -36,9 +36,10 @@ public class Don_recha extends AppCompatActivity {
             Map<String, Object> map = new HashMap<>();
             map.put("rechazo",motivo);
             db.collection("donaciones").document(codigo).update(map);
-            Intent intent1 = new Intent(this, VistaPrincipal.class);
+            Intent intent1 = new Intent(this, Lista_don.class);
             intent1.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent1);
+            finish();
         });
     }
 }

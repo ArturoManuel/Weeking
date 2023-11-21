@@ -38,17 +38,21 @@ public class Lista_don extends AppCompatActivity {
         setContentView(R.layout.activity_lista_don);
         AppViewModel appViewModel= new ViewModelProvider(this).get(AppViewModel.class);
         db = FirebaseFirestore.getInstance();
+        AdaptadorAlu listAdapter = new AdaptadorAlu(alun,this);
+        AdaptadorDon listaAdapter = new AdaptadorDon(donadores,this);
         db.collection("donaciones").addSnapshotListener((collection, error) -> {
             if (error != null) {
                 Log.d("lectura", "Error listening for document changes.");
                 return;
             }
             if (collection != null && !collection.isEmpty()) {
+                donadores.clear(); // Limpia la lista antes de añadir nuevos elementos
                 for (QueryDocumentSnapshot document : collection) {
                     ListaDon dona = document.toObject(ListaDon.class);
                     donadores.add(dona);
                 }
                 appViewModel.getListaDona().postValue(donadores);
+                listaAdapter.notifyDataSetChanged(); // Notifica al adaptador de los cambios
             }
         });
         db.collection("usuarios").addSnapshotListener((collection, error) -> {
@@ -57,22 +61,21 @@ public class Lista_don extends AppCompatActivity {
                 return;
             }
             if (collection != null && !collection.isEmpty()) {
+                alun.clear(); // Limpia la lista antes de añadir nuevos elementos
                 for (QueryDocumentSnapshot document : collection) {
                     Usuario usuario = document.toObject(Usuario.class);
                     alun.add(usuario);
                 }
-
+                listAdapter.notifyDataSetChanged(); // Notifica al adaptador de los cambios
             }
         });
         if(donadores !=null){
             Log.d("lectura", "adfghd");
         }
-        AdaptadorDon listaAdapter = new AdaptadorDon(donadores,this);
         RecyclerView recyclerView = findViewById(R.id.lista_don);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listaAdapter);
-        AdaptadorAlu listAdapter = new AdaptadorAlu(alun,this);
         RecyclerView recyclerView1 = findViewById(R.id.lista_alu);
         recyclerView1.setHasFixedSize(true);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
