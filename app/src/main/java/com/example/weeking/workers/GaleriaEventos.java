@@ -34,9 +34,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class GaleriaEventos extends AppCompatActivity {
     GridView gridView;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private static final int REQUEST_GALLERY_PERMISSION = 2;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_PICK_IMAGE = 2;
+    //private ArrayList<DataClass> dataList;
     FloatingActionButton anadir, camara, galeria;
     boolean aBoolean = true;
     @Override
