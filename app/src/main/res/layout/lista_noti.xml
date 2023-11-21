@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/lista_noti"
     app:cardCornerRadius="20dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="#98DAD3">
 
         <LinearLayout
             android:layout_width="wrap_content"
