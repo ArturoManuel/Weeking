@@ -35,7 +35,7 @@ public class Contrasena3Activity extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Llamada a la función de validación
+
                 validarContrasenas();
             }
         });
@@ -47,40 +47,37 @@ public class Contrasena3Activity extends AppCompatActivity {
         String contrasena2 = contrasena2Text.getText().toString().trim();
 
         if (contrasena1.isEmpty() || contrasena2.isEmpty()) {
-            // Mostrar un mensaje de error si algún campo está vacío
+
             contrasenaLayout.setError("Completa ambos campos");
             contrasena2Layout.setError("Completa ambos campos");
         } else if (!contrasena1.equals(contrasena2)) {
-            // Mostrar un mensaje de error si las contraseñas no coinciden
+
             contrasenaLayout.setError("Las contraseñas no coinciden");
             contrasena2Layout.setError("Las contraseñas no coinciden");
         } else {
-            // Las contraseñas coinciden, puedes continuar con la lógica de cambio de contraseña
-            // ... (agrega tu lógica aquí)
-            // Por ejemplo, puedes llamar a una función para cambiar la contraseña en tu sistema
+
             cambiarContrasena(contrasena1);
         }
     }
     private void cambiarContrasena(String nuevaContrasena) {
-        // Obtén el usuario actualmente autenticado
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            // Aquí puedes abrir un diálogo o una nueva actividad para que el usuario ingrese su nueva contraseña
-            // Después de obtener la nueva contraseña, utiliza el siguiente código para cambiarla
+
 
             user.updatePassword(nuevaContrasena)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            // Contraseña cambiada con éxito
+
                             Toast.makeText(this, "Contraseña cambiada con éxito", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Ocurrió un error al cambiar la contraseña
+
                             Toast.makeText(this, "Error al cambiar la contraseña: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
-            // El usuario no está autenticado, maneja este caso según tus necesidades
+
             Toast.makeText(this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
         }
     }

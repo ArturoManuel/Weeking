@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +18,7 @@ import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityRegistroBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -47,6 +50,12 @@ public class RegistroActivity extends AppCompatActivity {
         setItems(autoCompleteTextView);
         db = FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+        binding.codigoPucp.addTextChangedListener(createTextWatcher(binding.codigoPucp));
+        binding.nombre.addTextChangedListener(createTextWatcher(binding.nombre));
+        binding.apellido.addTextChangedListener(createTextWatcher(binding.apellido));
+        binding.correo.addTextChangedListener(createTextWatcher(binding.correo));
+        binding.contrasena1.addTextChangedListener(createTextWatcher(binding.contrasena1));
+        binding.contrasena2.addTextChangedListener(createTextWatcher(binding.contrasena2));
 
         binding.tienescuenta.setOnClickListener(v -> navigateToActivity(MainActivity.class));
 
@@ -54,13 +63,14 @@ public class RegistroActivity extends AppCompatActivity {
             // Obtener valores de los campos
             String codigo = binding.codigoPucp.getText().toString();
             String nombre = binding.nombre.getText().toString();
+            String apellido = binding.apellido.getText().toString();
             String correo = binding.correo.getText().toString();
             String contrasena = binding.contrasena1.getText().toString();
             String contrasena2 = binding.contrasena2.getText().toString();
             String estado = binding.estados.getText().toString();
 
             // Validaciones
-            if (codigo.isEmpty() || nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || contrasena2.isEmpty() || estado.isEmpty()) {
+            if (codigo.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || contrasena2.isEmpty() || estado.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -112,13 +122,38 @@ public class RegistroActivity extends AppCompatActivity {
 
 
     }
+    private TextWatcher createTextWatcher(final TextInputEditText editText) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // No es necesario realizar acciones antes de que el texto cambie
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                // Remueve espacios y subrayados del texto
+                String formattedText = charSequence.toString().replaceAll("[\\s_]", "");
+
+                // Actualiza el texto del EditText sin espacios ni subrayados
+                editText.removeTextChangedListener(this);
+                editText.setText(formattedText);
+                editText.setSelection(formattedText.length());
+                editText.addTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // No es necesario realizar acciones después de que el texto cambie
+            }
+        };
+    }
     private boolean isValidAlumnoCode(String codigo) {
         // Verifica si el código de alumno es numérico y tiene 8 dígitos
         return codigo.matches("\\d{8}");
     }
     private boolean isValidEmail(String email) {
         // Utilizar una expresión regular para validar el formato del correo electrónico
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|pucp\\.edu\\.pe|pucp\\.pe)";
         return email.matches(emailPattern);
     }
     private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {
@@ -152,19 +187,19 @@ public class RegistroActivity extends AppCompatActivity {
                         // Crear un objeto Map para almacenar los valores en Firestore
                         Map<String, Object> user = new HashMap<>();
                         user.put("codigo", codigoAlumno);
-                        user.put("nombre", binding.nombre.getText().toString());
+                        user.put("nombre", binding.nombre.getText().toString() + " " + binding.apellido.getText().toString());
                         user.put("correo", email);
                         user.put("estado", binding.estados.getText().toString());
                         user.put("rol", "alumno");
                         user.put("apoyo", "no_apoya");
                         user.put("imagen_url", "https://firebasestorage.googleapis.com/v0/b/weeking-c2d7c.appspot.com/o/usuarios%2Fanonimo.png?alt=media&token=1eb0b99e-0023-47ce-924c-c0f9846ead19");
                         user.put("authUID", authUID);
-
+                        user.put("ban","0");
                         // Añadir datos en Firestore
                         db.collection("usuarios").document(codigoAlumno).set(user)
                                 .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-                                    navigateToActivity(VistaPrincipal.class);
+                                    Toast.makeText(this, "Usuario registrado con éxito, espere que lo verifique", Toast.LENGTH_SHORT).show();
+                                    navigateToActivity(MainActivity.class);
                                 })
                                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     } else {
@@ -174,6 +209,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
     private void navigateToActivity(Class<?> destinationClass) {
         Intent intent = new Intent(RegistroActivity.this, destinationClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();
     }

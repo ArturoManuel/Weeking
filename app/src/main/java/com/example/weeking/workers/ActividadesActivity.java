@@ -42,6 +42,7 @@ public class ActividadesActivity extends AppCompatActivity {
         appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
         binding.btnAddActivity.setOnClickListener(v -> {
             Intent intent = new Intent(ActividadesActivity.this, NuevaActividadActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         });
         // Inicializa la conexión a Firestore

@@ -4,7 +4,10 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +22,7 @@ import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.NuevoEventoActivity;
+import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,17 +37,16 @@ import java.util.List;
 
 public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoListener {
     private RecyclerView recyclerView;
-
     private ListenerRegistration eventListenerRegistration;
-    private EventosAdapter adapter;  // Cambiado de RecyclerView.Adapter a EventosAdapter
-    private List<EventoClass> elements;  // Cambiado de List<ListaEven> a List<EventoClass>
-
+    private EventosAdapter adapter;
+    private List<EventoClass> elements = new ArrayList<>();
     private FirebaseFirestore db;
-    private String idActividad;  // Este es el ID de la actividad para la que deseas obtener los eventos
+    private String idActividad;
 
+    private  AppViewModel appViewModel;
 
     public ListaFragmento() {
-        // Required empty public constructor
+        // Constructor vacío requerido
     }
 
     public ListaFragmento(String idActividad) {
@@ -52,43 +55,37 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_lista_fragmento, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewEventos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         obtenerEventosDeFirestore();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        // Remueve el listener cuando el fragmento ya no es visible
-        if (eventListenerRegistration != null) {
-            eventListenerRegistration.remove();
-        }
+        return view;
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_lista_fragmento, container, false);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerViewEventos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-       obtenerEventosDeFirestore();;  // Usa el método para obtener datos ficticios
 
-        return view;
+        // Observar cambios en la lista de eventos por actividad
+        appViewModel.getEventosByActividadId(idActividad).observe(getViewLifecycleOwner(), nuevosEventos -> {
+            actualizarDatos(nuevosEventos);
+        });
     }
 
 
 
     private void obtenerEventosDeFirestore() {
         CollectionReference eventosRef = db.collection("Eventos");
-
-        // Adjunta el listener y guarda la referencia para poder removerlo más tarde
         eventListenerRegistration = eventosRef.whereEqualTo("idActividad", idActividad)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
@@ -96,58 +93,52 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
                         Toast.makeText(getActivity(), "No se pudo obtener eventos", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
-                    List<EventoClass> elements = new ArrayList<>(); // Inicializa tu lista de elementos aquí
+                    List<EventoClass> nuevosEventos = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         EventoClass evento = document.toObject(EventoClass.class);
                         evento.setEventId(document.getId());
-                        elements.add(evento); // Añade eventos a la lista
+                        nuevosEventos.add(evento);
                     }
-
-                    // Inicializa y establece el adaptador aquí para asegurar que los datos están disponibles
-                    if (adapter == null) {
-                        adapter = new EventosAdapter(elements, getActivity(), this);
-                        recyclerView.setAdapter(adapter);
-                    } else {
-                        adapter.setListaEventos(elements); // Suponiendo que tienes un método para actualizar los datos
-                        adapter.notifyDataSetChanged();
-                    }
+                    actualizarDatos(nuevosEventos);
                 });
     }
 
-    @Override
-    public void onEliminarClicked(int position) {
-        if (position != RecyclerView.NO_POSITION) {
-            if (position < 0 || position >= elements.size()) {
-                Log.e(TAG, "Posición inválida: " + position);
-                return;
-            }
+    private void actualizarDatos(List<EventoClass> nuevosDatos) {
+        elements.clear();
+        elements.addAll(nuevosDatos);
+        if (adapter == null) {
+            adapter = new EventosAdapter(elements, getActivity(), this);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.setListaEventos(elements);
+        }
+    }
 
+    @Override
+    public void onEliminarClicked(int position, String eventoId) {
+        if (position != RecyclerView.NO_POSITION && elements != null && position < elements.size()) {
             EventoClass eventoAEliminar = elements.get(position);
             String eventId = eventoAEliminar.getEventId();
-
             if (eventId == null) {
                 Log.e(TAG, "Evento a eliminar con ID nulo");
                 return;
             }
-
-            Log.d(TAG, "Eliminando evento con ID: " + eventId);
-
             db.collection("Eventos").document(eventId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Log.d(TAG, "Evento eliminado: " + eventId);
-                        elements.remove(position);
-                        adapter.notifyItemRemoved(position);
-                        adapter.notifyItemRangeChanged(position, elements.size());
+                        // Llamar a obtenerEventosDeFirestore para recargar la lista
+                        obtenerEventosDeFirestore();
                     })
                     .addOnFailureListener(e -> {
                         Log.e(TAG, "Error al eliminar evento", e);
                         Toast.makeText(getContext(), "Error al eliminar evento", Toast.LENGTH_SHORT).show();
                     });
+        } else {
+            Log.e(TAG, "Intento de eliminar un evento en una posición inválida.");
         }
-
     }
+
 
     @Override
     public void onEditarClicked(String eventoId, String actividadId) {
@@ -157,6 +148,18 @@ public class ListaFragmento extends Fragment implements EventosAdapter.OnEventoL
         startActivity(intent);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (eventListenerRegistration != null) {
+            eventListenerRegistration.remove();
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+       obtenerEventosDeFirestore();
+    }
 
 
 }

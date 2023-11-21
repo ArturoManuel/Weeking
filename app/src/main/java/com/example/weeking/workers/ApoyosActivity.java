@@ -25,6 +25,7 @@ public class ApoyosActivity extends AppCompatActivity {
         Button btnParticipantes = findViewById(R.id.btnParticipantes);
         btnParticipantes.setOnClickListener(v -> {
             Intent intent = new Intent(ApoyosActivity.this, VistaApoyosActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
@@ -32,6 +33,7 @@ public class ApoyosActivity extends AppCompatActivity {
         Button btnNuevosAlumnos = findViewById(R.id.btnNuevosAlumnos);
         btnNuevosAlumnos.setOnClickListener(v -> {
             Intent intent = new Intent(ApoyosActivity.this, VistaApoyosActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.02" />
 
     <TextView
         android:id="@+id/logo"
@@ -29,10 +29,10 @@
         android:id="@+id/cardView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="12dp"
         app:cardCornerRadius="32dp"
-        app:cardElevation="4dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"
@@ -57,11 +57,13 @@
                 android:layout_marginEnd="40dp"
                 android:hint="Código PUCP"
                 app:helperTextTextColor="@color/cardview_dark_background">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/codigo_pucp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Nombre -->
@@ -76,11 +78,33 @@
                 android:hint="Nombre"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/ic_person">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="21" />
+                    android:maxLength="21"
+                    android:singleLine="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usuario_registro1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="40dp"
+                android:hint="Apellido"
+                app:helperTextTextColor="@color/cardview_dark_background"
+                app:startIconDrawable="@drawable/ic_person">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/apellido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="21"
+                    android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Correo -->
@@ -95,11 +119,13 @@
                 android:hint="Correo"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_email_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/correo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="21" />
+                    android:maxLength="30"
+                    android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Contraseña -->
@@ -115,13 +141,15 @@
                 app:endIconMode="password_toggle"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_lock_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contrasena1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:maxLength="21"
-                    android:textColor="@android:color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Ingrese nuevamente -->
@@ -137,13 +165,15 @@
                 app:endIconMode="password_toggle"
                 app:helperTextTextColor="@color/cardview_dark_background"
                 app:startIconDrawable="@drawable/baseline_lock_24">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contrasena2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:maxLength="21"
-                    android:textColor="@android:color/black"/>
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Estado -->
@@ -152,15 +182,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="40dp"
                 android:hint="Estado">
+
                 <AutoCompleteTextView
                     android:id="@+id/estados"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="none">
-                </AutoCompleteTextView>
+                    android:inputType="none"></AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

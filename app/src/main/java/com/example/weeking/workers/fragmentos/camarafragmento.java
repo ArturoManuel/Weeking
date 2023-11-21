@@ -67,27 +67,8 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camarafragmento, container, false);
-
-
         imageView = view.findViewById(R.id.imageView);
-        bt_pick = view.findViewById(R.id.bt_pick);
-        bt_galera = view.findViewById(R.id.bt_galeria);
-
-
-
-        bt_pick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestCameraPermission();
-            }
-        });
-
-        bt_galera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGallery();
-            }
-        });
+        //bt_galera = view.findViewById(R.id.bt_galeria);
 
         return view;
     }
@@ -95,9 +76,6 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
     }
-
-
-
     private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {

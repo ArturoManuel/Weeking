@@ -113,6 +113,7 @@ public class Plin extends AppCompatActivity {
                                                     db.collection("donaciones").document(document.getString("codigo")).update(map);
                                                     Intent intent = new Intent(Plin.this, VistaPrincipal.class);
                                                     startActivity(intent);
+                                                    finish();
                                                 }else{
                                                     HashMap<String, Object> map = new HashMap<>();
                                                     map.put("foto", download_uri);
@@ -124,6 +125,7 @@ public class Plin extends AppCompatActivity {
                                                     db.collection("donaciones").document(document.getString("codigo")).set(map);
                                                     Intent intent = new Intent(Plin.this, VistaPrincipal.class);
                                                     startActivity(intent);
+                                                    finish();
                                                 }
                                             }
                                         } );

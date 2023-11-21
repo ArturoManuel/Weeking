@@ -1,14 +1,17 @@
 package com.example.weeking.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,8 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     private List<Actividad> listaActividades;
     private LayoutInflater inflater;
     private Context context;
+
+
 
     public ActividadesAdapter(List<Actividad> listaActividades, Context context) {
         this.inflater = LayoutInflater.from(context);
@@ -39,11 +44,23 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
         Actividad actividad = listaActividades.get(position);
         holder.bindData(actividad);
         // Establecer el listener para el botón de eliminar
+
         holder.eliminarImageView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onEliminarActividadClick(position);
-            }
+            // Crear un AlertDialog para confirmar la eliminación
+            new AlertDialog.Builder(context)
+                    .setTitle("Confirmar eliminación")
+                    .setMessage("¿Estás seguro de que deseas eliminar esta actividad?")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+                        // Usuario confirma la eliminación
+                        if (listener != null) {
+                            listener.onEliminarActividadClick(position);
+                        }
+                    })
+                    .setNegativeButton("Cancelar", null) // null significa que no hace nada al clickear
+                    .show();
         });
+
+
     }
 
     @Override
@@ -55,13 +72,15 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
         TextView nombreTextView;
         TextView descripcionTextView;
         ImageView eliminarImageView;
+
+        ImageButton imagenActividad;
         // Agrega otros componentes que necesites
 
         public ActividadViewHolder(@NonNull View itemView) {
             super(itemView);
             nombreTextView = itemView.findViewById(R.id.nombreActividad);
             eliminarImageView = itemView.findViewById(R.id.btnEliminarActividad);
-
+            imagenActividad = itemView.findViewById(R.id.imaBtnVerEventos);
             // Inicializa otros componentes
 
             itemView.setOnClickListener(v -> {
@@ -75,7 +94,10 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
 
         void bindData(Actividad actividad) {
             nombreTextView.setText(actividad.getNombre());
-            // Establece datos para otros componentes, si es necesario
+            Glide.with(itemView.getContext())
+                    .load(actividad.getImagenUrl())
+                    .into(imagenActividad);
+
         }
     }
     public interface OnActividadClickListener {

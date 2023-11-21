@@ -18,6 +18,7 @@ public class Cotrasena2Activity extends AppCompatActivity {
         Button button = findViewById(R.id.btnContinuar);
         button.setOnClickListener(view -> {
             Intent intent = new Intent(Cotrasena2Activity.this, Contrasena3Activity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();
         });
