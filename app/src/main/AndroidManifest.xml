@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -37,9 +37,9 @@
         <activity
             android:name=".workers.alu"
             android:exported="false" />
-        <activity
+        <!--activity
             android:name=".workers.Alumno"
-            android:exported="false" />
+            android:exported="false" /-->
         <activity
             android:name=".workers.ListaDonacionesActivity"
             android:exported="false" />
@@ -196,7 +196,18 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.weeking.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB0sIc6d91Jbx1VzFdnUjWAqUtMQl_Tr3Q" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

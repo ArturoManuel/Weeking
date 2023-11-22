@@ -49,33 +49,43 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout13"
-        android:layout_width="404dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="123dp"
-        android:layout_marginBottom="72dp"
+        android:layout_width="409dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
-        <EditText
-            android:id="@+id/descripcion"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="0.6"
-            android:hint="Añade una descripción ..."
-            android:padding="16dp" />
-
         <Button
-            android:id="@+id/cargaImagenGaleria"
+            android:id="@+id/btnCamaraUplad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Subir"
-            app:tint="@color/white" />
+            android:layout_weight="1"
+            android:text="Cámara"
+            app:icon="@drawable/baseline_photo_camera_24" />
+
+        <Button
+            android:id="@+id/btnGaleriaUplad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Galería"
+            app:icon="@drawable/ic_photo_black_48dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/cargaImagenGaleria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="56dp"
+        android:text="Subir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,29 +62,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_add_circle_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/flatBtnTakePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/flatBtnGalleryPhoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_photo_camera_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/flatBtnGalleryPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/flatBtnAddNewPhoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_photo_black_48dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
