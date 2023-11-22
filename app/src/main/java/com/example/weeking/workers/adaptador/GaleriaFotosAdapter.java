@@ -9,9 +9,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.weeking.R;
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 public class GaleriaFotosAdapter extends BaseAdapter {
     private Context mContext;
+    private List<String> imageUrls;
     public int[] imageArray={
             R.drawable.im1,
             R.drawable.im2,
@@ -20,8 +24,9 @@ public class GaleriaFotosAdapter extends BaseAdapter {
             R.drawable.im5,
     };
 
-    public GaleriaFotosAdapter(Context mContext) {
+    public GaleriaFotosAdapter(Context mContext, List<String> imageUrls) {
         this.mContext = mContext;
+        this.imageUrls = imageUrls;
     }
 
     @Override
@@ -41,10 +46,17 @@ public class GaleriaFotosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView =new ImageView(mContext);
-        imageView.setImageResource(imageArray[position]);
+        ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(340,350));
+        imageView.setLayoutParams(new GridView.LayoutParams(340, 350));
+
+        // Utiliza Glide para cargar la imagen desde la URL en el ImageView
+        Glide.with(mContext)
+                .load(imageUrls.get(position))
+                .placeholder(R.drawable._36035) // Puedes personalizar el placeholder
+                .error(R.drawable._36035) // Puedes personalizar la imagen de error
+                .into(imageView);
+
         return imageView;
 
     }

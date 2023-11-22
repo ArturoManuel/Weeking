@@ -14,18 +14,29 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
+import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.adaptador.GaleriaFotosAdapter;
 import com.example.weeking.workers.fragmentos.camarafragmento;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import droidninja.filepicker.FilePickerBuilder;
@@ -35,19 +46,61 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class GaleriaEventos extends AppCompatActivity {
     GridView gridView;
-
+    FirebaseStorage storage;
     //private ArrayList<DataClass> dataList;
     FloatingActionButton anadir, camara, galeria;
-    boolean aBoolean = true;
+    GaleriaFotosAdapter adapter;
+    StorageReference reference;
+    String eventoID;
+    String even;
+    TextView textView26;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_eventos);
-
+        storage = FirebaseStorage.getInstance();
+        reference = storage.getReference();
         anadir = findViewById(R.id.flatBtnAddNewPhoto);
         gridView=(GridView) findViewById(R.id.gv_imagenes);
-        gridView.setAdapter(new GaleriaFotosAdapter(this));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
+        even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "No tiene nombre";
+        textView26 = findViewById(R.id.textView26);
+        textView26.setText("Galería // "+even);
+        eventoID = eventoSeleccionado.getEventId();
+        Log.d("msg-test", eventoID);
+        StorageReference eventoStorageRef = storage.getReference().child("eventos/" + eventoID+"/");
+        //Log.d("msg-test", String.valueOf(eventoStorageRef));
+        eventoStorageRef.listAll()
+                .addOnSuccessListener(listResult -> {
+                    String[] items = new String[listResult.getItems().size()];
+                    Log.d("GaleriaEventos", "Tamaño de listResult.getItems(): " + listResult.getItems().size());
+                    List<String> imageUrls = new ArrayList<>();
+                    int i = 0;
+                    for (StorageReference item : listResult.getItems()) {
+                        Log.d("msg-test", "item.getName(): " + item.getName());
+                        Log.d("msg-test", "item.getPath(): " + item.getPath());
+                        items[i++] = item.getName();
+                        item.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // uri contiene la URL de la imagen
+                            // Agrega la URL a tu lista de URLs (imageUrls)
+                            imageUrls.add(uri.toString());
+                            Log.d("GaleriaEventos", "Tamaño de imageUrls: " + imageUrls.size());
+                        });
+
+                    }
+                    // Cuando todas las URLs se han recopilado, establece el adaptador
+                    if (imageUrls.size() == listResult.getItems().size()) {
+                        Log.d("msg-test", "mostrando imagenes");
+                        cargarImagenesEnGridView(imageUrls);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(GaleriaEventos.this, "Error al obtener las imágenes", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        /*gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getApplicationContext(), imagen_completa.class);
@@ -56,15 +109,18 @@ public class GaleriaEventos extends AppCompatActivity {
 
             }
         });
-
+*/
         anadir.setOnClickListener(view -> {
             Intent intent = new Intent(GaleriaEventos.this, GaleriaUploadActivity.class);
             startActivity(intent);
         });
-
         }
 
 
 
+    private void cargarImagenesEnGridView(List<String> imageUrls) {
+        GaleriaFotosAdapter adapter = new GaleriaFotosAdapter(this, imageUrls);
+        gridView.setAdapter(adapter);
+    }
 
 }

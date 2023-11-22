@@ -212,4 +212,5 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         mCurrentPhotoPath = imageFile.getAbsolutePath();
         return imageFile;
     }
+
 }
