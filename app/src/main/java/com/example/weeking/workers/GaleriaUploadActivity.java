@@ -3,7 +3,9 @@ package com.example.weeking.workers;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +26,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
+import com.example.weeking.entity.EventoClass;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,6 +57,7 @@ public class GaleriaUploadActivity extends AppCompatActivity {
     Uri imageUri;
     FirebaseStorage storage;
     StorageReference reference;
+    String eventoID;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
     @Override
@@ -61,37 +71,18 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         storage = FirebaseStorage.getInstance();
         reference = storage.getReference();
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK){
-                        Intent data = result.getData();
-                        imageUri = data.getData();
-                        imgCargar.setImageURI(imageUri);
-                    } else {
-                        Toast.makeText(GaleriaUploadActivity.this, "No se seleccionó imagen", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-        imgCargar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
-            }
-        });
-        cargaGaleria.setOnClickListener(view -> {
-            if (imageUri != null){
-                uploadToFireStorage(imageUri);
-                Toast.makeText(GaleriaUploadActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(GaleriaUploadActivity.this, GaleriaEventos.class);
-                startActivity(intent);
-                finish();
-            } else  {
-                Toast.makeText(GaleriaUploadActivity.this, "Seleccione una imagen", Toast.LENGTH_SHORT).show();
-            }
+        EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
+        eventoID = eventoSeleccionado.getEventId();
+        imgCargar.setOnClickListener(view -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
         });
 
+        cargaGaleria.setOnClickListener(view -> {
+            Log.d("msg-test", String.valueOf(imageUri));
+            uploadToFireStorage(imageUri);
+        });
     }
 
     private void openGallery() {
@@ -105,26 +96,38 @@ public class GaleriaUploadActivity extends AppCompatActivity {
             Context context = GaleriaUploadActivity.this;
             ContentResolver contentResolver = context.getContentResolver();
             Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
-            //int targetWidth = 700;
-            //int targetHeight = 700;
-            //Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true);
+            Log.d("msg-test", String.valueOf(imageUri));
             imgCargar.setImageBitmap(originalBitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    private void uploadToFireStorage(Uri uri){
-        //ver esa función para guardarla en cada carpeta del evento.
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = db.collection("eventos").whereEqualTo("authUID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        Map<String, Object> datos = new HashMap<>();
-        datos.put("imagen_url", urlImagen);
-        db.collection("usuarios").document(Fire)
-                .update(datos)
-                .addOnSuccessListener(documentReference -> {
-                })
-                .addOnFailureListener(e -> {
-                });*/
+    private void uploadToFireStorage(Uri uri) {
+        StorageReference imgRef = reference.child("eventos/" + eventoID + "/" + uri.getLastPathSegment());
+        UploadTask uploadTask = imgRef.putFile(uri);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
+                e.printStackTrace();
+                Toast.makeText(GaleriaUploadActivity.this, "Algo pasó. Inténtelo de nuevo", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(GaleriaUploadActivity.this, "Archivo subido correctamente", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(GaleriaUploadActivity.this, GaleriaEventos.class);
+                startActivity(intent);
+                finish();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,4 +154,19 @@ public class GaleriaUploadActivity extends AppCompatActivity {
             imgCargar.setImageURI(selectedImageUri);
         }
     }
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
+            new ActivityResultContracts.PickVisualMedia(),
+            uri -> {
+                if (uri != null){
+                    Log.d("msg-test", "Uri = "+uri);
+                    Log.d("msg-test",eventoID);
+                    Log.d("msg-test", uri.getLastPathSegment());
+                    mostrarImagenEnImageView(uri);
+                    imageUri = uri;
+                        /**/
+                }else{
+                    Log.d("msg-test", "Uri nula");
+                }
+            }
+    );
 }
