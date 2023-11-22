@@ -7,6 +7,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -15,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -38,10 +40,14 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import droidninja.filepicker.FilePickerBuilder;
@@ -51,8 +57,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class GaleriaUploadActivity extends AppCompatActivity {
     ImageView imgCargar;
-    EditText descripcion;
     Button cargaGaleria;
+    Button camara, galeria;
     ProgressBar progressBar;
     Uri imageUri;
     FirebaseStorage storage;
@@ -60,12 +66,16 @@ public class GaleriaUploadActivity extends AppCompatActivity {
     String eventoID;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
+
+    private String mCurrentPhotoPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_upload);
         imgCargar = findViewById(R.id.imgFotoCargar);
-        descripcion = findViewById(R.id.descripcion);
+        camara = findViewById(R.id.btnCamaraUplad);
+        galeria = findViewById(R.id.btnGaleriaUplad);
         cargaGaleria = findViewById(R.id.cargaImagenGaleria);
         progressBar = findViewById(R.id.progresoCarga);
         progressBar.setVisibility(View.INVISIBLE);
@@ -73,23 +83,19 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         reference = storage.getReference();
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
         eventoID = eventoSeleccionado.getEventId();
-        imgCargar.setOnClickListener(view -> {
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-        });
-
+        camara.setOnClickListener(view ->
+                requestCameraPermission()
+        );
+        galeria.setOnClickListener(view ->
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build()));
         cargaGaleria.setOnClickListener(view -> {
             Log.d("msg-test", String.valueOf(imageUri));
+            Log.d("msg-test", imageUri.getLastPathSegment());
             uploadToFireStorage(imageUri);
         });
     }
-
-    private void openGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
-    }
-
 
     private void mostrarImagenEnImageView(Uri imageUri) {
         try {
@@ -103,6 +109,9 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         }
     }
     private void uploadToFireStorage(Uri uri) {
+        ///Log.d("msg-test", "Uri = "+uri);
+        Log.d("msg-test",eventoID);
+        //Log.d("msg-test", uri.getLastPathSegment());
         StorageReference imgRef = reference.child("eventos/" + eventoID + "/" + uri.getLastPathSegment());
         UploadTask uploadTask = imgRef.putFile(uri);
 
@@ -139,19 +148,19 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == GaleriaUploadActivity.this.RESULT_OK) {
-
-            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-            imgCargar.setImageBitmap(imageBitmap);
-            int newWidth = 700; // Ancho deseado en píxeles
-            int newHeight = 1000; // Alto deseado en píxeles
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, newWidth, newHeight, true);
-            imgCargar.setImageBitmap(scaledBitmap);
-
+            File imgFile = new File(mCurrentPhotoPath);
+            Uri photoUri = Uri.fromFile(imgFile);
+            imgCargar.setImageURI(photoUri);
+            Log.d("msg-test", String.valueOf(photoUri));
+            imageUri = photoUri;
+            //uploadToFireStorage(photoUri);
 
         } else if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == GaleriaUploadActivity.this.RESULT_OK && data != null) {
-
             Uri selectedImageUri = data.getData();
             imgCargar.setImageURI(selectedImageUri);
+            Log.d("msg-test", String.valueOf(selectedImageUri));
+            //imageUri = selectedImageUri;
+            mostrarImagenEnImageView(selectedImageUri);
         }
     }
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(
@@ -169,4 +178,38 @@ public class GaleriaUploadActivity extends AppCompatActivity {
                 }
             }
     );
+
+    private void takePicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            Uri photoURI = null;
+            try {
+                photoURI = FileProvider.getUriForFile(this,
+                        "com.example.weeking.fileprovider",
+                        createImageFile());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private void requestCameraPermission() {
+        String[] perms = {Manifest.permission.CAMERA};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            takePicture();
+        } else {
+            EasyPermissions.requestPermissions(this, "Necesitamos permisos de cámara para tomar fotos",
+                    REQUEST_CAMERA_PERMISSION, perms);
+        }
+    }
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+        mCurrentPhotoPath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
 }
