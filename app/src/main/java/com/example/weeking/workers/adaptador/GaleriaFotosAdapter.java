@@ -1,6 +1,7 @@
 package com.example.weeking.workers.adaptador;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,13 +17,14 @@ import java.util.List;
 public class GaleriaFotosAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> imageUrls;
-    public int[] imageArray={
+    LayoutInflater layoutInflater;
+    /*public int[] imageArray={
             R.drawable.im1,
             R.drawable.im2,
             R.drawable.im3,
             R.drawable.im4,
             R.drawable.im5,
-    };
+    };*/
 
     public GaleriaFotosAdapter(Context mContext, List<String> imageUrls) {
         this.mContext = mContext;
@@ -31,33 +33,32 @@ public class GaleriaFotosAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return imageArray.length;
+        return imageUrls != null ? imageUrls.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return imageArray[position];
+        return imageUrls != null && position < imageUrls.size() ? imageUrls.get(position) : null;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(340, 350));
 
-        // Utiliza Glide para cargar la imagen desde la URL en el ImageView
-        Glide.with(mContext)
-                .load(imageUrls.get(position))
-                .placeholder(R.drawable._36035) // Puedes personalizar el placeholder
-                .error(R.drawable._36035) // Puedes personalizar la imagen de error
-                .into(imageView);
+        if (layoutInflater == null){
+            layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if (convertView == null){
+            convertView = layoutInflater.inflate(R.layout.adapta_img_galeria, null);
+        }
+        ImageView gridImage = convertView.findViewById(R.id.gridImage);
+        Glide.with(mContext).load(imageUrls.get(position)).into(gridImage);
 
-        return imageView;
+        return convertView;
 
     }
 }

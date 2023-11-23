@@ -61,7 +61,7 @@ public class GaleriaEventos extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         reference = storage.getReference();
         anadir = findViewById(R.id.flatBtnAddNewPhoto);
-        gridView=(GridView) findViewById(R.id.gv_imagenes);
+        gridView = findViewById(R.id.gv_imagenes);
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
         even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "No tiene nombre";
         textView26 = findViewById(R.id.textView26);
@@ -86,7 +86,6 @@ public class GaleriaEventos extends AppCompatActivity {
                             imageUrls.add(uri.toString());
                             Log.d("GaleriaEventos", "Tamaño de imageUrls: " + imageUrls.size());
                         });
-
                     }
                     // Cuando todas las URLs se han recopilado, establece el adaptador
                     if (imageUrls.size() == listResult.getItems().size()) {
@@ -119,7 +118,7 @@ public class GaleriaEventos extends AppCompatActivity {
 
 
     private void cargarImagenesEnGridView(List<String> imageUrls) {
-        GaleriaFotosAdapter adapter = new GaleriaFotosAdapter(this, imageUrls);
+        adapter = new GaleriaFotosAdapter(GaleriaEventos.this, imageUrls);
         gridView.setAdapter(adapter);
     }
 

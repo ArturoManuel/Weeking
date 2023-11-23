@@ -23,7 +23,6 @@ import com.example.weeking.workers.Contrasena3Activity;
 import com.example.weeking.workers.VistaPrincipal;
 import com.example.weeking.workers.Yape;
 import com.example.weeking.workers.viewModels.AppViewModel;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

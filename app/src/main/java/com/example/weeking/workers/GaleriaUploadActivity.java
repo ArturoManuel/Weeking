@@ -91,9 +91,14 @@ public class GaleriaUploadActivity extends AppCompatActivity {
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                 .build()));
         cargaGaleria.setOnClickListener(view -> {
-            Log.d("msg-test", String.valueOf(imageUri));
-            Log.d("msg-test", imageUri.getLastPathSegment());
-            uploadToFireStorage(imageUri);
+            if (imageUri != null) {
+                Log.d("msg-test", String.valueOf(imageUri));
+                Log.d("msg-test", imageUri.getLastPathSegment());
+                uploadToFireStorage(imageUri);
+            } else {
+                // Muestra un mensaje o realiza alguna acción si imageUri es nulo.
+                Toast.makeText(GaleriaUploadActivity.this, "Selecciona una imagen primero", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
