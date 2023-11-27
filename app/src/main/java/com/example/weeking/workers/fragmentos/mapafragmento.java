@@ -44,6 +44,30 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
         LatLng point2 = new LatLng(-12.075000, -77.078000);
         mMap.addMarker(new MarkerOptions().position(point2).title("Punto 2"));
 
-        // Puedes seguir agregando más puntos según lo necesites
+
+        LatLng pabellonV = new LatLng(-12.073063974496803, -77.08186661970869);
+        mMap.addMarker(new MarkerOptions().position(pabellonV).title("Pabellón V"));
+
+        LatLng canchaDeMinas = new LatLng(-12.072174128386596, -77.08199877048409);
+        mMap.addMarker(new MarkerOptions().position(canchaDeMinas).title("Cancha de Minas"));
+
+
+        LatLng polideportivo = new LatLng(-12.066550114711053, -77.08026020484829);
+        mMap.addMarker(new MarkerOptions().position(polideportivo).title("Polideportivo"));
+
+
+        LatLng facultadCienciasIngenieria = new LatLng(-12.07252824709505, -77.07943635537202);
+        mMap.addMarker(new MarkerOptions().position(facultadCienciasIngenieria).title("Facultad de Ciencias e Ingeniería"));
+
+
+        LatLng ajedrezPUCP = new LatLng(-12.066682180584055, -77.07993397133318);
+        mMap.addMarker(new MarkerOptions().position(ajedrezPUCP).title("Ajedrez PUCP"));
+
+
+        LatLng tenisDeMesaPUCP = new LatLng(-12.066921524250779, -77.080345690413);
+        mMap.addMarker(new MarkerOptions().position(tenisDeMesaPUCP).title("Tenis de Mesa PUCP"));
+
+
+
     }
 }
