@@ -1,5 +1,7 @@
 package com.example.weeking.workers.fragmentos;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,18 +15,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.Manifest;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.weeking.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,11 +45,21 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class camarafragmento extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback,EasyPermissions.PermissionCallbacks {
     private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_GALLERY_PERMISSION = 2;
     private ImageView imageView;
     private ImageButton bt_pick;
     private ImageButton bt_galera;
 
+    //new
+    private Button mButtonChooseImage;
+    private Button mButtonUpload;
+    private TextView mTextViewShowUploads;
+    private EditText mEditTextFileName;
+    private ImageView mImageView;
+    private ProgressBar mProgressBar;
+    private Uri mImageUri;
+    //new
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
@@ -66,12 +83,61 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(R.layout.fragment_camarafragmento, container, false);
-        imageView = view.findViewById(R.id.imageView);
+
+        //imageView = view.findViewById(R.id.imageView);
         //bt_galera = view.findViewById(R.id.bt_galeria);
+
+        mButtonChooseImage = view.findViewById(R.id.galleryButton);
+        imageView = view.findViewById(R.id.imagenn_view);
+        mButtonUpload = view.findViewById(R.id.uploadButton);
+        mTextViewShowUploads = view.findViewById(R.id.text_view_show_uploads);
+        mEditTextFileName = view.findViewById(R.id.uploadCaption);
+        mProgressBar = view.findViewById(R.id.progress_bar);
+
+        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+
+        // Botón para subir la imagen
+        mButtonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // TextView para mostrar las cargas
+        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
         return view;
     }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+
+
+
+
+
+
+
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE);
@@ -165,32 +231,33 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PICK_IMAGE && resultCode == getActivity().RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            imageView.setImageURI(selectedImageUri);
-            mostrarImagenEnImageView(selectedImageUri);
+
+        if (resultCode != RESULT_OK || data == null) {
+
+            return;
         }
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+        if (requestCode == PICK_IMAGE_REQUEST) {
 
-            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(imageBitmap);
-            int newWidth = 700; // Ancho deseado en píxeles
-            int newHeight = 1000; // Alto deseado en píxeles
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, newWidth, newHeight, true);
+            mImageUri = data.getData();
+            if (imageView != null && mImageUri != null) {
+                Picasso.get().load(mImageUri).into(imageView);
+            } else {
+                Log.e("camarafragmento", "Error: imageView es null o mImageUri es null.");
+            }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
 
-            imageView.setImageBitmap(scaledBitmap);
-
-
-        } else if (requestCode == FilePickerConst.REQUEST_CODE_PHOTO && resultCode == getActivity().RESULT_OK && data != null) {
-            
-            Uri selectedImageUri = data.getData();
-
-
-
-
-            imageView.setImageURI(selectedImageUri);
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageView != null && imageBitmap != null) {
+                    imageView.setImageBitmap(imageBitmap);
+                } else {
+                    Log.e("camarafragmento", "Error: imageView es null o imageBitmap es null.");
+                }
+            }
         }
     }
+
 
 }
