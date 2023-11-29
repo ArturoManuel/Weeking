@@ -14,11 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +32,16 @@ import android.widget.Toast;
 
 
 import com.example.weeking.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -60,6 +71,13 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
     private ProgressBar mProgressBar;
     private Uri mImageUri;
     //new
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
+
+    private StorageTask mUploadTask;
+
+
+
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_PICK_IMAGE = 2;
@@ -96,6 +114,9 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         mTextViewShowUploads = view.findViewById(R.id.text_view_show_uploads);
         mEditTextFileName = view.findViewById(R.id.uploadCaption);
         mProgressBar = view.findViewById(R.id.progress_bar);
+        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +129,7 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                uploadFile();
             }
         });
 
@@ -259,5 +280,57 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         }
     }
 
+
+    private  String getFileExtension(Uri uri) {
+        ContentResolver cR = requireContext().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+    private void uploadFile() {
+        if (mImageUri != null) {
+            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                    + "." + getFileExtension(mImageUri));
+
+            mUploadTask = fileReference.putFile(mImageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressBar.setProgress(0);
+                                }
+                            }, 500);
+
+                            Toast.makeText(getContext(), "Upload successful", Toast.LENGTH_LONG).show();
+                            taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                            uri.toString());
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(upload);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            mProgressBar.setProgress((int) progress);
+                        }
+                    });
+        } else {
+            Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
