@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.weeking.ImagesActivity;
 import com.example.weeking.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -137,7 +138,7 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                    openImagesActivity();
             }
         });
 
@@ -331,6 +332,12 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
         } else {
             Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void openImagesActivity() {
+        Intent intent = new Intent(getContext(), ImagesActivity.class);
+        startActivity(intent);
+
     }
 
 }
