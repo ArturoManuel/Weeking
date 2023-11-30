@@ -70,28 +70,26 @@ public class GaleriaEventos extends AppCompatActivity {
         Log.d("msg-test", eventoID);
         StorageReference eventoStorageRef = storage.getReference().child("eventos/" + eventoID+"/");
         //Log.d("msg-test", String.valueOf(eventoStorageRef));
+        List<String> imageUrls = new ArrayList<>();
+
         eventoStorageRef.listAll()
                 .addOnSuccessListener(listResult -> {
-                    String[] items = new String[listResult.getItems().size()];
-                    Log.d("GaleriaEventos", "Tamaño de listResult.getItems(): " + listResult.getItems().size());
-                    List<String> imageUrls = new ArrayList<>();
-                    int i = 0;
+
+
                     for (StorageReference item : listResult.getItems()) {
-                        Log.d("msg-test", "item.getName(): " + item.getName());
-                        Log.d("msg-test", "item.getPath(): " + item.getPath());
-                        items[i++] = item.getName();
+
                         item.getDownloadUrl().addOnSuccessListener(uri -> {
                             // uri contiene la URL de la imagen
                             // Agrega la URL a tu lista de URLs (imageUrls)
                             imageUrls.add(uri.toString());
+                            if (imageUrls.size() == listResult.getItems().size()) {
+                                cargarImagenesEnGridView(imageUrls);
+                            }
                             Log.d("GaleriaEventos", "Tamaño de imageUrls: " + imageUrls.size());
                         });
                     }
                     // Cuando todas las URLs se han recopilado, establece el adaptador
-                    if (imageUrls.size() == listResult.getItems().size()) {
-                        Log.d("msg-test", "mostrando imagenes");
-                        cargarImagenesEnGridView(imageUrls);
-                    }
+
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
