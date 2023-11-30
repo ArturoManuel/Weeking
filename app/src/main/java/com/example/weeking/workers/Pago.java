@@ -144,23 +144,5 @@ public class Pago extends AppCompatActivity {
             }
         });
     }
-    private ListaDon getusuario(String id){
-        ListaDon dona = null;
-        db.collection("donaciones").document(id).get().addOnSuccessListener(documentSnapshot -> {
-            dona.setCodigo(documentSnapshot.getString("codigo"));
-            dona.setFoto(documentSnapshot.getString("foto"));
-            dona.setNombre(documentSnapshot.getString("nombre"));
-            dona.setEgresado(documentSnapshot.getBoolean("egresado"));
-            dona.setMonto(Integer.valueOf(documentSnapshot.getString("monto")));
-            dona.setRechazo(documentSnapshot.getString("rechazo"));
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show();
-            }
-        });
-        return dona;
-    }
-
 
 }

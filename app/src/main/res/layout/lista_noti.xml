@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/lista_noti"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="20sp"
     app:cardUseCompatPadding="true"
     android:backgroundTint="#98DAD3">
 
@@ -29,11 +29,10 @@
 
             <ImageView
                 android:id="@+id/icono"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/x" />
 

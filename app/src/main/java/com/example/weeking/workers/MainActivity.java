@@ -37,111 +37,13 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseAuth auth;
     String canal1 = "importanteDefault";
-/*    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Inflar el layout aquí antes de llamar a setContentView()
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        db = FirebaseFirestore.getInstance();
-        binding.recuperarContrasena.setOnClickListener(v-> navigateToActivity(ContrasenaRecuperacion_Activity.class));
-        binding.registrate.setOnClickListener(v->navigateToActivity(RegistroActivity.class));
-        setContentView(binding.getRoot());
-        // Inicializar Firebase Auth
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            Query query = db.collection("usuarios").whereEqualTo("authUID", auth.getCurrentUser().getUid());
-            query.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot queryDocumentSnapshot = task.getResult();
-                    if (!queryDocumentSnapshot.isEmpty()) {
-                        DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
-                        String ban = document.getString("ban");
-                        if (ban.equals("1")) {
-                            // Si el usuario no está baneado, carga la VistaPrincipal
-                            startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
-                            finish();
-                        } else {
-                            // Si el usuario está baneado, muestra un mensaje y no carga la VistaPrincipal
-                            Toast.makeText(MainActivity.this, "La cuenta no ha sido activada o está baneada", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        // Manejar el caso de que no se encuentren datos del usuario
-                        Toast.makeText(MainActivity.this, "No se encontraron datos del usuario", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    // Manejar errores al consultar la base de datos
-                    Toast.makeText(MainActivity.this, "Error al consultar la base de datos: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-
-
-        crearCanalesNotificacion();
-        binding.iniciarSesion.setOnClickListener(v -> {
-            String correo = binding.correo.getText().toString();
-            String contrasena = binding.password.getText().toString();
-            Query query = db.collection("usuarios").whereEqualTo("correo",correo);
-            query.get().addOnCompleteListener(task ->{
-                if(task.isSuccessful()) {
-                    QuerySnapshot queryDocumentSnapshot = task.getResult();
-                    if (!queryDocumentSnapshot.isEmpty()) {
-                        try{
-                            DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
-                            String ban = document.getString("ban");
-                            if(ban.equals("1")){
-                                if (!correo.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-                                    if (!contrasena.isEmpty()) {
-                                        auth.signInWithEmailAndPassword(correo, contrasena)
-                                                .addOnSuccessListener(authResult -> {
-                                                    notificarImportanceDefault();
-                                                    startActivity(new Intent(MainActivity.this, VistaPrincipal.class));
-                                                    finish();
-                                                })
-                                                .addOnFailureListener(e -> {
-                                                    Toast.makeText(MainActivity.this, "Validacion incorrecta", Toast.LENGTH_SHORT).show();
-                                                });
-                                    } else {
-                                        binding.password.setError("No se permiten campos vacíos");
-                                    }} else if (correo.isEmpty()) {
-                                    binding.correo.setError("No se permiten campos vacíos");
-                                } else {
-                                    binding.correo.setError("Por favor, introduce un correo electrónico válido");
-                                }
-                            }else {
-                                Toast.makeText(MainActivity.this, "La cuenta no ha sido activada o esta baneada", Toast.LENGTH_SHORT).show();
-                            }
-                        }catch (Exception e) {
-                            Toast.makeText(MainActivity.this, "Correo no registrado", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                    else{
-                        Toast.makeText(MainActivity.this, "Correo no registrado", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-        });
-
-
-        binding.recuperarContrasena.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
-        binding.registrate.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
-        binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
-        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loguin);
-
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        //binding.correo.addTextChangedListener(createTextWatcher(binding.correo));
-        //binding.password.addTextChangedListener(createTextWatcher(binding.password));
         // Verificar si el usuario ya ha iniciado sesión
         if (auth.getCurrentUser() != null) {
             verificarEstadoUsuario(auth.getCurrentUser().getUid());
@@ -150,31 +52,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*private TextWatcher createTextWatcher(final TextInputEditText editText) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
-                // No es necesario realizar acciones antes de que el texto cambie
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                // Remueve espacios y subrayados del texto
-                String formattedText = charSequence.toString().replaceAll("[\\s_]", "");
-
-                // Actualiza el texto del EditText sin espacios ni subrayados
-                editText.removeTextChangedListener(this);
-                editText.setText(formattedText);
-                editText.setSelection(formattedText.length());
-                editText.addTextChangedListener(this);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // No es necesario realizar acciones después de que el texto cambie
-            }
-        };
-    }*/
     private void verificarEstadoUsuario(String uid) {
         db.collection("usuarios").whereEqualTo("authUID", uid)
                 .get().addOnCompleteListener(task -> {
@@ -290,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recuperarContrasena.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         binding.registrate.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
         binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
-        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Lista_don.class));
+        binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Chat.class));
     }
 
 

@@ -31,21 +31,6 @@ public class Listchats extends AppCompatActivity {
 
     }
 
-    public void init(){
-        elements = new ArrayList<>();
-        elements.add(new ListaEven("Torneo de ajedrez","a","en dos dias"));
-        elements.add(new ListaEven("Torneo de Futsal","a","finalizado"));
-        elements.add(new ListaEven("Torneo de Basquet","a","en un dia"));
-        elements.add(new ListaEven("Torneo de Voley","a","en proceso"));
-        elements.add(new ListaEven("Torneo de LOL","a","en dos dias"));
-        elements.add(new ListaEven("Torneo de Dota","a","en dos dias"));
-        elements.add(new ListaEven("Torneo de BIKAS","a","en dos dias"));
-        AdaptadorE listaAdapter = new AdaptadorE(elements,this);
-        RecyclerView recyclerView = findViewById(R.id.lista_chat);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listaAdapter);
-    }
 
 
 }

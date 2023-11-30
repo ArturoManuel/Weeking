@@ -37,6 +37,9 @@
             android:name=".ImagesActivity"
             android:exported="false" />
         <activity
+            android:name=".workers.Chat"
+            android:exported="false" />
+        <activity
             android:name=".workers.GaleriaUploadActivity"
             android:exported="false" />
         <activity
