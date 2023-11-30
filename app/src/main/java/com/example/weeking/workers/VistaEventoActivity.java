@@ -111,7 +111,7 @@ public class VistaEventoActivity extends AppCompatActivity {
             // Asegúrate de tener latitud y longitud del destino
             String destinationLatitude = latitud;
             String destinationLongitude = longitud;
-            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destinationLatitude + "," + destinationLongitude);
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destinationLatitude + "," + destinationLongitude + "&mode=w");
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
 
