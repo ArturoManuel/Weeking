@@ -319,7 +319,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
         new Handler().postDelayed(() -> view.setEnabled(true), 1000);
         // Tu código para manejar el click en "Estadísticas"
-        Intent intent = new Intent(VistaPrincipal.this, Chat.class);
+        Intent intent = new Intent(VistaPrincipal.this, Stadistics.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
