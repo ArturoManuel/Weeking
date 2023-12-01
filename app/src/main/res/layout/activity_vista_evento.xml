@@ -22,12 +22,12 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/nombreEvento"
-        android:layout_width="207dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:elevation="5dp"
         android:text="Nombre del Evento"
         android:textSize="25dp"
-        app:chipBackgroundColor="@color/white"
+        app:chipBackgroundColor="#40FFFFFF"
         app:layout_constraintBottom_toTopOf="@id/cartView"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,7 +41,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -58,7 +58,7 @@
             <TextView
                 android:id="@+id/descripciontext"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 android:textSize="18dp" />
@@ -68,25 +68,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
                 <!-- Icono de Calendario -->
+
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
+                    android:layout_marginStart="8dp"
                     app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginStart="40dp">
+                    android:layout_marginStart="0dp">
                     <TextView
                         android:id="@+id/fechaEvento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:textSize="18dp"
+                        android:textStyle="bold"
                         android:text="Fecha del evento" />
 
                     <TextView
@@ -99,54 +103,86 @@
                 </LinearLayout>
             </LinearLayout>
             <!-- Lugar del Evento -->
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="Lugar del evento:"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                     />
+                <!-- Icono de Ubicación -->
+                <ImageView
+                    android:id="@+id/imageViewLocation"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="8dp"
+                    app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
-                <TextView
-                    android:id="@+id/ubicacion"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Nombre del lugar"
-                    android:textSize="16sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lugar del evento"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ubicacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del lugar"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Botón de Mapa y Galería -->
+
+
+            <!-- Botón de Mapa, Galería y Apoyar Evento -->
             <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnMapa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#6BCCC8"
-                    android:layout_weight="1"
-                    android:text="Ver Mapa" />
+                    android:backgroundTint="#0066CC"
+                android:text="Ver Mapa" />
 
-                <Button
-                    android:id="@+id/btnGaleria"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:backgroundTint="#D68686"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnGaleria"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#0099FF"
                     android:text="Ver Galería" />
+
+                    <Button
+                        android:id="@+id/btnApoyarEvento"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#0099FF"
+                    android:text="Apoyar al Evento" />
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -169,12 +205,7 @@
             android:text="Editar Evento"
             android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnApoyarEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#E82DBA23"
-            android:text="Apoyar al Evento" />
+
 
     </LinearLayout>
 

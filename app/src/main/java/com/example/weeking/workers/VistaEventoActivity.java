@@ -63,7 +63,7 @@ public class VistaEventoActivity extends AppCompatActivity {
 
 
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
-        //String even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "Falta llenar el campo nombre del evento";
+        String even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "Falta llenar el campo nombre del evento";
         String descri = (eventoSeleccionado.getDescripcion() != null) ? eventoSeleccionado.getDescripcion() : "Falta llenar el campo descripción";
         String ubica = (eventoSeleccionado.getUbicacion() != null) ? eventoSeleccionado.getUbicacion() : "Falta llenar el campo ubicación";
         String foto = eventoSeleccionado.getFoto();
@@ -96,7 +96,7 @@ public class VistaEventoActivity extends AppCompatActivity {
         binding.fechaEvento.setText(formattedDate);
         binding.horaEvento.setText(formattedTime);
 
-        //binding.nombreEvento.setText(even);
+        binding.nombreEvento.setText(even);
         binding.descripciontext.setText(descri);
         binding.ubicacion.setText(ubica);
 
