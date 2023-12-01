@@ -24,7 +24,9 @@
             android:id="@+id/nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:textSize="24dp"
             android:text="Kevin"
             android:layout_gravity="center"/>
     </LinearLayout>
@@ -59,7 +61,8 @@
             android:backgroundTint="@color/CustomColor2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Enviar"/>
+            android:hint="Enviar"
+            android:textColorHint="@color/colorBlack"/>
     </LinearLayout>
 
 

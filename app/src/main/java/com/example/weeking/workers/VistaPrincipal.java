@@ -25,6 +25,7 @@ import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -147,10 +148,13 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                         obtenerCodigoDelAlumno(userId);
                         if ("administrador".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_general;
+                            toolbar.setTitle("Weeking - Administrador");
                         } else if ("delegado_de_actividad".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_actividad;
+                            toolbar.setTitle("WeWeeking - Delegado");
                         } else if ("alumno".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado;
+                            toolbar.setTitle("WeWeeking - Alumno");
                         } else {
                             Log.d(TAG, "Rol no reconocido");
                             return; // Sale de la función.

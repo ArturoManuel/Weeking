@@ -23,6 +23,7 @@
             app:menu="@menu/top_menu"
             app:navigationIcon="@drawable/logo_48"
             app:title="Weeking"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
             app:titleTextColor="@android:color/black"></com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

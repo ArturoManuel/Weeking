@@ -12,5 +12,8 @@
         <item name="android:textColorPrimary">@color/colorPrimaryText</item>
         <item name="android:textColorSecondary">@color/colorSecondaryText</item>
     </style>
-
+    <style name="ToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item> <!-- Ajusta el tamaño del texto aquí -->
+        <!-- Puedes agregar más atributos si es necesario -->
+    </style>
 </resources>
