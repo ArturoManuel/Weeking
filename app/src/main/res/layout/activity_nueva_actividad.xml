@@ -56,10 +56,9 @@
         <!-- CardView para ingreso de datos -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView4"
-            android:layout_width="403dp"
-            android:layout_height="297dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="-1dp"
-
             app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
-                    android:maxLength="50" />
+                    android:maxLength="50"/>
 
                 <!-- Descripción de la actividad -->
                 <TextView
@@ -104,7 +103,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="128dp"
+                        android:layout_height="200dp"
                         android:hint="Ingrese la descripción" />
                 </com.google.android.material.textfield.TextInputLayout>
 

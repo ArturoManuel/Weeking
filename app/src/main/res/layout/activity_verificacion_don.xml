@@ -7,11 +7,12 @@
     android:background="@drawable/iniciofondo"
     tools:context=".workers.Verificacion_don">
 
+
     <TextView
         android:id="@+id/textView46"
         android:layout_width="306dp"
         android:layout_height="84dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="44dp"
         android:text="Verificacion de Donaciones"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
@@ -21,7 +22,6 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cartView"

@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
         android:layout_marginEnd="136dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="56dp"
         android:backgroundTint="#D86847"
         android:text="Cerrar Sesión"
         android:textSize="16sp"

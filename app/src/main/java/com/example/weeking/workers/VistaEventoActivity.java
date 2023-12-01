@@ -132,6 +132,10 @@ public class VistaEventoActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnEditEvent.setOnClickListener(view -> {
+
+        });
+
 
     }
 
