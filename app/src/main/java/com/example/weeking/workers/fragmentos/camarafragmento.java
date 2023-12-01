@@ -304,7 +304,7 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
                                 }
                             }, 500);
 
-                            Toast.makeText(getContext(), "Upload successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Se ha subido la imagen", Toast.LENGTH_LONG).show();
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -330,7 +330,7 @@ public class camarafragmento extends Fragment implements ActivityCompat.OnReques
                         }
                     });
         } else {
-            Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Ningun archivo seleccionado", Toast.LENGTH_SHORT).show();
         }
     }
 
