@@ -30,6 +30,7 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:layout_marginTop="28dp"
             android:id="@+id/imgFotoCargar"
             android:layout_width="match_parent"
             android:layout_height="233dp"
