@@ -52,7 +52,7 @@ public class AdaptadorE extends RecyclerView.Adapter<AdaptadorE.ViewHolder>{
             evento = itemView.findViewById(R.id.txtEvento);
             estado = itemView.findViewById(R.id.txtEstado);
             imagen = itemView.findViewById(R.id.imaBtnVerEventos);
-            imagen.setOnClickListener(view -> {
+            itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 EventoClass even = mdata.get(position);
                 DataHolder.getInstance().setEventoSeleccionado(even);
