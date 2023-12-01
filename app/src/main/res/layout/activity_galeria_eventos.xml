@@ -8,36 +8,44 @@
     android:id="@+id/container"
     tools:context=".workers.GaleriaEventos">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView26"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Galeria de Fotos de Evento"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <GridView
-        android:id="@+id/gv_imagenes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:numColumns="2"
-        android:scaleType="fitXY"
-        ></GridView>
-</LinearLayout>
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Galeria de Fotos de Evento"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <GridView
+            android:id="@+id/gv_imagenes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:numColumns="2"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"
+            android:padding="0dp"
+            android:stretchMode="columnWidth"
+            android:scaleType="centerCrop"
+            ></GridView>
+    </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/flatBtnAddNewPhoto"
         android:layout_width="wrap_content"
