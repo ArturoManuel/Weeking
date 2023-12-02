@@ -83,6 +83,14 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
             imagenActividad = itemView.findViewById(R.id.imaBtnVerEventos);
             // Inicializa otros componentes
 
+
+            imagenActividad.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onActividadClick(listaActividades.get(position));
+                }
+            });
+
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {

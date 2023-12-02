@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +54,9 @@ public class ListaFragmentoActividad extends Fragment implements ActividadesAdap
 
         // Configuración inicial del RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewActividades);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        int numberOfColumns = 2;
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
 
         // Observar cambios en la lista de actividades del ViewModel
         appViewModel.listaActividades.observe(getViewLifecycleOwner(), actividadList -> {
