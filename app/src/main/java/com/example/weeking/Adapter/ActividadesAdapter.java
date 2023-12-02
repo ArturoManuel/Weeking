@@ -45,6 +45,8 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
         holder.bindData(actividad);
         // Establecer el listener para el botón de eliminar
 
+
+
         holder.eliminarImageView.setOnClickListener(v -> {
             // Crear un AlertDialog para confirmar la eliminación
             new AlertDialog.Builder(context)

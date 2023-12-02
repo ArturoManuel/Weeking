@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/lista_act"
-    app:cardCornerRadius="8dp"
-    android:layout_margin="4dp"
+    app:cardCornerRadius="0dp"
+    android:layout_margin="0dp"
     app:cardElevation="5dp"
     app:cardUseCompatPadding="true"
     app:cardBackgroundColor="#FFFFFF">
@@ -38,17 +38,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageButton
-            android:id="@+id/btnEliminarActividad"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/circle_background"
+            app:layout_constraintTop_toTopOf="@+id/imaBtnVerEventos"
+            app:layout_constraintEnd_toEndOf="@+id/imaBtnVerEventos"
+            >
+        <ImageButton
+            android:id="@+id/btnEliminarActividad"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/baseline_delete_24"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitCenter"
             android:padding="8dp"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
