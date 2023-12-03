@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.weeking.R;
 import com.bumptech.glide.Glide;
+import com.example.weeking.workers.GaleriaEventos;
 
 import java.util.List;
 
@@ -18,17 +20,12 @@ public class GaleriaFotosAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> imageUrls;
     LayoutInflater layoutInflater;
-    /*public int[] imageArray={
-            R.drawable.im1,
-            R.drawable.im2,
-            R.drawable.im3,
-            R.drawable.im4,
-            R.drawable.im5,
-    };*/
+
 
     public GaleriaFotosAdapter(Context mContext, List<String> imageUrls) {
         this.mContext = mContext;
         this.imageUrls = imageUrls;
+
     }
 
     @Override
@@ -57,6 +54,12 @@ public class GaleriaFotosAdapter extends BaseAdapter {
         }
         ImageView gridImage = convertView.findViewById(R.id.gridImage);
         Glide.with(mContext).load(imageUrls.get(position)).into(gridImage);
+
+        ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(v -> {
+            String urlToDelete = imageUrls.get(position);
+            ((GaleriaEventos)mContext).borrarImagen(urlToDelete, position);
+        });
 
         return convertView;
 

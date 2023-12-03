@@ -54,6 +54,7 @@ public class GaleriaEventos extends AppCompatActivity {
     StorageReference reference;
     String eventoID;
     String even;
+    List<String> imageUrls;
     TextView textView26;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class GaleriaEventos extends AppCompatActivity {
         Log.d("msg-test", eventoID);
         StorageReference eventoStorageRef = storage.getReference().child("eventos/" + eventoID+"/");
         //Log.d("msg-test", String.valueOf(eventoStorageRef));
-        List<String> imageUrls = new ArrayList<>();
+        imageUrls = new ArrayList<>();
 
         eventoStorageRef.listAll()
                 .addOnSuccessListener(listResult -> {
@@ -125,6 +126,17 @@ public class GaleriaEventos extends AppCompatActivity {
     private void cargarImagenesEnGridView(List<String> imageUrls) {
         adapter = new GaleriaFotosAdapter(GaleriaEventos.this, imageUrls);
         gridView.setAdapter(adapter);
+    }
+
+    public void borrarImagen(String urlToDelete, int position) {
+        StorageReference imageRef = storage.getReferenceFromUrl(urlToDelete);
+        imageRef.delete().addOnSuccessListener(aVoid -> {
+            imageUrls.remove(position); // Elimina la URL de la lista
+            adapter.notifyDataSetChanged(); // Actualiza el adaptador
+            Toast.makeText(GaleriaEventos.this, "Imagen borrada", Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(e -> {
+            Toast.makeText(GaleriaEventos.this, "Error al borrar la imagen", Toast.LENGTH_SHORT).show();
+        });
     }
 
 }
