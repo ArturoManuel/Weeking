@@ -45,6 +45,8 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
         holder.bindData(actividad);
         // Establecer el listener para el botón de eliminar
 
+
+
         holder.eliminarImageView.setOnClickListener(v -> {
             // Crear un AlertDialog para confirmar la eliminación
             new AlertDialog.Builder(context)
@@ -82,6 +84,14 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
             eliminarImageView = itemView.findViewById(R.id.btnEliminarActividad);
             imagenActividad = itemView.findViewById(R.id.imaBtnVerEventos);
             // Inicializa otros componentes
+
+
+            imagenActividad.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener.onActividadClick(listaActividades.get(position));
+                }
+            });
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();

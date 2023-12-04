@@ -21,6 +21,17 @@
             android:layout_height="210dp"
             android:scaleType="centerCrop"
             android:id="@+id/gridImage"/>
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_delete_24"
+            android:padding="8dp" />
     </androidx.cardview.widget.CardView>
+
+
 
 </LinearLayout>
