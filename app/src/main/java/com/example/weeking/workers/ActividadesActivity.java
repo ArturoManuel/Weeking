@@ -1,7 +1,7 @@
 package com.example.weeking.workers;
 
 import static android.content.ContentValues.TAG;
-
+import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.helper.widget.MotionEffect;
@@ -10,7 +10,13 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+
+import com.example.weeking.R;
 import com.example.weeking.databinding.ActivityActividadesBinding;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
@@ -38,6 +44,26 @@ public class ActividadesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityActividadesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
+        setSupportActionBar(binding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View toolbarView = inflater.inflate(R.layout.toolbar_layout, binding.toolbar, false);
+
+
+        TextView toolbarTitle = toolbarView.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(" Lista de Actividades");
+
+        binding.toolbar.addView(toolbarView);
+
+
+
         // Inicializa el ViewModel
         appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
         binding.btnAddActivity.setOnClickListener(v -> {
