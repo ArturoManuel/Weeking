@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="@drawable/inicioarreglado"
+    android:backgroundTint="#ADFFFFFF"
+    android:backgroundTintMode="multiply"
+    app:barrierMargin="@dimen/places_autocomplete_button_padding"
     tools:context=".workers.MainActivity">
 
     <TextView
@@ -12,16 +15,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="65dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="Bienvenidos"
-        android:textColor="@color/material_dynamic_neutral_variant99"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_neutral_variant30"
         android:textSize="44sp"
         android:textStyle="bold"
+        android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,8 +35,10 @@
         android:layout_width="134dp"
         android:layout_height="179dp"
         android:layout_marginStart="90dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="90dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,20 +46,22 @@
         app:srcCompat="@drawable/logo" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
+        android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="11dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#00FFFFFF"
         app:cardCornerRadius="15dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,8 +103,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:hint="Contraseña"
+                app:boxStrokeColor="#2196F3"
                 app:endIconMode="password_toggle"
-                app:helperTextTextColor="@color/cardview_dark_background"
+                app:helperTextTextColor="@color/colorBlack"
+                app:hintTextColor="@color/colorBlack"
                 app:startIconDrawable="@drawable/baseline_lock_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -104,9 +115,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="textPassword"
+                    android:maxLength="21"
                     android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:maxLength="21" />
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -115,9 +126,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
                 android:gravity="right|center"
-                android:textAlignment="center"
                 android:text="¿Olvidaste tu contraseña?"
-                android:textColor="@color/colorBlack" />
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
 
 
             <Button
@@ -125,7 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Iniciar sesión" />
+                android:text="Iniciar sesión"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/divider"
@@ -137,15 +150,14 @@
 
             <Button
                 android:id="@+id/google"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:backgroundTint="@color/white"
-                android:textColor="@color/cardview_dark_background"
                 android:drawableLeft="@drawable/ic_google"
                 android:text="Continua con google"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                />
+                android:textColor="@color/cardview_dark_background"
+                app:backgroundTint="@color/white" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -160,8 +172,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="No tienes una cuenta ?   "
-                    android:textColor="@color/colorBlack" />
+                    android:text="¿No tienes una cuenta?   "
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/registrate"
@@ -170,7 +183,8 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="Registrate"
-                    android:textColor="@color/Primary" />
+                    android:textColor="@color/Primary"
+                    android:textStyle="bold" />
             </LinearLayout>
 
 

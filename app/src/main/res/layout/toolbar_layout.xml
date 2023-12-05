@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    android:background="#00B0FF"
     android:paddingStart="0dp"
-    android:background="#008EFF"
 
     >
 
@@ -12,21 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
 
-        android:src="@mipmap/ic_launcher_foreground"/>
+        android:src="@mipmap/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/toolbar_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/toolbar_logo"
         android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/toolbar_logo"
 
-        android:textSize="30sp"
-        android:text=""
         android:gravity="center_vertical"
+        android:text=""
         android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:textSize="30sp" />
 </RelativeLayout>
