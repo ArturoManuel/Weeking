@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lista_even"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/lista_even"
     android:layout_marginBottom="20dp"
+    app:cardBackgroundColor="#4DFFFFFF"
     app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true">
 
@@ -23,38 +24,42 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
-            android:src="@drawable/dota2"
+            android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:background="@android:color/transparent"/>
+            android:src="@drawable/dota2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
+
             <TextView
                 android:id="@+id/txtEvento"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:text="ACTIVIDAD"
                 android:textAlignment="center"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/txtEstado"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:text="ACTIVIDAD"
                 android:textAlignment="center"
+                android:textColor="@color/colorBlack"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

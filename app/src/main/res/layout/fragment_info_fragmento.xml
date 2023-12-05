@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imagenActividad"
             android:layout_marginTop="-10dp"
+            app:cardBackgroundColor="#00FFFFFF"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
@@ -56,6 +57,7 @@
                     android:id="@+id/descriptionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
                     android:text="Descripción"
                     android:textSize="18sp" />
             </LinearLayout>

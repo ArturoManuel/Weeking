@@ -57,6 +57,7 @@
             android:layout_height="404dp"
             android:layout_marginTop="-1dp"
 
+            app:cardBackgroundColor="#00FFFFFF"
             app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nombre"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <EditText
@@ -89,6 +91,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
                     android:text="Descripción"
                     android:textSize="20sp" />
 
@@ -102,6 +105,7 @@
                         android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="233dp"
+                        android:textColor="@color/colorBlack"
                         android:hint="Ingrese la descripción" />
                 </com.google.android.material.textfield.TextInputLayout>
 

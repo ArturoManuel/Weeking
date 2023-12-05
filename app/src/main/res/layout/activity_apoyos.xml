@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".workers.ApoyosActivity">
 
+
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="160dp"
         android:text="Apoyos"
         android:textAlignment="center"
@@ -23,62 +24,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp"
+    <LinearLayout
+        android:layout_width="271dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/nuevosalumnos"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout15">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView14">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="123dp" />
 
-            <Button
-                android:id="@+id/btnBarra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="#2F5EEC"
-                android:textSize="20sp"
-                android:text="Barra" />
-
-            <Button
-                android:id="@+id/btnParticipantes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="#C45BE1"
-                android:textSize="20sp"
-                android:text="Participantes" />
-
-            <Button
-                android:id="@+id/btnNuevosAlumnos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#27B3DF"
-                android:textSize="20sp"
-                android:text="Nuevos Alumnos" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/btnNuevosAlumnos"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:backgroundTint="#7500B0FF"
+            android:gravity="center|top"
+            android:text="Nuevos Alumnos"
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -93,4 +63,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout14"
+        android:layout_width="271dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/imagenbarra"
+        android:backgroundTintMode="src_over"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="129dp" />
+
+        <Button
+            android:id="@+id/btnBarra"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="0dp"
+            android:backgroundTint="#7500B0FF"
+            android:gravity="center|top"
+            android:insetTop="0dp"
+            android:text="Barra"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout15"
+        android:layout_width="271dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/participantes"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="125dp" />
+
+        <Button
+            android:id="@+id/btnParticipantes"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="0dp"
+            android:backgroundTint="#7500B0FF"
+            android:gravity="center|top"
+            android:text="Participantes"
+            android:textSize="20sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

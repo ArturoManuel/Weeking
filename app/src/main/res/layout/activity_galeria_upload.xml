@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="#B8DFFE"
     tools:context=".workers.GaleriaUploadActivity">
 
     <LinearLayout
@@ -30,13 +30,13 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginTop="28dp"
             android:id="@+id/imgFotoCargar"
             android:layout_width="match_parent"
             android:layout_height="233dp"
+            android:layout_marginTop="28dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/_36035"
+            android:src="@drawable/galeria"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#40A0E8"
             android:text="Cámara"
             app:icon="@drawable/baseline_photo_camera_24" />
 
@@ -72,7 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#40A0E8"
             android:text="Galería"
+            app:cornerRadius="10dp"
             app:icon="@drawable/ic_photo_black_48dp" />
 
         <Button
@@ -80,10 +83,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:background="#40A0E8"
             android:text="Subir"
+            app:cornerRadius="10dp"
             app:tint="@color/white" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

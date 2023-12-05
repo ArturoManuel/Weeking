@@ -24,12 +24,12 @@
 
         <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="40dp"
+            android:layout_width="32dp"
             android:layout_height="40dp"
             android:layout_gravity="top|end"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/baseline_delete_24"
-            android:padding="8dp" />
+            android:pointerIcon="wait"
+            android:scaleType="centerCrop"
+            android:background="@drawable/basura" />
     </androidx.cardview.widget.CardView>
 
 

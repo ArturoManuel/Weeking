@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lista_act"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/lista_act"
-    app:cardCornerRadius="0dp"
     android:layout_margin="0dp"
+    app:cardBackgroundColor="#00FFFFFF"
+    app:cardCornerRadius="0dp"
     app:cardElevation="5dp"
-    app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#FFFFFF">
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,12 +18,12 @@
             android:id="@+id/imaBtnVerEventos"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/dota2"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -34,27 +34,28 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/imaBtnVerEventos"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textColor="@color/colorBlack"
+            app:layout_constraintTop_toBottomOf="@+id/imaBtnVerEventos" />
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle_background"
-            app:layout_constraintTop_toTopOf="@+id/imaBtnVerEventos"
             app:layout_constraintEnd_toEndOf="@+id/imaBtnVerEventos"
-            >
-        <ImageButton
-            android:id="@+id/btnEliminarActividad"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_delete_24"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:scaleType="fitCenter"
-            android:padding="8dp"/>
+            app:layout_constraintTop_toTopOf="@+id/imaBtnVerEventos">
+
+            <ImageButton
+                android:id="@+id/btnEliminarActividad"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_delete_24" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

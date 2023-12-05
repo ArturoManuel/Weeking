@@ -8,7 +8,7 @@
     android:layout_marginTop="12dp"
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="#FFFFFF"
+    app:cardBackgroundColor="#74FFFFFF"
     app:cardCornerRadius="20dp">
 
     <RelativeLayout
@@ -25,7 +25,8 @@
             android:src="@drawable/dota2" />
 
         <!-- Contenedor principal debajo de la imagen -->
-.
+        .
+
         <ImageButton
             android:id="@+id/like_btn"
             android:layout_width="48dp"
@@ -59,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jueves, Marzo 19 - 20.00 Pm"
+                    android:textColor="@color/colorBlack"
                     android:textSize="14sp" />
 
                 <TextView
@@ -68,6 +70,7 @@
                     android:layout_marginTop="4dp"
                     android:text="Final de Dota2"
                     android:textSize="18sp"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
 
                 <TextView
@@ -77,6 +80,7 @@
                     android:layout_marginTop="4dp"
                     android:drawableStart="@drawable/baseline_fmd_good_24"
                     android:drawablePadding="4dp"
+                    android:textColor="@color/colorBlack"
                     android:text="Pabellon V"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -86,21 +90,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:orientation="vertical"
                 android:background="#80FFFFFF"
+                android:orientation="vertical"
                 android:padding="8dp">
 
             </LinearLayout>
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/descripcion"
             android:layout_width="0dp"
+            android:textColor="@color/colorBlack"
             android:layout_height="0dp" />
 
         <TextView
             android:id="@+id/fotito"
             android:layout_width="0dp"
+            android:textColor="@color/colorBlack"
             android:layout_height="0dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

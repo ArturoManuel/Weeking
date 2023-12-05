@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B8DFFE"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,37 +15,39 @@
             android:id="@+id/todosLosEventos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Todos los eventos"
-            android:textSize="24sp"
             android:gravity="center"
             android:padding="16dp"
+            android:text="Todos los eventos"
+            android:textColor="@color/colorBlack"
+            android:textSize="24sp"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Primer RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lista_prin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/todosLosEventos"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/todosLosEventos" />
 
         <!-- Título para el segundo RecyclerView -->
         <TextView
             android:id="@+id/eventosPopulares"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eventos populares"
-            android:textSize="24sp"
             android:gravity="center"
             android:padding="16dp"
+            android:text="Eventos populares"
+            android:textColor="@color/colorBlack"
+            android:textSize="24sp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/lista_prin"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/lista_prin" />
 
         <!-- Segundo RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/elemento_alumno"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/elemento_alumno"
-    android:layout_marginBottom="12dp"
     android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="#00FFFFFF"
     app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true">
 
@@ -13,22 +14,22 @@
         android:id="@+id/linearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingStart="12dp"
         android:paddingTop="12dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="12dp"
-        android:orientation="horizontal">
+        android:paddingBottom="12dp">
 
         <TextView
             android:id="@+id/alumno"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:background="@android:color/transparent"
             android:text="ALUMNO"
             android:textAlignment="center"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:background="@android:color/transparent"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/anadir"

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="#41A4ED"
     tools:context=".workers.VistaPrincipal">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="#40A0E8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +19,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#E80B89DD"
+            android:background="#40A0E8"
             app:menu="@menu/top_menu"
             app:navigationIcon="@drawable/logo_48"
             app:title="Weeking"
@@ -44,13 +44,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:background="#41A4ED"
         android:clickable="true"
-        android:focusable="true"
 
+        android:focusable="true"
         android:src="@drawable/baseline_add_circle_24"
+        app:backgroundTint="#41A4ED"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-     app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -58,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:background="#E80B89DD"
+        android:background="#40A0E8"
         app:itemIconSize="25dp"
         app:itemTextColor="@android:color/black"
         app:labelVisibilityMode="unlabeled"
@@ -69,9 +70,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noti"
-        android:visibility="gone"
         android:layout_width="248dp"
         android:layout_height="264dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 

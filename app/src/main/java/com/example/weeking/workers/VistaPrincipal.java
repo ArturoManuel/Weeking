@@ -151,10 +151,10 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                             toolbar.setTitle("Weeking - Administrador");
                         } else if ("delegado_de_actividad".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado_delegado_actividad;
-                            toolbar.setTitle("WeWeeking - Delegado");
+                            toolbar.setTitle("Weeking - Delegado");
                         } else if ("alumno".equals(rol)) {
                             menuLayoutId = R.layout.menu_personalizado;
-                            toolbar.setTitle("WeWeeking - Alumno");
+                            toolbar.setTitle("Weeking - Alumno");
                         } else {
                             Log.d(TAG, "Rol no reconocido");
                             return; // Sale de la función.

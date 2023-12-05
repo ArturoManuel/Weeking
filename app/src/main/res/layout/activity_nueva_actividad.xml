@@ -59,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-1dp"
+            app:cardBackgroundColor="#00FFFFFF"
             app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
-                    android:maxLength="50"/>
+                    android:maxLength="50" />
 
                 <!-- Descripción de la actividad -->
                 <TextView

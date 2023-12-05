@@ -136,8 +136,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:background="#40A0E8"
                 android:text="Iniciar sesión"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
 
             <View
                 android:id="@+id/divider"

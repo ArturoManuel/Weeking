@@ -2,10 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="#B8DFFE"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:padding="16dp">
 
     <!-- TextView para el nombre de la actividad, centrado horizontalmente -->
     <TextView
@@ -63,9 +63,9 @@
         android:id="@+id/recyclerDeEventos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:nestedScrollingEnabled="false"
-        android:layout_marginBottom="16dp" />
+        android:nestedScrollingEnabled="false" />
 
 </LinearLayout>
 
