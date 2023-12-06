@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.weeking.R;
@@ -18,6 +19,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,10 @@ public class Stadistics extends AppCompatActivity {
     PieChart pieChart2;
     PieChart pieChart3;
     LineChart mpLineChart;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private TextView textViewTotalUsers;
+
     int[] colorClassArray=new int []{Color.BLUE,Color.RED};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,19 @@ public class Stadistics extends AppCompatActivity {
         setContentView(R.layout.activity_stadistics);
 
 
+
+        textViewTotalUsers = findViewById(R.id.textView57);
+
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int numberOfUsers = task.getResult().size();
+                        textViewTotalUsers.setText("Alumnos en total: " + numberOfUsers);
+                    } else {
+                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                    }
+                });
 
         pieChart2 = findViewById(R.id.pieChart2);
         PieDataSet pieDataSet2 = new PieDataSet(dataValue2(), "");
