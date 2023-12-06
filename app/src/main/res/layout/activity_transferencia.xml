@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
-        android:backgroundTint="#40A0E8"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="Subir Comprobante"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

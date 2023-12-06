@@ -27,6 +27,7 @@
             android:layout_marginStart="16dp"
             android:textStyle="bold"
             android:textSize="24dp"
+            android:textColor="@color/black"
             android:text="Kevin"
             android:layout_gravity="center"/>
     </LinearLayout>
@@ -46,6 +47,7 @@
             android:id="@+id/btnEnviarFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
             android:background="@android:drawable/ic_menu_gallery"
             android:layout_gravity="center"
             />
@@ -58,7 +60,7 @@
 
         <Button
             android:id="@+id/btnEnviar"
-            android:backgroundTint="@color/CustomColor2"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Enviar"

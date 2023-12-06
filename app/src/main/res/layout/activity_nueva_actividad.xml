@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="#19CA4B"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="Guardar Actividad"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -15,7 +15,7 @@
         android:layout_marginTop="44dp"
         android:text="Verificacion de Donaciones"
         android:textAlignment="center"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorBlack"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

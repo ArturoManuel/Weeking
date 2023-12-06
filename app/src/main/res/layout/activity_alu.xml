@@ -14,7 +14,7 @@
         android:layout_marginTop="32dp"
         android:text="Nombre"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +91,7 @@
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="60dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:text="Banear"
                 android:textSize="20sp" />
 

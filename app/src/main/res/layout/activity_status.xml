@@ -18,7 +18,7 @@
         android:text="Donaciones"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorBlack"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
