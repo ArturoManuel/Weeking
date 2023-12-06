@@ -25,6 +25,8 @@ import com.example.weeking.databinding.ActivityVistaEventoBinding;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,9 +38,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.CameraUpdateFactory;
+
 
 public class VistaEventoActivity extends AppCompatActivity {
     ActivityVistaEventoBinding binding;
+    private MapView mapView;
+    private GoogleMap gMap;
+    private String latitud;
+    private String longitud;
 
 
     @Override
@@ -68,8 +78,9 @@ public class VistaEventoActivity extends AppCompatActivity {
         String ubica = (eventoSeleccionado.getUbicacion() != null) ? eventoSeleccionado.getUbicacion() : "Falta llenar el campo ubicación";
         String foto = eventoSeleccionado.getFoto();
         String fecha = String.valueOf(eventoSeleccionado.getFecha_evento());
-        String  latitud = String.valueOf(eventoSeleccionado.getLatitud());
-        String longitud = String.valueOf(eventoSeleccionado.getLongitud());
+        latitud = String.valueOf(eventoSeleccionado.getLatitud());
+        longitud = String.valueOf(eventoSeleccionado.getLongitud());
+
 
         Log.d("Fecha , Latitud ,Longuitud",fecha+latitud+longitud);
 
@@ -136,7 +147,9 @@ public class VistaEventoActivity extends AppCompatActivity {
 
         });
 
-
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this::onMapReady);
     }
 
     private void verificarApoyoPrevioYMostrarDialogo(String authId, String eventId) {
@@ -250,4 +263,46 @@ public class VistaEventoActivity extends AppCompatActivity {
         // Elimina el espacio adicional al final y devuelve la cadena resultante.
         return sb.toString().trim();
     }
+
+    public void onMapReady(GoogleMap googleMap) {
+        gMap = googleMap;
+        double lat = Double.parseDouble(latitud);
+        double lng = Double.parseDouble(longitud);
+        LatLng eventLocation = new LatLng(lat, lng);
+
+        gMap.addMarker(new MarkerOptions().position(eventLocation).title("Ubicación del Evento"));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 15)); // Ajusta el zoom según sea necesario
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
 }
