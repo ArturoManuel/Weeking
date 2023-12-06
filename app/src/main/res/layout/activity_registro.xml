@@ -222,7 +222,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#19CA4B"
+        android:backgroundTint="#40A0E8"
         android:text="Registrar"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -237,6 +237,7 @@
         android:layout_marginTop="16dp"
         android:text="¿Ya tienes cuenta?"
         android:textColor="@color/colorWhite"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />

@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="#00FFFFFF"
+    app:cardBackgroundColor="#86FFFFFF"
     app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:id="@+id/linearLayout10"
-        android:layout_width="wrap_content"
+        android:layout_width="298dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
@@ -21,14 +21,14 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/txtnombredon"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
@@ -40,7 +40,7 @@
 
             <TextView
                 android:id="@+id/txtmonto"
-                android:layout_width="68dp"
+                android:layout_width="167dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
@@ -54,13 +54,17 @@
         <Button
             android:id="@+id/btnVeri"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="52dp"
-            android:layout_weight="1"
-            android:text="Verificado"
-            android:textSize="10dp" />
+            android:layout_height="match_parent"
+            android:background="#41A4ED"
+            android:backgroundTint="#41A4ED"
+            android:text="Button"
+            android:textAlignment="center"
+            android:textColor="#FF000000"
+            android:textColorLink="#41A4ED"
+            android:textStyle="bold"
+            app:iconTint="#41A4ED"
+            app:rippleColor="#41A4ED" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

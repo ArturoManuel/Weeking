@@ -127,7 +127,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="78dp"
-            app:cardBackgroundColor="#220AB5CC">
+            app:cardBackgroundColor="#000AB5CC">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
             android:id="@+id/btnAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#41A4ED"
+            android:backgroundTint="#3241A4ED"
             android:drawableLeft="@drawable/baseline_mark_email_read_24"
             android:drawablePadding="8dp"
             android:text="Configuración de Cuenta"
@@ -178,7 +178,7 @@
             android:id="@+id/btnDon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#40A0E8"
+            android:backgroundTint="#3340A0E8"
             android:drawableLeft="@drawable/baseline_how_to_reg_24"
             android:drawablePadding="8dp"
             android:text="Ver Donaciones"
@@ -190,7 +190,7 @@
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#41A4ED"
+            android:backgroundTint="#3341A4ED"
             android:drawableLeft="@drawable/baseline_password_24"
             android:drawablePadding="8dp"
             android:text="Cambiar contraseña"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="#B8DFFE"
     android:layout_height="match_parent"
     tools:context=".workers.Donacion">
 
@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Donaciones Aitel"
-        android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +24,10 @@
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:backgroundTint="#193FCA"
+        android:backgroundTint="#40A0E8"
         android:text="Siguiente"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +42,14 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        app:cardCornerRadius="20dp"
+        android:paddingHorizontal="10dp"
+        app:cardBackgroundColor="#2CFFFFFF"
+        app:cardCornerRadius="0dp"
+        app:contentPadding="10dp"
+        app:contentPaddingBottom="10dp"
+        app:contentPaddingLeft="10dp"
+        app:contentPaddingRight="10dp"
+        app:contentPaddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,19 +65,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
 
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:layout_height="match_parent"
-                    android:text="Metodo de Pago"
-                    android:textAlignment="center"
-                    android:textColor="#171717"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:text="Método de Pago"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="389dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,21 +90,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Transferencia"
+                    android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/plin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Plin" />
+                    android:text="Plin"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
                 <RadioButton
                     android:id="@+id/yape"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Yape" />
+                    android:text="Yape"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
             </RadioGroup>
 
         </TableLayout>
@@ -108,7 +120,22 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
-        app:cardCornerRadius="20dp"
+        android:padding="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        app:cardBackgroundColor="#2CFFFFFF"
+        app:cardCornerRadius="0dp"
+        app:contentPadding="10dp"
+        app:contentPaddingBottom="10dp"
+        app:contentPaddingLeft="10dp"
+        app:contentPaddingRight="10dp"
+        app:contentPaddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,10 +156,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=" Informacion del Estudiante"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textAllCaps="true"
-                android:textColor="#171717"
-                android:textSize="20sp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -143,8 +170,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView3"
@@ -152,8 +179,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="Nombre"
-                        android:textAlignment="center"
-                        android:textColor="#171717"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -164,8 +191,8 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
                         android:text="Jose Mendoza"
-                        android:textAlignment="center"
-                        android:textColor="#171717"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -181,8 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="Codigo"
-                        android:textAlignment="center"
-                        android:textColor="#171717"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -192,8 +218,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="20190123"
-                        android:textAlignment="center"
-                        android:textColor="#171717"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>

@@ -121,7 +121,10 @@ public class GaleriaEventos extends AppCompatActivity {
         });
         }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     private void cargarImagenesEnGridView(List<String> imageUrls) {
         adapter = new GaleriaFotosAdapter(GaleriaEventos.this, imageUrls);

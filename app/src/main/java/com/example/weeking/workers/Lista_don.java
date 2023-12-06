@@ -83,6 +83,7 @@ public class Lista_don extends AppCompatActivity {
         TextView titulo = findViewById(R.id.textView52);
         TextView donaci = findViewById(R.id.textView19);
         TextView alu = findViewById(R.id.textView22);
+
         donaci.setOnClickListener(view -> {
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView1.setVisibility(View.GONE);

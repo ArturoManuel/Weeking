@@ -85,7 +85,7 @@ public class Donacion extends AppCompatActivity {
                     Intent intent = new Intent(Donacion.this, Yape.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(this, "No has seleccionado ninguno", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No has seleccionado ningún método de pago", Toast.LENGTH_SHORT).show();
                 }
             }
         });

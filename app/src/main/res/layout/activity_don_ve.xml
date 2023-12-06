@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/iniciofondo"
+    android:background="#B8DFFE"
     android:layout_height="match_parent"
     tools:context=".workers.Don_ve">
 
@@ -42,6 +42,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="40dp"
+        app:cardBackgroundColor="#0AFFFFFF"
         app:cardCornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

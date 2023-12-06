@@ -23,10 +23,10 @@
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/toolbar_logo"
-
+        android:singleLine="true"
         android:gravity="center_vertical"
         android:text=""
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textColor="#000000"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 </RelativeLayout>

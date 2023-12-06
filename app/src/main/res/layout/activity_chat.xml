@@ -8,7 +8,7 @@
     tools:context=".workers.Chat"
 
     android:orientation="vertical"
-    android:background="@drawable/iniciofondo">
+    android:background="#B8DFFE">
 
     <LinearLayout
         android:layout_width="match_parent"

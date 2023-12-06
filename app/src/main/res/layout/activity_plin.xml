@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/iniciofondo"
+    android:background="#B8DFFE"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".workers.Plin">
-
 
 
     <Button
@@ -14,14 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:backgroundTint="#1DB3D8"
+        android:backgroundTint="#40A0E8"
         android:text="Subir Comprobante"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cartView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cartView" />
 
     <TextView
         android:id="@+id/textView23"
@@ -29,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Donaciones Aitel"
-        android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textColor="@color/colorBlack"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

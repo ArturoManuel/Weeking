@@ -136,11 +136,10 @@ public class GaleriaUploadActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
+        }).addOnProgressListener(snapshot -> {
+            progressBar.setVisibility(View.VISIBLE);
+            double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+            progressBar.setProgress((int) progress);
         });
     }
     @Override

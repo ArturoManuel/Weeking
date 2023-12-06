@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/iniciofondo"
     android:layout_height="match_parent"
+    android:background="#B8DFFE"
     tools:context=".workers.AccountActivity">
 
 
@@ -31,7 +31,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="24dp"
-        app:cardBackgroundColor="#00FFFFFF"
+        app:cardBackgroundColor="#4DFFFFFF"
         app:cardCornerRadius="24dp"
         app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,9 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="4dp"
                 android:hint="Nombre"
-                app:helperTextTextColor="@color/cardview_dark_background"
+                app:boxStrokeColor="#2196F3"
+                app:helperTextTextColor="@color/colorBlack"
+                app:hintTextColor="@color/colorBlack"
                 app:startIconDrawable="@drawable/ic_person">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -82,7 +84,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="4dp"
                 android:hint="Correo"
-                app:helperTextTextColor="@color/cardview_dark_background"
+                app:boxStrokeColor="#2196F3"
+                app:helperTextTextColor="@color/colorBlack"
+                app:hintTextColor="@color/colorBlack"
                 app:startIconDrawable="@drawable/baseline_email_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -99,7 +103,10 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="4dp"
-                android:hint="Estado">
+                android:hint="Estado"
+                app:boxStrokeColor="#2196F3"
+                app:helperTextTextColor="@color/colorBlack"
+                app:hintTextColor="@color/colorBlack">
 
                 <AutoCompleteTextView
                     android:id="@+id/estados"
@@ -116,8 +123,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
-        android:text="Confirmar"
         android:backgroundTint="@color/CustomColor2"
+        android:text="Confirmar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView5" />
