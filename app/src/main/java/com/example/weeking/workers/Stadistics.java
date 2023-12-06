@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -32,6 +33,12 @@ public class Stadistics extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView textViewTotalUsers;
 
+    private TextView textViewTotalStudents;
+    private TextView textViewTotalGraduates;
+    private int totalStudents = 0;
+    private int totalGraduates = 0;
+
+
     int[] colorClassArray=new int []{Color.BLUE,Color.RED};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class Stadistics extends AppCompatActivity {
 
 
         textViewTotalUsers = findViewById(R.id.textView57);
+        textViewTotalStudents = findViewById(R.id.textView59);
+        textViewTotalGraduates = findViewById(R.id.textView63);
 
         db.collection("usuarios")
                 .get()
@@ -52,6 +61,30 @@ public class Stadistics extends AppCompatActivity {
                         Log.d("Firestore", "Error getting documents: ", task.getException());
                     }
                 });
+
+// Consulta a Firestore para contar estudiantes y egresados
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String role = document.getString("estado");
+                            if ("Estudiante".equals(role)) {
+                                totalStudents++;
+                            } else if ("Egresado".equals(role)) {
+                                totalGraduates++;
+                            }
+                        }
+                        // Actualizacion TextViews y el PieChart
+                        textViewTotalStudents.setText("Estudiantes: " + totalStudents);
+                        textViewTotalGraduates.setText("Egresados: " + totalGraduates);
+                    } else {
+                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                    }
+                });
+
+
+
 
         pieChart2 = findViewById(R.id.pieChart2);
         PieDataSet pieDataSet2 = new PieDataSet(dataValue2(), "");
