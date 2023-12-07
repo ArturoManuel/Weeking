@@ -66,6 +66,7 @@
                     android:id="@+id/codigo_pucp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
                     android:maxLength="10"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -90,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="21"
+                    android:textColor="@color/colorBlack"
                     android:singleLine="true"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -210,6 +212,7 @@
                     android:id="@+id/estados"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textColor="@color/colorBlack"
                     android:inputType="none"></AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

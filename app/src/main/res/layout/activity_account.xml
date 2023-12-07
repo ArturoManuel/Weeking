@@ -72,7 +72,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombre1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +93,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/coreo1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -112,6 +114,7 @@
                     android:id="@+id/estados"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textColor="@color/colorBlack"
                     android:inputType="none"></AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -77,12 +77,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nombre"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/nombreActividad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
                     android:maxLength="50" />
@@ -93,6 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Descripción"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -105,6 +108,7 @@
                         android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:textColor="@color/colorBlack"
                         android:hint="Ingrese la descripción" />
                 </com.google.android.material.textfield.TextInputLayout>
 

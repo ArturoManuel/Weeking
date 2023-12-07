@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:inputType="textPassword"
                 android:maxLength="21"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorBlack" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:inputType="textPassword"
                 android:maxLength="21"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorBlack"/>
 
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>

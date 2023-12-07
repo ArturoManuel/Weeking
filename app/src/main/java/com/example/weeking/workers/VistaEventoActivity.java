@@ -215,7 +215,7 @@ public class VistaEventoActivity extends AppCompatActivity {
     }
 
     private void mostrarDialogoDeApoyo(String eventId, String documentId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, com.google.android.material.R.style.Theme_MaterialComponents_Light_Dialog_Alert);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, com.google.android.material.R.style.ThemeOverlay_AppCompat_Dialog_Alert);
         Log.d("IdDocumento",documentId.toString());
         // Configurar el título y el mensaje del diálogo
         builder.setTitle("Formulario de apoyo");
