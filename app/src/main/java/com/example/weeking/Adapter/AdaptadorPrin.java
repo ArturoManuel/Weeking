@@ -1,4 +1,6 @@
 package com.example.weeking.Adapter;
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -7,16 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.entity.Usuario;
+import com.example.weeking.workers.NuevoEventoActivity;
 import com.example.weeking.workers.VistaEventoActivity;
+import com.example.weeking.workers.VistaPrincipal;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -31,7 +45,10 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
     private Context context;
     private AppViewModel appViewModel;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    String userId = FirebaseAuth.getInstance().getCurrentUser() != null ?
+            FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
 
     public AdaptadorPrin(List<EventoClass> itemlist, Context context) {
         this.minflater = LayoutInflater.from(context);
@@ -111,12 +128,44 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             // Capitalizar la primera letra de cada palabra
             formattedDate = capitalize(formattedDate);
             fecha.setText(formattedDate);
-            Boolean dispo = item.isEstado();
-            if (dispo == true){
-                estado.setText("En proceso");
-            } else {
-                estado.setText("Terminado");
+            if (currentUser != null) {
+                // Buscar el documento basado en el campo authUID que coincide con userId
+                Query query = db.collection("usuarios").whereEqualTo("authUID", userId);
+
+                query.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asume que solo hay un documento que coincide
+                            String rol = document.getString("rol"); // Asume que el campo del rol se llama "rol"
+                            obtenerCodigoDelAlumno(userId);
+                            if ("administrador".equals(rol)) {
+                                estado.setVisibility(View.INVISIBLE);
+                            } else if ("delegado_de_actividad".equals(rol)) {
+                                estado.setVisibility(View.VISIBLE);
+                            } else if ("alumno".equals(rol)) {
+                                estado.setVisibility(View.INVISIBLE);
+                            } else {
+                                Log.d(TAG, "Rol no reconocido");
+                                return; // Sale de la función.
+                            }
+
+                            Boolean dispo = item.isEstado();
+                            if (dispo == true){
+                                estado.setText("En proceso");
+                            } else {
+                                estado.setText("Terminado");
+                            }
+
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                });
             }
+
             ubicacion.setText(item.getUbicacion());
             fotito.setText(item.getFoto());
             String imageUrl = item.getFoto();  // Asume que `item.getImageUrl()` proporciona la URL de la imagen
@@ -152,5 +201,41 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         this.mdata.clear();
         this.mdata.addAll(newData);
         notifyDataSetChanged(); // Notifica al adaptador que los datos han cambiado
+    }
+    private void obtenerCodigoDelAlumno(String authID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference colRef = db.collection("usuarios");
+
+        Query query = colRef.whereEqualTo("authUID", authID);
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if (!queryDocumentSnapshots.isEmpty()) {
+                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                String codigoAlumno = document.getId();
+                // Aquí obtenemos el código del alumno, que es el ID del documento
+                Log.d("codigoencontrado",codigoAlumno);
+                cargarDatosUsuarioDesdeFirestore(codigoAlumno);
+            } else {
+                Log.d("mensajeError","no se encontro el codigo");
+            }
+        }).addOnFailureListener(e -> {
+            // Maneja cualquier error que ocurra al tratar de obtener el documento.
+            Log.d("fallo en encontrar el documento","no se encontro");
+        });
+    }
+
+    private void cargarDatosUsuarioDesdeFirestore(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Usuario usuario = documentSnapshot.toObject(Usuario.class);
+                    if (usuario != null) {
+                        // Guarda el usuario en AppViewModel
+                        Log.d("datos",usuario.getNombre());
+                        AppViewModel appViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(AppViewModel.class);
+                        appViewModel.setCurrentUser(usuario);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                });
     }
 }
