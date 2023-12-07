@@ -3,13 +3,16 @@ package com.example.weeking.workers;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.weeking.R;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -23,7 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-
+import com.github.mikephil.charting.formatter.ValueFormatter;
 public class Stadistics extends AppCompatActivity {
     PieChart pieChart;
     PieChart pieChart2;
@@ -78,6 +81,7 @@ public class Stadistics extends AppCompatActivity {
                         // Actualizacion TextViews y el PieChart
                         textViewTotalStudents.setText("Estudiantes: " + totalStudents);
                         textViewTotalGraduates.setText("Egresados: " + totalGraduates);
+                        updatePieChart();
                     } else {
                         Log.d("Firestore", "Error getting documents: ", task.getException());
                     }
@@ -114,6 +118,9 @@ public class Stadistics extends AppCompatActivity {
         pieChart.setTransparentCircleRadius(40);
         pieChart.setData(pieData);
         pieChart.invalidate();
+
+
+
 
         pieChart3 = findViewById(R.id.pieChart3);
         PieDataSet pieDataSet3 = new PieDataSet(dataValue3(), "");
@@ -172,5 +179,64 @@ public class Stadistics extends AppCompatActivity {
         dataVals4.add(new Entry(5,200));
         return dataVals4;
     }
+    private class MyValueFormatter extends ValueFormatter {
+        @Override
+        public String getFormattedValue(float value) {
+            return String.format("%.1f%%", value);
+        }
+    }
+    private void updatePieChart() {
+        pieChart = findViewById(R.id.pieChart);
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(totalStudents, "Estudiantes"));
+        entries.add(new PieEntry(totalGraduates, "Egresados"));
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setSliceSpace(1f); // Espacio entre los segmentos
+        dataSet.setSelectionShift(1f); // Tamaño de segmento seleccionado
+
+
+        int[] colorClassArray = {Color.parseColor("#2D68C4"), Color.parseColor("#1E88E5")};
+        dataSet.setColors(colorClassArray);
+
+
+        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(Color.WHITE);
+        dataSet.setValueTypeface(Typeface.DEFAULT_BOLD);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+
+                return String.format("%.1f%%", value);
+            }
+        });
+
+        pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleColor(Color.TRANSPARENT);
+        pieChart.setCenterText("");
+        pieChart.setCenterTextSize(10f);
+
+        // Configuración de la leyenda
+        pieChart.getLegend().setEnabled(true);
+        pieChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        pieChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        pieChart.getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        pieChart.getLegend().setDrawInside(false);
+        pieChart.getLegend().setYEntrySpace(0f);
+        pieChart.getLegend().setXEntrySpace(10f);
+
+        // Animación
+        pieChart.animateY(1400, Easing.EaseInOutQuad);
+
+        // Refresca el gráfico
+        pieChart.invalidate();
+    }
+
+
 
 }
+
