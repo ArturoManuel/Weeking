@@ -11,7 +11,7 @@ import java.util.List;
 public class EventoClass {
 
     private String descripcion; // "Se jugar un juego"
-    private Boolean estado; // true
+    private Boolean estado; // true es en proceso, false es terminado
     private Timestamp fecha_evento; // "29 de octubre de 2023, 00:52:29 UTC-5"
     private String foto; // URL de la foto
     private Integer likes; // 4
@@ -24,7 +24,6 @@ public class EventoClass {
     private double longitud;
 
     private  String eventId;
-
 
     private List<String> listaUsuariosIds;
 
