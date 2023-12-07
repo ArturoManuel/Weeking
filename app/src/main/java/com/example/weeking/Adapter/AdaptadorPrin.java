@@ -63,6 +63,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
         ImageView foto;
         TextView fecha;
         TextView ubicacion;
+        TextView estado;
 
         TextView descripcion, fotito;
         ImageView likeButton;
@@ -75,6 +76,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             ubicacion= itemView.findViewById(R.id.ubicacion);
             descripcion= itemView.findViewById(R.id.descripcion);
             fotito = itemView.findViewById(R.id.fotito);
+            estado = itemView.findViewById(R.id.txtViewEstado);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 EventoClass eventoSeleccionado = mdata.get(position);
@@ -84,6 +86,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
                 intent.putExtra("descripcion", (String) descripcion.getText());
                 intent.putExtra("ubicacion", (String) ubicacion.getText());
                 intent.putExtra("foto", (String) fotito.getText());
+                intent.putExtra("estado", (String) estado.getText());
                 context.startActivity(intent);
             });
             likeButton = itemView.findViewById(R.id.like_btn);
@@ -107,8 +110,13 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             String formattedDate = sdf.format(date);
             // Capitalizar la primera letra de cada palabra
             formattedDate = capitalize(formattedDate);
-
             fecha.setText(formattedDate);
+            Boolean dispo = item.isEstado();
+            if (dispo == true){
+                estado.setText("En proceso");
+            } else {
+                estado.setText("Terminado");
+            }
             ubicacion.setText(item.getUbicacion());
             fotito.setText(item.getFoto());
             String imageUrl = item.getFoto();  // Asume que `item.getImageUrl()` proporciona la URL de la imagen
