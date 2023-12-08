@@ -44,14 +44,13 @@
         <!-- ImageButton para subir la imagen -->
         <ImageButton
             android:id="@+id/uploadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/circular_background"
-            android:src="@android:drawable/ic_menu_upload"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/circular_background3"
+            android:scaleType="center"
+            android:src="@android:drawable/stat_sys_upload"
             app:layout_constraintBottom_toBottomOf="@id/contenedorImagen"
-            app:layout_constraintEnd_toEndOf="@id/contenedorImagen"
-        />
+            app:layout_constraintEnd_toEndOf="@id/contenedorImagen" />
 
         <!-- CardView para ingreso de datos -->
         <androidx.cardview.widget.CardView

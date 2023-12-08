@@ -36,12 +36,12 @@
 
     <ImageButton
         android:id="@+id/uploadImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="47dp"
+        android:layout_height="45dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/circular_background"
-        android:src="@android:drawable/ic_menu_upload"
+        android:background="@drawable/circular_background3"
+        android:src="@android:drawable/stat_sys_upload"
         app:layout_constraintBottom_toBottomOf="@id/contenedorImagen"
         app:layout_constraintEnd_toEndOf="@id/contenedorImagen"
         app:layout_constraintTop_toTopOf="@id/contenedorImagen"
