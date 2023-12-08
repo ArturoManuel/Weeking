@@ -27,9 +27,4 @@
         android:name="com.example.weeking.workers.fragmentos.mainFragmento"
         android:label="fragment_main_fragmento"
         tools:layout="@layout/fragment_main_fragmento" />
-    <fragment
-        android:id="@+id/camarafragmento"
-        android:name="com.example.weeking.workers.fragmentos.camarafragmento"
-        android:label="fragment_camarafragmento"
-        tools:layout="@layout/fragment_camarafragmento" />
 </navigation>

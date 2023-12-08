@@ -20,12 +20,6 @@
         android:icon="@drawable/baseline_maps_ugc_24">
     </item>
 
-    <item android:id="@+id/camarafragmento"
-        android:title="camara"
-        android:icon="@drawable/baseline_photo_camera_24">
-
-
-    </item>
 
 
 </menu>
