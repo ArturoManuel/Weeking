@@ -8,7 +8,6 @@
     tools:context=".workers.Cotrasena2Activity">
 
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cartView"
         android:layout_width="match_parent"
@@ -16,6 +15,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="40dp"
+        app:cardBackgroundColor="#07FFFFFF"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +34,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Ingresa el código "
+                android:textColor="@color/colorBlack"
                 android:textSize="25sp"
                 android:textStyle="bold"></TextView>
 
@@ -43,6 +44,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
+                android:textColor="@color/colorBlack"
                 android:text="Debería haber llegado un código de cuatro dígitos a la dirección de correo electrónico que proporcionaste."></TextView>
 
             <LinearLayout
@@ -132,6 +134,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
+                android:textColor="@color/colorBlack"
                 android:text="Reenviar código">
 
             </TextView>
