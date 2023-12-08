@@ -7,7 +7,7 @@ import com.example.weeking.entity.Usuario;
 
 public class DataHolder {
 
-        private static final DataHolder ourInstance = new DataHolder();
+        private static DataHolder ourInstance;
          private Actividad actividadSeleccionada;
 
         private EventoClass eventoSeleccionado;
@@ -33,7 +33,10 @@ public class DataHolder {
     }
 
     public static DataHolder getInstance() {
-            return ourInstance;
+        if (ourInstance == null) {
+            ourInstance = new DataHolder();
+        }
+        return ourInstance;
         }
 
         private DataHolder() {
@@ -58,7 +61,9 @@ public class DataHolder {
         this.actividadSeleccionada = actividad;
     }
 
-
+    public void resetEventoSeleccionado() {
+        eventoSeleccionado = null;
+    }
 
 
 }
