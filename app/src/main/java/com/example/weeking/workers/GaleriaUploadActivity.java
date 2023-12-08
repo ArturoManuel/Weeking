@@ -132,8 +132,7 @@ public class GaleriaUploadActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(GaleriaUploadActivity.this, "Archivo subido correctamente", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(GaleriaUploadActivity.this, GaleriaEventos.class);
-                startActivity(intent);
+                onBackPressed();
                 finish();
             }
         }).addOnProgressListener(snapshot -> {

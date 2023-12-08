@@ -84,4 +84,9 @@ public class EventosActivity extends AppCompatActivity {
         listaAdapter.setActividades(actividades);
         listaAdapter.notifyDataSetChanged();
     }
+    @Override
+    public void onBackPressed() {
+        // Finaliza la actividad actual
+        finish();
+    }
 }

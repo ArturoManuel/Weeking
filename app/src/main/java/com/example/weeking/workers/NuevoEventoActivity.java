@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.databinding.ActivityNuevaActividadBinding;
 import com.example.weeking.databinding.ActivityNuevoEventoBinding;
 import com.example.weeking.entity.EventoClass;
@@ -371,6 +372,11 @@ public class NuevoEventoActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        // Restablecer el evento seleccionado al presionar el botón de retroceso
+        DataHolder.getInstance().resetEventoSeleccionado();
+        super.onBackPressed();
+    }
 
 }

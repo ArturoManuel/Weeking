@@ -121,10 +121,6 @@ public class GaleriaEventos extends AppCompatActivity {
         });
         }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
     private void cargarImagenesEnGridView(List<String> imageUrls) {
         adapter = new GaleriaFotosAdapter(GaleriaEventos.this, imageUrls);
@@ -141,5 +137,9 @@ public class GaleriaEventos extends AppCompatActivity {
             Toast.makeText(GaleriaEventos.this, "Error al borrar la imagen", Toast.LENGTH_SHORT).show();
         });
     }
-
+    @Override
+    public void onBackPressed() {
+        // Finaliza la actividad actual
+        finish();
+    }
 }
