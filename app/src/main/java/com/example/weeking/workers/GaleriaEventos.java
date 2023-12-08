@@ -105,16 +105,6 @@ public class GaleriaEventos extends AppCompatActivity {
                         Toast.makeText(GaleriaEventos.this, "Error al obtener las imágenes", Toast.LENGTH_SHORT).show();
                     }
                 });
-        /*gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getApplicationContext(), imagen_completa.class);
-                intent.putExtra("misImagenes",position);
-                startActivity(intent);
-
-            }
-        });
-*/
         anadir.setOnClickListener(view -> {
             Intent intent = new Intent(GaleriaEventos.this, GaleriaUploadActivity.class);
             startActivity(intent);

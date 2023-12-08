@@ -1,41 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <!-- Contenido original -->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <!-- Rectangular image view as a background for the description -->
-        <ImageView
-            android:id="@+id/imagenActividad"
-            android:layout_width="376dp"
-            android:layout_height="216dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
 
         <!-- Title TextView -->
-        <com.google.android.material.chip.Chip
-            android:id="@+id/nombreActividad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginEnd="0dp"
-            android:text="Título de la Actividad"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/black"
-            app:chipBackgroundColor="@color/white"
-            android:elevation="5dp"
-            app:chipStrokeColor="@color/colorPrimaryDark"
-            app:chipStrokeWidth="1dp" />
 
 
         <!-- CardView for Description -->
+
+        <ImageView
+            android:id="@+id/imagenActividad"
+            android:layout_width="match_parent"
+            android:layout_height="284dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,16 +35,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="50dp">
+                android:padding="10dp">
 
                 <!-- Description TextView -->
+
+                <TextView
+                    android:id="@+id/nombreActividad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="5dp"
+                    android:text="Título de la Actividad"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/black"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/descriptionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
                     android:text="Descripción"
+                    android:textColor="@color/colorBlack"
                     android:textSize="18sp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -75,7 +73,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/circular_background"
+            android:background="@drawable/circular_background3"
             android:elevation="6dp"
             android:src="@drawable/baseline_mode_edit_24" />
 
@@ -88,7 +86,7 @@
             android:layout_marginTop="23dp"
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="100dp"
-            android:background="@drawable/circular_background"
+            android:background="@drawable/circular_background3"
             android:elevation="6dp"
             android:src="@drawable/baseline_person_add_24" />
 

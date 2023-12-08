@@ -1,5 +1,6 @@
 package com.example.weeking.workers.adaptador;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,8 +58,15 @@ public class GaleriaFotosAdapter extends BaseAdapter {
 
         ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(v -> {
-            String urlToDelete = imageUrls.get(position);
-            ((GaleriaEventos)mContext).borrarImagen(urlToDelete, position);
+            new AlertDialog.Builder(mContext)
+                    .setTitle("Confirmar eliminación")
+                    .setMessage("¿Estás seguro de que deseas eliminar esta imagen?")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+                        String urlToDelete = imageUrls.get(position);
+                        ((GaleriaEventos) mContext).borrarImagen(urlToDelete, position);
+                    })
+                    .setNegativeButton("Cancelar", null) // null significa que no hace nada al clickear
+                    .show();
         });
 
         return convertView;

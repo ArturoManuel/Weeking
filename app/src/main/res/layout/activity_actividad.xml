@@ -15,12 +15,20 @@
         <FrameLayout
             android:id="@+id/infoFragmento"
             android:name="com.example.weeking.workers.fragmentos.InfoFragmento"
-            android:layout_width="413dp"
-            android:layout_height="386dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <FrameLayout
+            android:id="@+id/evento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/infoFragmento" />
 
         <Button
             android:id="@+id/addEvent"
@@ -28,19 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="Agregar Evento"
+            app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/evento" />
-
-        <FrameLayout
-            android:id="@+id/evento"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoFragmento" />
 
         <FrameLayout
             android:id="@+id/añadir"

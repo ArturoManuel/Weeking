@@ -44,9 +44,10 @@
             android:layout_height="48dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/circular_background"
+            android:background="@drawable/circular_background3"
             android:elevation="6dp"
-            android:src="@android:drawable/ic_menu_upload"
+            android:scaleType="center"
+            android:src="@android:drawable/stat_sys_upload"
             app:layout_constraintBottom_toTopOf="@+id/cardView4"
             app:layout_constraintEnd_toEndOf="parent" />
 

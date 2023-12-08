@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/registrofondo"
+    android:background="#B8DFFE"
     android:backgroundTintMode="src_in">
 
     <androidx.constraintlayout.widget.Guideline
@@ -66,9 +66,9 @@
                     android:id="@+id/codigo_pucp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
                     android:maxLength="10"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Nombre -->
@@ -91,8 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="21"
-                    android:textColor="@color/colorBlack"
                     android:singleLine="true"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,9 +114,9 @@
                     android:id="@+id/apellido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
                     android:maxLength="21"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Correo -->
@@ -138,9 +138,9 @@
                     android:id="@+id/correo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
                     android:maxLength="30"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Contraseña -->
@@ -212,8 +212,8 @@
                     android:id="@+id/estados"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@color/colorBlack"
-                    android:inputType="none"></AutoCompleteTextView>
+                    android:inputType="none"
+                    android:textColor="@color/colorBlack"></AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
