@@ -1,9 +1,12 @@
 package com.example.weeking.workers.fragmentos;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.weeking.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,6 +17,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class mapafragmento extends Fragment implements OnMapReadyCallback {
+
+    public interface OnMapReadyListener {
+        void onMapReady();
+    }
+
+    private OnMapReadyListener callback;
     private GoogleMap mMap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,9 +32,24 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Initialize map fragment
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
-        if (mapFragment != null) {
+
+
+        view.post(() -> {
+            SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+            getChildFragmentManager().beginTransaction().replace(R.id.mapFragment, mapFragment).commit();
             mapFragment.getMapAsync(this);
+        });
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnMapReadyListener) {
+            callback = (OnMapReadyListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " debe implementar OnMapReadyListener");
         }
     }
     @Override
@@ -66,6 +90,10 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
 
         LatLng tenisDeMesaPUCP = new LatLng(-12.066921524250779, -77.080345690413);
         mMap.addMarker(new MarkerOptions().position(tenisDeMesaPUCP).title("Tenis de Mesa PUCP"));
+
+        if (callback != null) {
+            callback.onMapReady();
+        }
 
 
 

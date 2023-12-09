@@ -21,8 +21,10 @@ import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Noti;
 import com.example.weeking.entity.Usuario;
 import com.example.weeking.workers.fragmentos.mainFragmento;
+import com.example.weeking.workers.fragmentos.mapafragmento;
 import com.example.weeking.workers.fragmentos.perfil;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -50,6 +52,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -84,8 +87,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutListener {
+public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutListener , mapafragmento.OnMapReadyListener {
 
     private Intent intent;
     private LinearLayout layout;
@@ -106,20 +111,28 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     private long lastBackPressedTime;
 
 
+    BottomNavigationView bottomNavigationView;
+    FloatingActionButton fab;
+    MaterialToolbar toolbar;
+
+    AppViewModel appViewModel;
+
+    private ProgressBar progressBar;
+
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        progressBar = findViewById(R.id.progressBar);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        fab = findViewById(R.id.floatingActionButton);
         db = FirebaseFirestore.getInstance();
-        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.mainFragmento);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        // Iniciar en el mainFragmento
-        navController.navigate(R.id.mainFragmento);
-        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             isMainFragment = (destination.getId() == R.id.mainFragmento);
@@ -128,59 +141,101 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             } else {
                 fab.setVisibility(View.GONE);
             }
+
+            if (destination.getId() == R.id.mapafragmento) {
+
+                mostrarMapaFragmentoCuandoEsteListo();
+            }
         });
-        AppViewModel appViewModel= new ViewModelProvider(VistaPrincipal.this).get(AppViewModel.class);
+
+
+        appViewModel= new ViewModelProvider(VistaPrincipal.this).get(AppViewModel.class);
         appViewModel.iniciarListenerEventos();
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
         if (currentUser != null) {
-            String userId = currentUser.getUid();
-
-            // Buscar el documento basado en el campo authUID que coincide con userId
-            Query query = db.collection("usuarios").whereEqualTo("authUID", userId);
-
-            query.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    if (!querySnapshot.isEmpty()) {
-                        DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asume que solo hay un documento que coincide
-                        String rol = document.getString("rol"); // Asume que el campo del rol se llama "rol"
-                        int menuLayoutId;
-                        obtenerCodigoDelAlumno(userId);
-                        if ("administrador".equals(rol)) {
-                            menuLayoutId = R.layout.menu_personalizado_delegado_general;
-                            toolbar.setTitle("Weeking - Administrador");
-                        } else if ("delegado_de_actividad".equals(rol)) {
-                            menuLayoutId = R.layout.menu_personalizado_delegado_actividad;
-                            toolbar.setTitle("Weeking - Delegado");
-                        } else if ("alumno".equals(rol)) {
-                            menuLayoutId = R.layout.menu_personalizado;
-                            toolbar.setTitle("Weeking - Alumno");
-                        } else {
-                            Log.d(TAG, "Rol no reconocido");
-                            return; // Sale de la función.
-                        }
-
-                        fab.setOnClickListener(v -> {
-                            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(VistaPrincipal.this);
-                            bottomSheetDialog.setContentView(menuLayoutId);
-                            bottomSheetDialog.show();
-                        });
-
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            });
+            cargarDatosUsuario(currentUser.getUid());
         }
 
+
+
     }
+
+    private void mostrarMapaFragmentoCuandoEsteListo() {
+        mostrarIndicadorDeProgreso();
+        executorService.execute(() -> {
+            runOnUiThread(() -> {
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.mapFragment);
+                if (mapFragment != null) {
+                    mapFragment.getMapAsync(googleMap -> {
+                        ocultarIndicadorDeProgreso();
+                    });
+                }
+            });
+        });
+    }
+
+
+    private void mostrarIndicadorDeProgreso() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarIndicadorDeProgreso() {
+        progressBar.setVisibility(View.GONE);
+    }
+    @Override
+    public void onMapReady() {
+        ocultarIndicadorDeProgreso();
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
         return true;
+    }
+
+    private void cargarDatosUsuario(String userId) {
+        Query query = db.collection("usuarios").whereEqualTo("authUID", userId);
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (!querySnapshot.isEmpty()) {
+                    DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asume que solo hay un documento que coincide
+                    String rol = document.getString("rol"); // Asume que el campo del rol se llama "rol"
+                    int menuLayoutId;
+                    obtenerCodigoDelAlumno(userId);
+                    if ("administrador".equals(rol)) {
+                        menuLayoutId = R.layout.menu_personalizado_delegado_general;
+                        toolbar.setTitle("Weeking - Administrador");
+                    } else if ("delegado_de_actividad".equals(rol)) {
+                        menuLayoutId = R.layout.menu_personalizado_delegado_actividad;
+                        toolbar.setTitle("Weeking - Delegado");
+                    } else if ("alumno".equals(rol)) {
+                        menuLayoutId = R.layout.menu_personalizado;
+                        toolbar.setTitle("Weeking - Alumno");
+                    } else {
+                        Log.d(TAG, "Rol no reconocido");
+                        return; // Sale de la función.
+                    }
+
+                    fab.setOnClickListener(v -> {
+                        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(VistaPrincipal.this);
+                        bottomSheetDialog.setContentView(menuLayoutId);
+                        bottomSheetDialog.show();
+                    });
+
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
     }
 
     @Override
@@ -368,6 +423,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         super.onDestroy();
         AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
         appViewModel.detenerListenerEventos();  // Detiene la escucha de eventos
+        executorService.shutdown();
     }
 
 
