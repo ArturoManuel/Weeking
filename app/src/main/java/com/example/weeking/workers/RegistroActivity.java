@@ -87,36 +87,6 @@ public class RegistroActivity extends AppCompatActivity {
                 return;
             }
             Log.d("msg-erroe","acá");
-            // Crear usuario con correo y contraseña en Firebase Authentication
-            /*auth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Log.d("msg-error","Se envía");
-                    String authUID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-                    // Crear un objeto Map para almacenar los valores en Firestore
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("codigo", codigo);
-                    user.put("nombre", nombre);
-                    user.put("correo", correo);
-                    user.put("estado", estado);
-                    user.put("rol","alumno");
-                    user.put("apoyo","no_apoya");
-                    user.put("imagen_url", "tu_url_por_defecto_aqui");
-                    user.put("authUID", authUID);
-
-
-                    // Añadir datos en Firestore
-                    db.collection("usuarios").document(codigo).set(user)
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-                                navigateToActivity(VistaPrincipal.class); // Navega a la siguiente actividad solo si el registro es exitoso
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                } else {
-                    Log.d("msg","no sale");
-                    Toast.makeText(RegistroActivity.this, "SignUp Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-       */
             checkEmailAndAlumnoCodeUnique(correo, codigo);
         });
 

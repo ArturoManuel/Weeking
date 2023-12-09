@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B8DFFE"
+    android:background="#A3D4FB"
     android:backgroundTintMode="multiply"
     app:barrierMargin="@dimen/places_autocomplete_button_padding"
     tools:context=".workers.MainActivity">

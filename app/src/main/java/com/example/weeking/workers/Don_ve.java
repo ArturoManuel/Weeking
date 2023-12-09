@@ -47,7 +47,7 @@ public class Don_ve extends AppCompatActivity {
             Log.d("monto", String.valueOf(donacion));
             db.collection("donaciones").document(codigo).update(map);
             Map<String, Object> map1 = new HashMap<>();
-            map1.put("notifi","Su donacion ha aceptado, monto: "+ Integer.parseInt(String.valueOf(monto.getText())));
+            map1.put("notifi","Donación aceptada. Monto: S/"+ Integer.parseInt(String.valueOf(monto.getText())));
             map1.put("codigo",codigo);
             db.collection("noti").add(map1);
             Intent intent1 = new Intent(this, Lista_don.class);

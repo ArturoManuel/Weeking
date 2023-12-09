@@ -54,6 +54,12 @@ public class MapaActivity extends AppCompatActivity {
             new LugarPUCP("Departamento de Educación", new LatLng(-12.067497632527369, -77.07939147949219)),
             new LugarPUCP("Complejo Mac Gregor", new LatLng(-12.068452380089248, -77.07850098609924)),
             new LugarPUCP("Facultad de Arte", new LatLng(-12.068754016661332, -77.08050727844238)),
+            new LugarPUCP("Polideportivo", new LatLng(-12.066550114711053, -77.08026020484829)),
+            new LugarPUCP("Pabellón V", new LatLng(-12.073063974496803, -77.08186661970869)),
+            new LugarPUCP("Cancha de Minas", new LatLng(-12.072174128386596, -77.08199877048409)),
+            new LugarPUCP("Facultad de Ciencias e Ingeniería", new LatLng(-12.07252824709505, -77.07943635537202)),
+            new LugarPUCP("Ajedrez PUCP",new LatLng(-12.066682180584055, -77.07993397133318)),
+            new LugarPUCP("Tenis de Mesa PUCP",new LatLng(-12.066921524250779, -77.080345690413)),
             new LugarPUCP("Edificio H", new LatLng(-12.069616957675034, -77.08140850067139))
             // Continúa añadiendo más lugares si es necesario
     );

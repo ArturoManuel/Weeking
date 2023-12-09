@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/evento_default"
+            android:backgroundTint="#27FFFFFF"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -231,10 +232,11 @@
         android:id="@+id/saveEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="84dp"
         android:text="Guardar Evento"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myCardView" />
+        app:layout_constraintTop_toBottomOf="@+id/myCardView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

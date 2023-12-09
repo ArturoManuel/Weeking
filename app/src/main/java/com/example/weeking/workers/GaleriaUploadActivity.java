@@ -121,20 +121,14 @@ public class GaleriaUploadActivity extends AppCompatActivity {
         UploadTask uploadTask = imgRef.putFile(uri);
 
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.INVISIBLE);
-                e.printStackTrace();
-                Toast.makeText(GaleriaUploadActivity.this, "Algo pasó. Inténtelo de nuevo", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(GaleriaUploadActivity.this, "Archivo subido correctamente", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-                finish();
-            }
+        uploadTask.addOnFailureListener(e -> {
+            progressBar.setVisibility(View.INVISIBLE);
+            e.printStackTrace();
+            Toast.makeText(GaleriaUploadActivity.this, "Algo pasó. Inténtelo de nuevo", Toast.LENGTH_SHORT).show();
+        }).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(GaleriaUploadActivity.this, "Archivo subido correctamente", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+            finish();
         }).addOnProgressListener(snapshot -> {
             progressBar.setVisibility(View.VISIBLE);
             double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());

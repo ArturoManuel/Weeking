@@ -77,7 +77,6 @@
                     android:id="@+id/txtCountFollow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlack"
                     android:textSize="24sp" />
@@ -103,7 +102,6 @@
                     android:id="@+id/txtCountLike"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlack"
                     android:textSize="24sp" />
@@ -139,7 +137,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Nombres y apellidos del alumno"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp"
@@ -151,7 +148,6 @@
                     android:id="@+id/textCodigoPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Código"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />

@@ -10,10 +10,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/iniciofondo"
         tools:context=".workers.NuevoEventoActivity">
+
         <FrameLayout
             android:id="@+id/contenedorImagen"
             android:layout_width="0dp"
             android:layout_height="200dp"
+            android:background="#27FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +25,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/evento_default"
+                android:backgroundTint="#2DFFFFFF"
                 android:scaleType="centerCrop" />
+
             <TextView
                 android:id="@+id/imagenCargar"
                 android:layout_width="wrap_content"
