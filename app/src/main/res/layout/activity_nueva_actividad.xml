@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/iniciofondo"
+        android:background="#B8DFFE"
         tools:context=".workers.NuevoEventoActivity">
 
 
@@ -83,10 +83,10 @@
                     android:id="@+id/nombreActividad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
-                    android:maxLength="50" />
+                    android:maxLength="50"
+                    android:textColor="@color/colorBlack" />
 
                 <!-- Descripción de la actividad -->
                 <TextView
@@ -107,8 +107,8 @@
                         android:id="@+id/descriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:textColor="@color/colorBlack"
-                        android:hint="Ingrese la descripción" />
+                        android:hint="Ingrese la descripción"
+                        android:textColor="@color/colorBlack" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

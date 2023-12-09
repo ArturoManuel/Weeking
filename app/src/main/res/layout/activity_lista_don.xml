@@ -48,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="#40A0E8"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
 
             <TextView
                 android:id="@+id/textView19"
