@@ -74,6 +74,7 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoView
             if (estaAñadido) {
                 // Mostrar diálogo de confirmación
                 mostrarDialogoConfirmacion(context, alumnoActual);
+
             } else {
                 // Cambiar la selección y actualizar la base de datos
                 actualizarUsuarioActividad(codigoAlumnoSeleccionado, false); // Desmarcar el anterior

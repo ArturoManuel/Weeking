@@ -72,6 +72,7 @@ public class AnadirFragmento extends Fragment {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
                             Log.w("AnadirFragmento", "Listen failed.", e);
+
                             return;
                         }
 

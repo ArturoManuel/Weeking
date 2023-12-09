@@ -66,6 +66,7 @@ public class Alumno {
         return authUID;
     }
 
+
     public void setAuthUID(String authUID) {
         this.authUID = authUID;
     }
