@@ -88,6 +88,7 @@ public class RegistroActivity extends AppCompatActivity {
             }
             Log.d("msg-erroe","acá");
             checkEmailAndAlumnoCodeUnique(correo, codigo);
+
         });
 
 
@@ -169,6 +170,10 @@ public class RegistroActivity extends AppCompatActivity {
                         db.collection("usuarios").document(codigoAlumno).set(user)
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(this, "Usuario registrado con éxito, espere que lo verifique", Toast.LENGTH_SHORT).show();
+                                    Map<String, Object> map1 = new HashMap<>();
+                                    map1.put("notifi","Se ha registrado "+binding.nombre.getText().toString() + " " + binding.apellido.getText().toString()+". Proceder a su verificación");
+                                    map1.put("codigo","20190411");
+                                    db.collection("noti").add(map1);
                                     navigateToActivity(MainActivity.class);
                                 })
                                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
