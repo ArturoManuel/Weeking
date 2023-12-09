@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.weeking.Adapter.EventosAdapter;
 import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
@@ -48,7 +50,7 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
     private ListenerRegistration eventosListenerRegistration;
 
     private  String idactividad;
-
+    private ImageView imagenActividad;
     private TextView nombreActividadTextView;
 
     private TextView descripcionText;
@@ -92,8 +94,13 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         super.onViewCreated(view, savedInstanceState);
         nombreActividadTextView = view.findViewById(R.id.nombreActividad);
         descripcionText = view.findViewById(R.id.description);
+        imagenActividad = view.findViewById(R.id.imageView);
         nombreActividadTextView.setText(actividad.getNombre());
         descripcionText.setText(actividad.getDescripcion());
+        String foto = actividad.getImagenUrl();
+        Glide.with(this)
+                .load(foto)
+                .into(imagenActividad);
     }
 
 

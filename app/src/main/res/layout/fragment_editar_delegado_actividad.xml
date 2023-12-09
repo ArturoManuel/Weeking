@@ -5,59 +5,46 @@
     android:background="#B8DFFE"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="5dp">
 
     <!-- TextView para el nombre de la actividad, centrado horizontalmente -->
-    <TextView
-        android:id="@+id/nombreActividad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="NombreActividad"
-        android:textColor="@color/colorBlack"
-        android:textSize="30sp"
-        android:textStyle="bold" />
 
     <!-- FrameLayout para la imagen, centrado horizontalmente -->
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="242dp"
         android:layout_marginBottom="16dp">
 
-        <!-- CircularImageView ajustado para que sea cuadrado y con márgenes automáticos -->
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/_657310123341"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
             app:civ_border_color="#100F0F"
             app:civ_border_width="2dp" />
     </FrameLayout>
 
     <!-- CardView para la descripción, centrado horizontalmente -->
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/nombreActividad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        android:textColor="@color/colorBlack"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="16dp"
-            android:text="pepitosuarez"
-            android:textSize="18sp" />
-    </androidx.cardview.widget.CardView>
-
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textSize="18sp" />
     <!-- Botón de añadir, alineado al inicio -->
     <Button
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="añadir" />
-
+        android:text="Añadir Evento" />
     <!-- RecyclerView para eventos, con altura flexible y sin nestedScrolling -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDeEventos"

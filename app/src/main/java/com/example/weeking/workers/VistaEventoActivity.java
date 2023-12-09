@@ -124,7 +124,7 @@ public class VistaEventoActivity extends AppCompatActivity {
         }
 
 
-        binding.btnMapa.setOnClickListener(view -> {
+        binding.imageViewLocation.setOnClickListener(view -> {
             // Asegúrate de tener latitud y longitud del destino
             String destinationLatitude = latitud;
             String destinationLongitude = longitud;
