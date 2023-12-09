@@ -1,5 +1,6 @@
 package com.example.weeking.Adapter;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,52 +57,50 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.AlumnoView
     public void onBindViewHolder(@NonNull AlumnoViewHolder holder, int position) {
         Alumno alumnoActual = listaAlumnos.get(position);
         holder.textViewAlumno.setText(alumnoActual.getNombre());
-
+        String rolAlumno = alumnoActual.getRol();
+        Log.d("msg-test", rolAlumno);
         holder.buttonAnadir.setOnClickListener(v -> {
+            if(rolAlumno != "delegado_de_actividad"){
             // Obtener el alumno actual basado en la posición
             // Suponiendo que tienes un campo identificador único para cada alumno, como un 'id'
-            String alumnoId = alumnoActual.getCodigo();
+                String alumnoId = alumnoActual.getCodigo();
 
-            if(alumnoId != null) {
-                // Actualizar el rol del alumno en Firestore
-                db.collection("usuarios").document(alumnoId)
-                        .update("rol", "delegado_de_actividad")
-                        .addOnSuccessListener(aVoid -> Log.d("AlumnoAdapter", "Rol actualizado con éxito."))
-                        .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error actualizando el rol", e));
+                if(alumnoId != null) {
+                    // Actualizar el rol del alumno en Firestore
+                    db.collection("usuarios").document(alumnoId)
+                            .update("rol", "delegado_de_actividad")
+                            .addOnSuccessListener(aVoid -> Log.d("AlumnoAdapter", "Rol actualizado con éxito."))
+                            .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error actualizando el rol", e));
 
-                // Crear un nuevo documento en la colección UsuarioActividad
-                Map<String, Object> usuarioActividad = new HashMap<>();
-                usuarioActividad.put("usuarioId", alumnoId);
-                usuarioActividad.put("idActividad", idactividad);
+                    // Crear un nuevo documento en la colección UsuarioActividad
+                    Map<String, Object> usuarioActividad = new HashMap<>();
+                    usuarioActividad.put("usuarioId", alumnoId);
+                    usuarioActividad.put("idActividad", idactividad);
 
-                db.collection("UsuarioActividad")
-                        .add(usuarioActividad)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("AlumnoAdapter", "UsuarioActividad añadido con ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("AlumnoAdapter", "Error añadiendo UsuarioActividad", e);
-                            }
-                        });
+                    db.collection("UsuarioActividad")
+                            .add(usuarioActividad)
+                            .addOnSuccessListener(documentReference -> Log.d("AlumnoAdapter", "UsuarioActividad añadido con ID: " + documentReference.getId()))
+                            .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error añadiendo UsuarioActividad", e));
 
 
-                // Agregar el idActividad a una lista en el documento del alumno
-                // Suponemos que tienes un campo en el documento llamado 'actividades' que es un tipo Array
-                db.collection("usuarios").document(alumnoId)
-                        .update("activity", FieldValue.arrayUnion(idactividad))
-                        .addOnSuccessListener(aVoid -> Log.d("AlumnoAdapter", "ID de actividad añadido con éxito."))
-                        .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error añadiendo ID de actividad", e));
-            } else {
-                Log.e("AlumnoAdapter", "alumnoId es null");
+                    // Agregar el idActividad a una lista en el documento del alumno
+                    // Suponemos que tienes un campo en el documento llamado 'actividades' que es un tipo Array
+                    db.collection("usuarios").document(alumnoId)
+                            .update("activity", FieldValue.arrayUnion(idactividad))
+                            .addOnSuccessListener(aVoid -> Log.d("AlumnoAdapter", "ID de actividad añadido con éxito."))
+                            .addOnFailureListener(e -> Log.w("AlumnoAdapter", "Error añadiendo ID de actividad", e));
+                } else {
+                    Log.e("AlumnoAdapter", "alumnoId es null");
+                }
+            }else{
+
             }
-            });
+                });
 
-
+        if(rolAlumno == "delegado_de_actividad"){
+            holder.buttonAnadir.setText("Quitar");
+            holder.buttonAnadir.setBackgroundColor(Color.RED);
+        }
 
 
 
