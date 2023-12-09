@@ -410,6 +410,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
             if (backPressCount == 0 || (System.currentTimeMillis() - lastBackPressedTime > 2000)) {
                 backPressCount++;
                 lastBackPressedTime = System.currentTimeMillis();
+
             } else {
                 finish();
             }

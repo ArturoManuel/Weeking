@@ -93,6 +93,7 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
 
         if (callback != null) {
             callback.onMapReady();
+
         }
 
 

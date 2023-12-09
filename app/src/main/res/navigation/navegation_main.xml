@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navegation_main"
     app:startDestination="@id/mainFragmento">
+
     <fragment
         android:id="@+id/perfil"
         android:name="com.example.weeking.workers.fragmentos.perfil"
