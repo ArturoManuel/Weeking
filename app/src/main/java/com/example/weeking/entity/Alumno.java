@@ -16,14 +16,17 @@ public class Alumno {
 
     private List<String> listaIdEvent;
 
+    private List<String> activity;
+
 
     public Alumno() {
     }
 
-    public Alumno(String nombre ,String rol , String codigo) {
+    public Alumno(String nombre ,String rol , String codigo, List<String> activity) {
         this.nombre = nombre;
         this.rol=rol;
         this.codigo=codigo;
+        this.activity=activity;
     }
 
     public Alumno(String nombre, String imagen_url, String authUID, String estado, String codigo) {
@@ -32,6 +35,15 @@ public class Alumno {
         this.authUID = authUID;
         this.estado = estado;
         this.codigo = codigo;
+    }
+
+
+    public List<String> getActivity() {
+        return activity;
+    }
+
+    public void setActivity(List<String> activity) {
+        this.activity = activity;
     }
 
     public String getRol() {

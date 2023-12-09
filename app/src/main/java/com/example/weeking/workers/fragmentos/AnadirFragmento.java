@@ -31,53 +31,42 @@ public class AnadirFragmento extends Fragment {
 
     private RecyclerView recyclerViewAlumnos;
     private AlumnoAdapter alumnoAdapter;
-    private List<Alumno> listaAlumnos = new ArrayList<>();;
-
+    private List<Alumno> listaAlumnos;
     private FirebaseFirestore db;
-
     private String idActividad;
-
-    public AnadirFragmento() {
-        // Required empty public constructor
-    }
+    private String codigoAlumnoSeleccionadoActualmente;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Inicializar Firestore
         db = FirebaseFirestore.getInstance();
+        listaAlumnos = new ArrayList<>();
+        if (getArguments() != null) {
+            idActividad = getArguments().getString("idActividad");
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_anadir_fragmento, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Inicializar el RecyclerView
-        recyclerViewAlumnos = view.findViewById(R.id.recyclerViewAlumnos);  // Asume que tu RecyclerView en el XML tiene el ID "recyclerViewAlumnos"
+        recyclerViewAlumnos = view.findViewById(R.id.recyclerViewAlumnos);
         recyclerViewAlumnos.setLayoutManager(new LinearLayoutManager(getContext()));
-        // Inicializar la lista de alumnos
-        if (getArguments() != null) {
-            idActividad = getArguments().getString("idActividad");
-            if (idActividad != null) {
-                Log.d("fragmento", idActividad);
-            } else {
-                Log.d("fragmento", "variableConElMensaje es null");
-            }
-        }
+
+        alumnoAdapter = new AlumnoAdapter(getContext(), listaAlumnos, idActividad);
+        recyclerViewAlumnos.setAdapter(alumnoAdapter);
+
         consultarAlumnosDesdeFirestore();
     }
 
     private void consultarAlumnosDesdeFirestore() {
         db.collection("usuarios")
                 .whereNotEqualTo("rol", "administrador")
-                // El listener reaccionará a los cambios en tiempo real
+                .whereEqualTo("ban", "1")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
@@ -86,30 +75,26 @@ public class AnadirFragmento extends Fragment {
                             return;
                         }
 
-                        List<Alumno> alumnosFiltrados = new ArrayList<>();
+                        List<Alumno> nuevosAlumnos = new ArrayList<>();
                         for (QueryDocumentSnapshot document : value) {
-                            // Verificar si el campo "activity" existe y si contiene el idActividad
-                            List<String> actividades = (List<String>) document.get("activity");
-                            if (actividades == null || !actividades.contains(idActividad)) {
-                                String nombre = document.getString("nombre");
-                                String rol = document.getString("rol");
-                                String codigo = document.getString("codigo");
-                                Alumno alumno = new Alumno(nombre, rol, codigo);
-                                alumnosFiltrados.add(alumno);
+                            String nombre = document.getString("nombre");
+                            String rol = document.getString("rol");
+                            String codigo = document.getString("codigo");
+                            List<String> activities = (List<String>) document.get("activity");
+
+                            Alumno alumno = new Alumno(nombre, rol, codigo, activities);
+                            nuevosAlumnos.add(alumno);
+
+                            if (activities != null && activities.contains(idActividad)) {
+                                codigoAlumnoSeleccionadoActualmente = codigo;
                             }
                         }
 
-                        // Establecer el adaptador en el RecyclerView con los alumnos filtrados
-                        if (getContext() != null) {
-                            alumnoAdapter = new AlumnoAdapter(getContext(), alumnosFiltrados, idActividad);
-                            recyclerViewAlumnos.setAdapter(alumnoAdapter);
-                        }
+                        listaAlumnos.clear();
+                        listaAlumnos.addAll(nuevosAlumnos);
+                        alumnoAdapter.notifyDataSetChanged();
+                        alumnoAdapter.setCodigoAlumnoSeleccionado(codigoAlumnoSeleccionadoActualmente);
                     }
                 });
     }
-
-
-
-
 }
-
