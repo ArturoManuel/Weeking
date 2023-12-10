@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weeking.R;
@@ -45,6 +46,12 @@ public class NuevaActividadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityNuevaActividadBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        // Configurar el título del TextView que actúa como título del Toolbar
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Crear Actividad");
+        }
+
         binding.btnSaveActivity.setOnClickListener(v -> {
             String nombre = binding.nombreActividad.getText().toString().trim();
             String descripcion = binding.descriptionEditText.getText().toString().trim();
