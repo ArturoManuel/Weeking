@@ -15,8 +15,11 @@ import com.example.weeking.Adapter.ComentarioApoyoAdapter;
 import com.example.weeking.R;
 import com.example.weeking.entity.ComentarioDeApoyo;
 import com.example.weeking.entity.Usuario;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,41 +49,50 @@ public class ListarApoyosFragmento extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewAlumnos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listaAlumnos = new ArrayList<>();
-        adapter = new ComentarioApoyoAdapter(getContext(), listaAlumnos);
-        recyclerView.setAdapter(adapter);
-
         // Obtener el ID del evento de los argumentos
         if (getArguments() != null) {
             String eventoId = getArguments().getString(ARG_EVENTO_ID);
-            // Carga los alumnos con apoyo en proceso y que tienen un comentario para este eventoId
+            adapter = new ComentarioApoyoAdapter(getContext(), listaAlumnos,eventoId);
             cargarAlumnosConApoyoEnProceso(eventoId);
         }
-
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
     private void cargarAlumnosConApoyoEnProceso(String eventoId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("usuarios")
-                .whereEqualTo("apoyo", "en_proceso")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        Usuario alumno = document.toObject(Usuario.class);
-                        Map<String, ComentarioDeApoyo> comentarios = alumno.getComentariosDeApoyo();
 
-                        if (comentarios != null && comentarios.containsKey(eventoId)) {
-                            // Aquí se verifica si el comentario específico está relacionado con el eventoId
-                            ComentarioDeApoyo comentario = comentarios.get(eventoId);
-                            if (comentario != null) {
-                                // Si se encuentra un comentario, se agrega el alumno a la lista
-                                listaAlumnos.add(alumno);
-                            }
+        // Lista para almacenar todas las tareas de consulta
+        List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+
+        // Agregar tareas de consulta para cada condición de apoyo
+        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "en_proceso").get());
+        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "Barra").get());
+        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "Participante").get());
+        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "denegado").get());
+
+        // Ejecutar todas las consultas y procesar los resultados cuando todas las tareas se completen
+        Tasks.whenAllSuccess(tasks).addOnSuccessListener(results -> {
+            listaAlumnos.clear(); // Limpiar la lista actual
+
+            // Procesar cada resultado de consulta
+            for (Object result : results) {
+                QuerySnapshot snapshot = (QuerySnapshot) result;
+                for (QueryDocumentSnapshot document : snapshot) {
+                    Usuario alumno = document.toObject(Usuario.class);
+                    Map<String, ComentarioDeApoyo> comentarios = alumno.getComentariosDeApoyo();
+                    if (comentarios != null && comentarios.containsKey(eventoId)) {
+                        ComentarioDeApoyo comentario = comentarios.get(eventoId);
+                        if (comentario != null) {
+                            listaAlumnos.add(alumno);
                         }
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> Log.e("ListarApoyosFragmento", "Error al cargar alumnos", e));
+                }
+            }
+
+            adapter.notifyDataSetChanged(); // Notificar cambios al adaptador
+        }).addOnFailureListener(e -> Log.e("ListarApoyosFragmento", "Error al cargar alumnos", e));
     }
+
 
 }
