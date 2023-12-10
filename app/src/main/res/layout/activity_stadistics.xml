@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -93,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="504dp"
-                android:text="Recaudación de donaciones"
+                android:text="Ubicaciones con mayor cantidad de eventos"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,33 +103,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart"
-                android:layout_width="296dp"
-                android:layout_height="201dp"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="56dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView56">
 
-            </com.github.mikephil.charting.charts.LineChart>
 
-            <TextView
-                android:id="@+id/textView58"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:text="Eventos mas Populares"
-                android:textColor="@color/black"
-                android:textStyle="bold"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart2"
+                android:layout_width="419dp"
+                android:layout_height="400dp"
+                android:layout_margin="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.444"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line_chart" />
+                app:layout_constraintTop_toBottomOf="@id/textView56"
+
+                app:layout_constraintVertical_bias="0.035" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-    </ScrollView>
+</ScrollView>

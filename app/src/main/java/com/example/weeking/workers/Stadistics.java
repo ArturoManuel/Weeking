@@ -15,6 +15,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -32,6 +33,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.mikephil.charting.formatter.ValueFormatter;
 public class Stadistics extends AppCompatActivity {
     PieChart pieChart;
@@ -49,7 +53,7 @@ public class Stadistics extends AppCompatActivity {
     private int totalGraduates = 0;
     private int totalAdministrators = 0;
     private int totalDelegates = 0;
-
+    private HashMap<String, Integer> eventCountByLocation = new HashMap<>();
 
 
 
@@ -82,7 +86,7 @@ public class Stadistics extends AppCompatActivity {
                     }
                 });
 
-// Consulta a Firestore para contar estudiantes y egresados
+
         db.collection("usuarios")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -132,25 +136,32 @@ public class Stadistics extends AppCompatActivity {
 
 
 
+        db.collection("Eventos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String location = document.getString("ubicacion");
+                            if (location != null) {
+                                if (!eventCountByLocation.containsKey(location)) {
+                                    eventCountByLocation.put(location, 1);
+                                } else {
+                                    int currentCount = eventCountByLocation.get(location);
+                                    eventCountByLocation.put(location, currentCount + 1);
+                                }
+                            }
+                        }
+                        updateBarChart2();
+                    } else {
+                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                    }
+                });
 
 
 
 
 
 
-        mpLineChart=(LineChart) findViewById(R.id.line_chart);
-        XAxis xAxis = mpLineChart.getXAxis();
-        final String[] xLabels = new String[]{"15 oct","", "17 oct","", "19 oct", "Hoy"};
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(xLabels));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        mpLineChart.getDescription().setEnabled(false);
-        LineDataSet lineDataSet1=new LineDataSet(dataValue4(),"Donaciones en soles");
-        ArrayList<ILineDataSet> dataSets=new ArrayList<>();
-        dataSets.add(lineDataSet1);
-        LineData data =new LineData(dataSets);
-        mpLineChart.setData(data);
-        mpLineChart.invalidate();
 
 
     }
@@ -247,7 +258,7 @@ public class Stadistics extends AppCompatActivity {
     }
 
     private void updateBarChart() {
-        BarChart barChart = findViewById(R.id.bar_chart); // Asegúrate de tener un BarChart con este ID en tu XML
+        BarChart barChart = findViewById(R.id.bar_chart);
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         entries.add(new BarEntry(0f, totalAdministrators));
@@ -261,7 +272,7 @@ public class Stadistics extends AppCompatActivity {
         barChart.setData(barData);
         barChart.setFitBars(true);
 
-        // Configura el eje X para mostrar las etiquetas de los roles
+
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"Administrador", "Delegado", "Alumno"}));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -269,8 +280,66 @@ public class Stadistics extends AppCompatActivity {
 
         barChart.getDescription().setEnabled(false);
         barChart.animateY(1500);
+        barChart.invalidate();
+    }
+
+
+
+    private void updateBarChart2() {
+        BarChart barChart = findViewById(R.id.bar_chart2);
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<String> locations = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        int index = 0;
+        for (Map.Entry<String, Integer> entry : eventCountByLocation.entrySet()) {
+            entries.add(new BarEntry(index, entry.getValue()));
+            locations.add(entry.getKey()); // Asumiendo que 'locations' tiene los nombres de las ubicaciones
+            index++;
+        }
+
+        BarDataSet barDataSet = new BarDataSet(entries, "");
+        for (int i = 0; i < entries.size(); i++) {
+            // Agrega un color para cada entrada
+            colors.add(ColorTemplate.JOYFUL_COLORS[i % ColorTemplate.JOYFUL_COLORS.length]);
+        }
+        barDataSet.setColors(colors);
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+
+        // Configuración de la leyenda para expandirse verticalmente
+        Legend legend = barChart.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        legend.setDrawInside(false);
+        legend.setWordWrapEnabled(true);
+        legend.setXEntrySpace(5f);
+        legend.setTextSize(12f);
+        legend.setYEntrySpace(5f);
+        legend.setMaxSizePercent(0.5f);
+        barChart.setExtraBottomOffset(10f);
+
+        barChart.setExtraBottomOffset(legend.mNeededHeight + legend.getYOffset());
+        // Configura los nombres de las ubicaciones y sus colores en la leyenda
+        LegendEntry[] legendEntries = new LegendEntry[locations.size()];
+        for (int i = 0; i < locations.size(); i++) {
+            LegendEntry entry = new LegendEntry();
+            entry.label = locations.get(i);
+            entry.formColor = colors.get(i);
+            legendEntries[i] = entry;
+        }
+        legend.setCustom(legendEntries);
+        barChart.setExtraBottomOffset(30f);
+
+        // Desactiva las etiquetas del eje X
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setDrawLabels(false);
+
         barChart.invalidate(); // Refresca el gráfico
     }
+
+
 
 
 }
