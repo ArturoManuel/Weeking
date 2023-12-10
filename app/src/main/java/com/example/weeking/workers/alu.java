@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weeking.R;
 import com.example.weeking.dataHolder.DataHolder;
@@ -57,7 +58,9 @@ public class alu extends AppCompatActivity {
                 map.put("ban","1");
                 db.collection("usuarios").document(usuario.getCodigo()).update(map);
                 finish();
-            }else{
+            }else if(usuario.getRol().equals("delegado_de_actividad")){
+                Toast.makeText(this, "no puedes deshabilitar a un delegado de actividad, primero quitale el cargo.", Toast.LENGTH_SHORT).show();
+            }else {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("ban","0");
                 db.collection("usuarios").document(usuario.getCodigo()).update(map);
