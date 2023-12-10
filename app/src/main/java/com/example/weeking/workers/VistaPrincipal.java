@@ -105,7 +105,9 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
 
     ListenerRegistration snapshotListener;
 
-    TextView nombre, estado, codigo;
+    TextView nombre, estado;
+
+    private String codigo;
     private boolean isMainFragment = true;
     private int backPressCount = 0;
     private long lastBackPressedTime;
@@ -307,6 +309,7 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                 String codigoAlumno = document.getId();
                 // Aquí obtenemos el código del alumno, que es el ID del documento
                 Log.d("codigoencontrado",codigoAlumno);
+
                 cargarDatosUsuarioDesdeFirestore(codigoAlumno);
             } else {
                 Log.d("mensajeError","no se encontro el codigo");
@@ -326,8 +329,8 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
                     if (usuario != null) {
                         // Guarda el usuario en AppViewModel
                         Log.d("datos",usuario.getNombre());
-                        AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
                         appViewModel.setCurrentUser(usuario);
+
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -381,10 +384,25 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     public void onListaEventosClick(View view) {
         view.setEnabled(false); // Deshabilitar el botón
 
+        String currentUserId = null;
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+
         new Handler().postDelayed(() -> view.setEnabled(true), 1000);
-        // Tu código para manejar el click en "Lista de Eventos"
+
+        // Crear el Intent para iniciar EventosActivity
         Intent intent = new Intent(VistaPrincipal.this, EventosActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        // Poner el UID como un extra en el Intent
+        if (currentUserId != null) {
+            intent.putExtra("USER_ID", currentUserId);
+            intent.putExtra("CODIGO",appViewModel.getCurrentUser().getValue().getCodigo());
+
+        }
+
+        // Iniciar la actividad
         startActivity(intent);
     }
 
@@ -422,7 +440,6 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
         appViewModel.detenerListenerEventos();  // Detiene la escucha de eventos
         executorService.shutdown();
     }

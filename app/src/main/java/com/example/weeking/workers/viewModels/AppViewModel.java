@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -52,6 +53,54 @@ public class AppViewModel extends ViewModel {
     public MutableLiveData<List<ListaDon>> getListaDona() {
         return listaDona;
     }
+
+    private final MutableLiveData<List<Actividad>> listaDeActividadesPorUsuario = new MutableLiveData<>();
+
+    public MutableLiveData<List<Actividad>> getListaDeActividadesPorUsuario() {
+        return listaDeActividadesPorUsuario;
+    }
+
+    public void cargarActividadesPorUsuario(FirebaseFirestore db, String userId) {
+        db.collection("usuarios").document(userId).get().addOnSuccessListener(documentSnapshot -> {
+            Usuario usuario = documentSnapshot.toObject(Usuario.class);
+            if (usuario != null && usuario.getActivity() != null && !usuario.getActivity().isEmpty()) {
+                // Obtener la lista de IDs de actividad del usuario
+                List<String> activityIds = usuario.getActivity();
+
+                // Ahora obtén las actividades que coinciden con esos IDs
+                db.collection("activity").whereIn(FieldPath.documentId(), activityIds)
+                        .addSnapshotListener((collection, error) -> {
+                            if (error != null) {
+                                Log.w(TAG, "Error listening for activity document changes.", error);
+                                return;
+                            }
+                            if (collection != null && !collection.isEmpty()) {
+                                List<Actividad> filteredActivities = new ArrayList<>();
+                                for (QueryDocumentSnapshot activityDoc : collection) {
+                                    Actividad actividad = activityDoc.toObject(Actividad.class);
+                                    filteredActivities.add(actividad);
+                                }
+                                // Actualizar el LiveData de actividades por usuario
+                                listaDeActividadesPorUsuario.setValue(filteredActivities);
+                            }
+                        });
+            }
+        }).addOnFailureListener(e -> Log.w(TAG, "Error getting user document", e));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public MutableLiveData<List<EventoClass>> getEventosByLikes() {
         MutableLiveData<List<EventoClass>> eventosSortedByLikes = new MutableLiveData<>();
 

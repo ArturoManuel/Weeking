@@ -34,42 +34,32 @@ public class EventosActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AppViewModel viewModel;
 
+    private List<Actividad> actividadesList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventos);
-
-        recyclerView = findViewById(R.id.listareEven);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        listaAdapter = new DelegadoActividadesAdapter(new ArrayList<>(), this);
-        recyclerView.setAdapter(listaAdapter);
-
-        // Configurar el listener del clic en el adaptador
-        listaAdapter.setOnActividadClickListener(new DelegadoActividadesAdapter.OnActividadClickListener() {
-            @Override
-            public void onActividadClick(Actividad actividad) {
-                mostrarDetalleDeActividad(actividad);
-            }
-        });
-
+        Log.d("AVISO","ENTROACA");
+        String userId = getIntent().getStringExtra("USER_ID");
+        String codigo =getIntent().getStringExtra("CODIGO");
         // Inicializar ViewModel
-        viewModel = new ViewModelProvider(this).get(AppViewModel.class);
+        viewModel = new ViewModelProvider(EventosActivity.this).get(AppViewModel.class);
 
-        // Observar los cambios en el LiveData de las actividades
-        viewModel.getListaActividades().observe(this, this::updateUI);
+        viewModel.getListaDeActividadesPorUsuario().observe(EventosActivity.this, this::updateUI);
 
-        // Cargar datos de Firestore a través del ViewModel
-        viewModel.cargarDatosDeFirestore(FirebaseFirestore.getInstance());
+        viewModel.cargarActividadesPorUsuario(FirebaseFirestore.getInstance(),codigo);
+
     }
+
 
 
     private void mostrarDetalleDeActividad(Actividad actividad) {
         EditarDelegadoActividad editarFragment = new EditarDelegadoActividad();
         Bundle args = new Bundle();
 
-        // Pasar la instancia serializable de Actividad al fragmento.
-        args.putSerializable("actividad", actividad); // Usa "actividad" como clave o cualquier otra clave que prefieras.
+        // Pasar la instancia serializable de Actividad al fragmento
+        args.putSerializable("actividad", actividad);
 
         editarFragment.setArguments(args);
 
@@ -80,9 +70,8 @@ public class EventosActivity extends AppCompatActivity {
     }
 
     private void updateUI(List<Actividad> actividades) {
-        // Actualiza el adaptador con los nuevos datos
-        listaAdapter.setActividades(actividades);
-        listaAdapter.notifyDataSetChanged();
+        actividadesList = actividades;
+        mostrarDetalleDeActividad(actividadesList.get(0));
     }
     @Override
     public void onBackPressed() {
