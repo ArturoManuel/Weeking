@@ -2,6 +2,7 @@ package com.example.weeking.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.weeking.R;
+import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.entity.EventoClass;
+import com.example.weeking.workers.VistaEventoActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -98,6 +101,17 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
             fecha = itemView.findViewById(R.id.fechaEvento);
             eliminarImageView=itemView.findViewById(R.id.btnEliminar);
             editarImageView=itemView.findViewById(R.id.btnEditar);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    EventoClass eventoSeleccionado = listaEventos.get(position);
+                    DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
+                    Intent intent = new Intent(context, VistaEventoActivity.class);
+                    intent.putExtra("rol", "delegado");
+                    context.startActivity(intent);
+                }
+            });
         }
 
         void bindData(EventoClass evento) {
@@ -148,7 +162,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventoVi
 
     public interface OnEventoListener {
         void onEliminarClicked(int position ,String eventoId);
-        void onEditarClicked(String eventoId, String actividadId); // Método para manejar clic en editar
+        void onEditarClicked(String eventoId, String actividadId);
     }
 
 

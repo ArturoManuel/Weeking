@@ -27,6 +27,7 @@ import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.workers.ActividadActivity;
 import com.example.weeking.workers.NuevoEventoActivity;
+import com.example.weeking.workers.VistaEventoActivity;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -153,5 +154,7 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         intent.putExtra("id_actividad", actividadId); // asumiendo que 'idactividad' es el ID de la actividad actual.
         startActivity(intent);
     }
+
+
 
 }

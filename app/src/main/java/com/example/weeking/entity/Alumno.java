@@ -12,11 +12,14 @@ public class Alumno {
     private String estado;
     private String codigo;
 
-    private  String rol;
+    private String rol;
 
     private List<String> listaIdEvent;
 
     private List<String> activity;
+
+
+
 
 
     public Alumno() {

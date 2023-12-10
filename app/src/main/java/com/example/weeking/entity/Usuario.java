@@ -1,6 +1,8 @@
 package com.example.weeking.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Usuario {
 
@@ -14,6 +16,9 @@ public class Usuario {
     private String nombre;
     private String rol;
 
+    private Map<String, ComentarioDeApoyo> comentariosDeApoyo;
+
+
     public String getBan() {
         return ban;
     }
@@ -25,7 +30,10 @@ public class Usuario {
     private String ban;
 
     // Constructor vacío requerido para Firestore
-    public Usuario() {}
+    public Usuario() {
+
+        comentariosDeApoyo = new HashMap<>();
+    }
 
     // Constructor completo
     public Usuario(List<String> activity, String apoyo, String authUID, String codigo, String correo, String estado, String imagen_url, String nombre, String rol) {
@@ -112,6 +120,21 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+
+    public Usuario(Map<String, ComentarioDeApoyo> comentariosDeApoyo, String apoyo) {
+        this.comentariosDeApoyo = comentariosDeApoyo;
+        this.apoyo = apoyo;
+    }
+
+    // Getters y setters
+    public Map<String, ComentarioDeApoyo> getComentariosDeApoyo() {
+        return comentariosDeApoyo;
+    }
+
+    public void setComentariosDeApoyo(Map<String, ComentarioDeApoyo> comentariosDeApoyo) {
+        this.comentariosDeApoyo = comentariosDeApoyo;
     }
 }
 

@@ -18,16 +18,17 @@
         app:layout_constraintTop_toBottomOf="@+id/llay"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnEditEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_weight="1"
-        android:backgroundTint="#41A4ED"
-        android:text="Editar Evento"
-        android:visibility="invisible"
+
+    <ImageButton
+        android:id="@+id/btn_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/circular_background3"
+        android:elevation="6dp"
+        android:src="@drawable/baseline_person_add_24"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -231,15 +232,15 @@
                 android:textSize="18dp" />
         </ScrollView>
 
-        <!-- Fecha y Hora del Evento -->
-
-        <!-- Lugar del Evento -->
-
-
-        <!-- Botón de Mapa, Galería y Apoyar Evento -->
-
 
     </LinearLayout>
-
+    <FrameLayout
+        android:id="@+id/listarapoyo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

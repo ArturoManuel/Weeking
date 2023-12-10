@@ -4,6 +4,8 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -26,6 +28,7 @@ import com.example.weeking.dataHolder.DataHolder;
 import com.example.weeking.databinding.ActivityVistaEventoBinding;
 import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.Usuario;
+import com.example.weeking.workers.fragmentos.ListarApoyosFragmento;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -33,6 +36,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +51,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 
 public class VistaEventoActivity extends AppCompatActivity {
@@ -56,20 +61,17 @@ public class VistaEventoActivity extends AppCompatActivity {
     private String latitud;
     private String longitud;
 
+    private String rol;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityVistaEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser() != null ?
-                FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+        String userId = FirebaseAuth.getInstance().getCurrentUser() != null ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
 
         binding.btnGaleria.setOnClickListener(view -> {
             Intent intent = new Intent(VistaEventoActivity.this, GaleriaEventos.class);
@@ -78,7 +80,30 @@ public class VistaEventoActivity extends AppCompatActivity {
         });
 
 
-        EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
+        rol = getIntent().getStringExtra("rol");
+
+        if ("delegado".equals(rol)) {
+            binding.btnAdd.setVisibility(View.VISIBLE);
+            binding.btnAdd.setOnClickListener(v -> {
+                binding.btnAdd.setVisibility(View.GONE);
+
+                // Asegúrate de obtener el ID del evento de la instancia de DataHolder
+                String eventoId = eventoSeleccionado != null ? eventoSeleccionado.getEventId() : "";
+
+                // Crea una nueva instancia del fragmento con el ID del evento
+                ListarApoyosFragmento listaApoyosFragmento = ListarApoyosFragmento.newInstance(eventoId);
+
+                // Inicia la transacción para reemplazar el contenedor con el nuevo fragmento
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.listarapoyo, listaApoyosFragmento)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        } else {
+            binding.btnAdd.setVisibility(View.GONE);
+        }
+
+
         String even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "Falta llenar el campo nombre del evento";
         String descri = (eventoSeleccionado.getDescripcion() != null) ? eventoSeleccionado.getDescripcion() : "Falta llenar el campo descripción";
         String ubica = (eventoSeleccionado.getUbicacion() != null) ? eventoSeleccionado.getUbicacion() : "Falta llenar el campo ubicación";
@@ -97,13 +122,9 @@ public class VistaEventoActivity extends AppCompatActivity {
 
 
         String formattedDate = sdfDate.format(date); // Obtiene solo la fecha
-         // Obtiene solo la hora
 
-// Capitaliza la fecha y hora si es necesario
         formattedDate = capitalize(formattedDate);
-         // Si deseas capitalizar la hora
 
-// Establecer en los TextView correspondientes
 
         SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         String formattedTime = sdfTime.format(date); // "HH" para formato de 24 horas, "hh" para formato de 12 horas
@@ -122,7 +143,6 @@ public class VistaEventoActivity extends AppCompatActivity {
                     .load(foto)
                     .into(binding.imagenEvento);
         }
-
 
         binding.imageViewLocation.setOnClickListener(view -> {
             // Asegúrate de tener latitud y longitud del destino
@@ -152,45 +172,8 @@ public class VistaEventoActivity extends AppCompatActivity {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this::onMapReady);
 
-        if (currentUser != null) {
-            // Buscar el documento basado en el campo authUID que coincide con userId
-            Query query = db.collection("usuarios").whereEqualTo("authUID", userId);
-
-            query.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    if (!querySnapshot.isEmpty()) {
-                        DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Asume que solo hay un documento que coincide
-                        String rol = document.getString("rol"); // Asume que el campo del rol se llama "rol"
-                        obtenerCodigoDelAlumno(userId);
-                        if ("administrador".equals(rol)) {
-                            binding.btnEditEvent.setVisibility(View.INVISIBLE);
-                        } else if ("delegado_de_actividad".equals(rol)) {
-                            binding.btnEditEvent.setVisibility(View.VISIBLE);
-                        } else if ("alumno".equals(rol)) {
-                            binding.btnEditEvent.setVisibility(View.INVISIBLE);
-                        } else {
-                            Log.d(TAG, "Rol no reconocido");
-                            return; // Sale de la función.
-                        }
-
-                        binding.btnEditEvent.setOnClickListener(view -> {
-                            Intent intent = new Intent(VistaEventoActivity.this, NuevoEventoActivity.class);
-                            startActivity(intent);
-                            finish();
-                        });
-
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            });
-        }
 
     }
-
 
     private void verificarApoyoPrevioYMostrarDialogo(String authId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -262,50 +245,24 @@ public class VistaEventoActivity extends AppCompatActivity {
     private void actualizarComentarioDeApoyo(String documentId, String idEvento, Map<String, Object> apoyo) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Actualizar el documento del usuario con el nuevo comentario de apoyo
-        db.collection("usuarios").document(documentId)
-                .update("comentariosDeApoyo." + idEvento, apoyo)
+        // Crear una operación batch para realizar múltiples escrituras de manera atómica.
+        WriteBatch batch = db.batch();
+        DocumentReference userRef = db.collection("usuarios").document(documentId);
+
+        // Preparar la actualización para el comentario de apoyo
+        batch.update(userRef, "comentariosDeApoyo." + idEvento, apoyo);
+
+        // Preparar la actualización para el estado de apoyo
+        batch.update(userRef, "apoyo", "en_proceso");
+
+        // Cometer la operación batch
+        batch.commit()
                 .addOnSuccessListener(aVoid -> Toast.makeText(VistaEventoActivity.this, "Muchas Gracias por Apoyar", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(VistaEventoActivity.this, "Error al actualizar el apoyo", Toast.LENGTH_SHORT).show());
     }
 
-    private void obtenerCodigoDelAlumno(String authID) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference colRef = db.collection("usuarios");
 
-        Query query = colRef.whereEqualTo("authUID", authID);
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (!queryDocumentSnapshots.isEmpty()) {
-                DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                String codigoAlumno = document.getId();
-                // Aquí obtenemos el código del alumno, que es el ID del documento
-                Log.d("codigoencontrado",codigoAlumno);
-                cargarDatosUsuarioDesdeFirestore(codigoAlumno);
-            } else {
-                Log.d("mensajeError","no se encontro el codigo");
-            }
-        }).addOnFailureListener(e -> {
-            // Maneja cualquier error que ocurra al tratar de obtener el documento.
-            Log.d("fallo en encontrar el documento","no se encontro");
-        });
-    }
 
-    private void cargarDatosUsuarioDesdeFirestore(String userId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("usuarios").document(userId).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    Usuario usuario = documentSnapshot.toObject(Usuario.class);
-                    if (usuario != null) {
-                        // Guarda el usuario en AppViewModel
-                        Log.d("datos",usuario.getNombre());
-                        AppViewModel appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
-                        appViewModel.setCurrentUser(usuario);
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(VistaEventoActivity.this, "Error al cargar datos del usuario.", Toast.LENGTH_SHORT).show();
-                });
-    }
 
 
     public String capitalize(String str) {
@@ -345,13 +302,25 @@ public class VistaEventoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("VistaEventoActivity", "onResume Called");
         mapView.onResume();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("VistaEventoActivity", "BackPressed");
+        if ("delegado".equals(rol)) {
+            binding.btnAdd.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     @Override
     protected void onPause() {
-        mapView.onPause();
         super.onPause();
+        Log.d("VistaEventoActivity", "onResume Pause");
+        mapView.onPause();
+
     }
 
     @Override
