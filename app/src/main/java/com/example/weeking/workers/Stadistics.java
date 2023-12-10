@@ -49,9 +49,12 @@ public class Stadistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stadistics);
 
-        Toolbar toolbar = findViewById(R.layout.toolbar_layout);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Estadisticas");
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Estadisticas");
+        } else {
+            Log.e("Estadisticas", "El título del Toolbar no se ha encontrado.");
+        }
 
         textViewTotalUsers = findViewById(R.id.textView57);
         textViewTotalStudents = findViewById(R.id.textView59);

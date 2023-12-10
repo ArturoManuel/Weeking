@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.weeking.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +28,18 @@ public class Donacion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_donacion);
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Donaciones AITEL");
+        } else {
+            Log.e("Donacion", "El título del Toolbar no se ha encontrado.");
+        }
+
+
+
         db = FirebaseFirestore.getInstance();
         String codigoactual = FirebaseAuth.getInstance().getCurrentUser().getUid();
         RadioButton tranferencia = findViewById(R.id.transferencia);
