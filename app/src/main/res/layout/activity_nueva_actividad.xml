@@ -23,6 +23,7 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
 
+
         <FrameLayout
             android:id="@+id/contenedorImagen"
             android:layout_width="0dp"
