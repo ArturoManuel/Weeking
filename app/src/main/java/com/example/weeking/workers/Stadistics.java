@@ -194,8 +194,16 @@ public class Stadistics extends AppCompatActivity {
     private void updatePieChart() {
         pieChart = findViewById(R.id.pieChart);
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(totalStudents, "Estudiantes"));
-        entries.add(new PieEntry(totalGraduates, "Egresados"));
+
+        int totalUsers = totalStudents + totalGraduates;
+        if (totalUsers > 0) {
+            float percentageStudents = ((float) totalStudents / totalUsers) * 100;
+            float percentageGraduates = ((float) totalGraduates / totalUsers) * 100;
+
+            // Asegúrate de que los porcentajes son los correctos
+            entries.add(new PieEntry(percentageStudents, "Estudiantes"));
+            entries.add(new PieEntry(percentageGraduates, "Egresados"));
+        }
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setSliceSpace(1f); // Espacio entre los segmentos
@@ -214,7 +222,6 @@ public class Stadistics extends AppCompatActivity {
         data.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-
                 return String.format("%.1f%%", value);
             }
         });
