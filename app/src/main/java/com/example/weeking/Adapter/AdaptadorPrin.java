@@ -1,6 +1,8 @@
 package com.example.weeking.Adapter;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -28,14 +30,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,7 +89,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
 
         TextView descripcion, fotito;
         ImageView likeButton;
-
+        EventoClass eventoSeleccionado;
         ViewHolder(View itemView) {
             super(itemView);
             evento = itemView.findViewById(R.id.nombreEvento);
@@ -96,7 +101,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             estado = itemView.findViewById(R.id.txtViewEstado);
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                EventoClass eventoSeleccionado = mdata.get(position);
+                eventoSeleccionado = mdata.get(position);
                 DataHolder.getInstance().setEventoSeleccionado(eventoSeleccionado);
                 Intent intent = new Intent(context, VistaEventoActivity.class);
                 intent.putExtra("evento", (String) evento.getText());
@@ -123,11 +128,24 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
             descripcion.setText(item.getDescripcion());
             Date date = item.getFecha_evento().toDate();
             // Formatear la fecha
+            LocalDate localDate = LocalDate.now();
+            //Log.d("MSG", String.valueOf(localDate));
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d HH:mm", Locale.getDefault());
             String formattedDate = sdf.format(date);
             // Capitalizar la primera letra de cada palabra
             formattedDate = capitalize(formattedDate);
             fecha.setText(formattedDate);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String dateOp = format.format(date);
+            //Log.d("MSG", dateOp);
+            long numberOFDays = DAYS.between(LocalDate.parse(dateOp), localDate);
+            //Log.d("msg", String.valueOf(numberOFDays));
+            /*if(numberOFDays > 0){
+                HashMap<String, Object> map = new HashMap<>();
+                Boolean noDisponible = false;
+                map.put("estado", noDisponible);
+                db.collection("Eventos").document(item.getEventId()).update(map);
+            }*/
             if (currentUser != null) {
                 // Buscar el documento basado en el campo authUID que coincide con userId
                 Query query = db.collection("usuarios").whereEqualTo("authUID", userId);
@@ -151,7 +169,7 @@ public class AdaptadorPrin extends RecyclerView.Adapter<AdaptadorPrin.ViewHolder
                             }
 
                             Boolean dispo = item.isEstado();
-                            if (dispo == true){
+                            if (dispo == true || numberOFDays <= 0){
                                 estado.setText("En proceso");
                             } else {
                                 estado.setText("Terminado");

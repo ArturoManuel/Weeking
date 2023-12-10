@@ -2,6 +2,8 @@ package com.example.weeking.workers.viewModels;
 
 import static android.content.ContentValues.TAG;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ import com.example.weeking.entity.ListaDon;
 import com.example.weeking.entity.Usuario;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -25,8 +28,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,10 +114,24 @@ public class AppViewModel extends ViewModel {
 
                 if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                     List<EventoClass> eventosActualizados = new ArrayList<>();
+
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         EventoClass evento = document.toObject(EventoClass.class);
                         evento.setEventId(document.getId());
-                        eventosActualizados.add(evento);
+                        Timestamp timestamp = document.getTimestamp("fecha_evento");
+                        Boolean estado = document.getBoolean("estado");
+                        Date dateS = new Date(timestamp.toDate().getTime());
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateOp = format.format(dateS);
+                        LocalDate localDate = LocalDate.now();
+                        long numberOFDays = DAYS.between(LocalDate.parse(dateOp), localDate);
+                        if (numberOFDays <= 0){
+                            eventosActualizados.add(evento);
+                        }else{
+                            evento.setEstado(false);
+                            eventosActualizados.remove(evento);
+                        }
+                        Log.d("msg", String.valueOf(estado));
                     }
                     listaEventos.setValue(eventosActualizados);
                 }

@@ -104,7 +104,7 @@ public class Stadistics extends AppCompatActivity {
         pieChart2.invalidate();
 
 
-        pieChart=findViewById(R.id.pieChart);
+       /* pieChart=findViewById(R.id.pieChart);
         PieDataSet pieDataSet=new PieDataSet(dataValue1(),"");
         pieDataSet.setColors(colorClassArray);
         PieData pieData =new PieData(pieDataSet);
@@ -117,7 +117,7 @@ public class Stadistics extends AppCompatActivity {
         pieChart.setHoleRadius(30);
         pieChart.setTransparentCircleRadius(40);
         pieChart.setData(pieData);
-        pieChart.invalidate();
+        pieChart.invalidate();*/
 
 
 
@@ -151,12 +151,12 @@ public class Stadistics extends AppCompatActivity {
 
 
     }
-    private ArrayList<PieEntry> dataValue1(){
+    /*private ArrayList<PieEntry> dataValue1(){
         ArrayList<PieEntry> dataVals=new ArrayList<>();
         dataVals.add(new PieEntry(113,"Estudiantes"));
         dataVals.add(new PieEntry(37,"Egresados"));
         return dataVals;
-    }
+    }*/
     private ArrayList<PieEntry> dataValue2(){
         ArrayList<PieEntry> dataVals2=new ArrayList<>();
         dataVals2.add(new PieEntry(80,"80%"));

@@ -70,18 +70,15 @@ public class AdaptarNoti extends RecyclerView.Adapter<AdaptarNoti.ViewHolder>{
                     Noti noti = mdata.get(position);
                     db = FirebaseFirestore.getInstance();
                     Query query = db.collection("noti").whereEqualTo("notifi", noti.getNotifi());
-                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    String documentId = document.getId();
-                                    Log.d("asdfg",documentId);
-                                    db.collection("noti").document(documentId).delete();
-                                }
-                            } else {
-                                // Manejo de errores
+                    query.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                String documentId = document.getId();
+                                Log.d("asdfg",documentId);
+                                db.collection("noti").document(documentId).delete();
                             }
+                        } else {
+                            // Manejo de errores
                         }
                     });
                 });

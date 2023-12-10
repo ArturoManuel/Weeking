@@ -73,7 +73,7 @@ public class GaleriaEventos extends AppCompatActivity {
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
         even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "No tiene nombre";
         textView26 = findViewById(R.id.textView26);
-        textView26.setText("Galería // "+even);
+        textView26.setText("Le damos la bienvenida a la galería de "+even);
         eventoID = eventoSeleccionado.getEventId();
         Log.d("msg-test", eventoID);
         StorageReference eventoStorageRef = storage.getReference().child("eventos/" + eventoID+"/");

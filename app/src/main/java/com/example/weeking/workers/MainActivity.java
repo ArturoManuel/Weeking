@@ -125,9 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
         crearCanalesNotificacion();
         binding.iniciarSesion.setOnClickListener(v -> {
             String correo = binding.correo.getText().toString().trim();
