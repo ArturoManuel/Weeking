@@ -99,6 +99,16 @@ public class NuevoEventoActivity extends AppCompatActivity {
         binding = ActivityNuevoEventoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Agregar Evento");
+        } else {
+            // Log si el TextView es null
+            Log.e("NuevoEventoActivity", "No se encontró el TextView del título del Toolbar.");
+        }
+
+
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
