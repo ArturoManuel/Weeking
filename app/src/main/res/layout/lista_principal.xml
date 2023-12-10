@@ -35,6 +35,7 @@
             android:layout_marginTop="150dp"
             android:layout_marginEnd="18dp"
             android:background="@drawable/circular_background"
+            android:backgroundTint="#A9FFFFFF"
             android:elevation="6dp"
             android:src="@drawable/ic_filled_heart" />
 

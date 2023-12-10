@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="10"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,8 +93,7 @@
                     android:layout_height="wrap_content"
                     android:maxLength="21"
                     android:singleLine="true"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
+                    android:textColor="@color/colorBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

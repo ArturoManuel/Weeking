@@ -51,9 +51,9 @@ public class AccountActivity extends AppCompatActivity {
                 if(!queryDocumentSnapshot.isEmpty()){
                     DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
                     String nombre1 = document.getString("nombre");
-                    nombre.setHint(nombre1);
+                    nombrea.setText(nombre1);
                     String correo1 = document.getString("correo");
-                    correo.setHint(correo1);
+                    correoa.setText(correo1);
                     String estado1 = document.getString("estado");
                     estado.setHint(estado1);
                 }}});

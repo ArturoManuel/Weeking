@@ -50,12 +50,12 @@ public class RegistroActivity extends AppCompatActivity {
         setItems(autoCompleteTextView);
         db = FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
-        binding.codigoPucp.addTextChangedListener(createTextWatcher(binding.codigoPucp));
+        /*binding.codigoPucp.addTextChangedListener(createTextWatcher(binding.codigoPucp));
         binding.nombre.addTextChangedListener(createTextWatcher(binding.nombre));
         binding.apellido.addTextChangedListener(createTextWatcher(binding.apellido));
         binding.correo.addTextChangedListener(createTextWatcher(binding.correo));
         binding.contrasena1.addTextChangedListener(createTextWatcher(binding.contrasena1));
-        binding.contrasena2.addTextChangedListener(createTextWatcher(binding.contrasena2));
+        binding.contrasena2.addTextChangedListener(createTextWatcher(binding.contrasena2));*/
 
         binding.tienescuenta.setOnClickListener(v -> navigateToActivity(MainActivity.class));
 
