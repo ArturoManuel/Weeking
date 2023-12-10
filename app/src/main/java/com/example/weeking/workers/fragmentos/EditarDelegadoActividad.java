@@ -89,22 +89,6 @@ public class EditarDelegadoActividad extends Fragment implements EventosAdapter.
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        nombreActividadTextView = view.findViewById(R.id.nombreActividad);
-        descripcionText = view.findViewById(R.id.description);
-        imagenActividad = view.findViewById(R.id.imageView);
-        nombreActividadTextView.setText(actividad.getNombre());
-        descripcionText.setText(actividad.getDescripcion());
-        String foto = actividad.getImagenUrl();
-        Glide.with(this)
-                .load(foto)
-                .into(imagenActividad);
-    }
-
-
-
     private void obtenerEventosDeFirestore(String idActividad) {
         CollectionReference eventosRef = db.collection("Eventos");
 

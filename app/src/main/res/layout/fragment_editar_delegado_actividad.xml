@@ -3,56 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B8DFFE"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="5dp">
 
-    <!-- TextView para el nombre de la actividad, centrado horizontalmente -->
-
-    <!-- FrameLayout para la imagen, centrado horizontalmente -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="242dp"
-        android:layout_marginBottom="16dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            app:civ_border_color="#100F0F"
-            app:civ_border_width="2dp" />
-    </FrameLayout>
-
-    <!-- CardView para la descripción, centrado horizontalmente -->
-    <TextView
-        android:id="@+id/nombreActividad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textSize="18sp" />
-    <!-- Botón de añadir, alineado al inicio -->
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Añadir Evento" />
-    <!-- RecyclerView para eventos, con altura flexible y sin nestedScrolling -->
+    <!-- RecyclerView con margen inferior para separación -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDeEventos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:nestedScrollingEnabled="false" />
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botón con margen superior para separación -->
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Añadir Evento" />
 
 </LinearLayout>
+
+
 

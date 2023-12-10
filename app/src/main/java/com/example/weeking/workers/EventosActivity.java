@@ -16,6 +16,7 @@ import com.example.weeking.Adapter.DelegadoActividadesAdapter;
 import com.example.weeking.R;
 import com.example.weeking.entity.Actividad;
 import com.example.weeking.entity.ListaEven;
+import com.example.weeking.workers.fragmentos.DelegaActividadTopFragmento;
 import com.example.weeking.workers.fragmentos.EditarDelegadoActividad;
 import com.example.weeking.workers.viewModels.AppViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,28 +55,45 @@ public class EventosActivity extends AppCompatActivity {
 
 
 
-    private void mostrarDetalleDeActividad(Actividad actividad) {
-        EditarDelegadoActividad editarFragment = new EditarDelegadoActividad();
+    private void updateUI(List<Actividad> actividades) {
+        actividadesList = actividades;
+        if (!actividadesList.isEmpty()) {
+            Actividad actividadSeleccionada = actividadesList.get(0);
+
+            // Cargar el fragmento superior
+            cargarFragmentoTop(actividadSeleccionada);
+
+            // Cargar el fragmento inferior
+            cargarFragmentoBottom(actividadSeleccionada);
+        }
+    }
+
+    private void cargarFragmentoTop(Actividad actividad) {
+        DelegaActividadTopFragmento topFragment = new DelegaActividadTopFragmento();
         Bundle args = new Bundle();
-
-        // Pasar la instancia serializable de Actividad al fragmento
         args.putSerializable("actividad", actividad);
-
-        editarFragment.setArguments(args);
+        topFragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, editarFragment)
-                .addToBackStack(null)
+                .replace(R.id.top_fragment_container, topFragment)
                 .commit();
     }
 
-    private void updateUI(List<Actividad> actividades) {
-        actividadesList = actividades;
-        mostrarDetalleDeActividad(actividadesList.get(0));
+    private void cargarFragmentoBottom(Actividad actividad) {
+        EditarDelegadoActividad bottomFragment = new EditarDelegadoActividad();
+        Bundle args = new Bundle();
+        args.putSerializable("actividad", actividad);
+        bottomFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.bottom_fragment_container, bottomFragment)
+                .commit();
     }
     @Override
     public void onBackPressed() {
         // Finaliza la actividad actual
         finish();
     }
+
+
 }
