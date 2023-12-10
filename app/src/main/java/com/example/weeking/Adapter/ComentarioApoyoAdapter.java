@@ -87,12 +87,13 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
             String apoyo ="";
             if(usuario.getApoyo().equals("en_proceso")){
                 apoyo = "En proceso de aprobar";
-            }
-            if(usuario.getApoyo().equals("denegado")){
+            }else if(usuario.getApoyo().equals("denegado")){
                 apoyo = "Denegado";
+            }else {
+                apoyo = usuario.getApoyo();
             }
 
-            tvTipoApoyo.setText("Apoyo:"+apoyo);
+            tvTipoApoyo.setText("Apoyo: "+apoyo);
         }
     }
 
