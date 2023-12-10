@@ -86,6 +86,7 @@ public class AnadirFragmento extends Fragment {
                             // Verificar si es delegado de actividad y si tiene el mismo idActividad
                             boolean esDelegadoConIdCorrecto = "delegado_de_actividad".equals(rol) && activities != null && activities.contains(idActividad);
 
+
                             // Agregar al alumno si no es delegado de actividad o es un delegado con el idActividad correcto
                             if (!"delegado_de_actividad".equals(rol) || esDelegadoConIdCorrecto) {
                                 Alumno alumno = new Alumno(nombre, rol, codigo, activities);
