@@ -11,10 +11,14 @@ import android.widget.Toolbar;
 
 import com.example.weeking.R;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -23,6 +27,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,7 +45,13 @@ public class Stadistics extends AppCompatActivity {
     private TextView textViewTotalStudents;
     private TextView textViewTotalGraduates;
     private int totalStudents = 0;
+    private int newtotalStudents = 0;
     private int totalGraduates = 0;
+    private int totalAdministrators = 0;
+    private int totalDelegates = 0;
+
+
+
 
 
     int[] colorClassArray=new int []{Color.BLUE,Color.RED};
@@ -93,53 +104,39 @@ public class Stadistics extends AppCompatActivity {
                     }
                 });
 
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            String role = document.getString("rol");
+                            switch (role) {
+                                case "administrador":
+                                    totalAdministrators++;
+                                    break;
+                                case "delegado_de_actividad":
+                                    totalDelegates++;
+                                    break;
+                                case "alumno":
+                                    newtotalStudents++;
+                                    break;
 
+                            }
+                        }
 
-
-        pieChart2 = findViewById(R.id.pieChart2);
-        PieDataSet pieDataSet2 = new PieDataSet(dataValue2(), "");
-        pieDataSet2.setColors(colorClassArray);
-        PieData pieData2 = new PieData(pieDataSet2);
-        pieChart2.setDrawEntryLabels(true);
-        pieChart2.getDescription().setEnabled(false);
-        pieChart2.setUsePercentValues(true);
-        pieChart2.setDrawHoleEnabled(false);
-        pieChart2.getLegend().setEnabled(false);
-        pieDataSet2.setDrawValues(false);
-        pieChart2.setData(pieData2);
-        pieChart2.invalidate();
-
-
-       /* pieChart=findViewById(R.id.pieChart);
-        PieDataSet pieDataSet=new PieDataSet(dataValue1(),"");
-        pieDataSet.setColors(colorClassArray);
-        PieData pieData =new PieData(pieDataSet);
-        pieChart.setDrawEntryLabels(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setUsePercentValues(true);
-        pieChart.setCenterText("Alumnos en total");
-        pieChart.setCenterTextSize(7);
-        pieChart.setCenterTextRadiusPercent(50);
-        pieChart.setHoleRadius(30);
-        pieChart.setTransparentCircleRadius(40);
-        pieChart.setData(pieData);
-        pieChart.invalidate();*/
+                        updateBarChart();
+                    } else {
+                        Log.d("Firestore", "Error getting documents: ", task.getException());
+                    }
+                });
 
 
 
 
-        pieChart3 = findViewById(R.id.pieChart3);
-        PieDataSet pieDataSet3 = new PieDataSet(dataValue3(), "");
-        pieDataSet3.setColors(colorClassArray);
-        PieData pieData3 = new PieData(pieDataSet3);
-        pieChart3.setDrawEntryLabels(true);
-        pieChart3.getDescription().setEnabled(false);
-        pieChart3.setUsePercentValues(true);
-        pieChart3.setDrawHoleEnabled(false);
-        pieChart3.getLegend().setEnabled(false);
-        pieDataSet3.setDrawValues(false);
-        pieChart3.setData(pieData3);
-        pieChart3.invalidate();
+
+
+
+
 
         mpLineChart=(LineChart) findViewById(R.id.line_chart);
         XAxis xAxis = mpLineChart.getXAxis();
@@ -249,6 +246,31 @@ public class Stadistics extends AppCompatActivity {
         pieChart.invalidate();
     }
 
+    private void updateBarChart() {
+        BarChart barChart = findViewById(R.id.bar_chart); // Asegúrate de tener un BarChart con este ID en tu XML
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        entries.add(new BarEntry(0f, totalAdministrators));
+        entries.add(new BarEntry(1f, totalDelegates));
+        entries.add(new BarEntry(2f, newtotalStudents));
+
+        BarDataSet barDataSet = new BarDataSet(entries, "Roles");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.setFitBars(true);
+
+        // Configura el eje X para mostrar las etiquetas de los roles
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"Administrador", "Delegado", "Alumno"}));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+
+        barChart.getDescription().setEnabled(false);
+        barChart.animateY(1500);
+        barChart.invalidate(); // Refresca el gráfico
+    }
 
 
 }
