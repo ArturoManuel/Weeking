@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.weeking.R;
 import com.github.mikephil.charting.animation.Easing;
@@ -48,7 +49,9 @@ public class Stadistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stadistics);
 
-
+        Toolbar toolbar = findViewById(R.layout.toolbar_layout);
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("Estadisticas");
 
         textViewTotalUsers = findViewById(R.id.textView57);
         textViewTotalStudents = findViewById(R.id.textView59);

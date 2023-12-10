@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <include layout="@layout/toolbar_layout" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="1316dp"
@@ -18,25 +20,10 @@
 
 
             <TextView
-                android:id="@+id/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:text="Estadisticas"
-                android:textColor="@color/black"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.071"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <TextView
                 android:id="@+id/textView57"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="108dp"
+                android:layout_marginTop="5dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -48,9 +35,9 @@
                 android:id="@+id/pieChart"
                 android:layout_width="194dp"
                 android:layout_height="168dp"
-                android:layout_marginTop="144dp"
+                android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintHorizontal_bias="0.46"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -60,28 +47,28 @@
                 android:id="@+id/textView59"
                 android:layout_width="96dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="164dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="64dp"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/textView63"
                 android:layout_width="83dp"
                 android:layout_height="38dp"
-                android:layout_marginTop="260dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/textView53"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="332dp"
+                android:layout_marginTop="232dp"
                 android:text="Relación de Apoyos entre Alumnos y Egresados"
                 android:textColor="#000000"
                 android:textStyle="bold"
@@ -93,8 +80,8 @@
                 android:id="@+id/textView55"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="364dp"
-                android:layout_marginEnd="92dp"
+                android:layout_marginTop="276dp"
+                android:layout_marginEnd="96dp"
                 android:text="Egresados"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,8 +91,8 @@
                 android:id="@+id/textView54"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="76dp"
-                android:layout_marginTop="364dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="276dp"
                 android:text="Estudiantes"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +124,7 @@
                 android:id="@+id/textView56"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="592dp"
+                android:layout_marginTop="504dp"
                 android:text="Recaudación de donaciones"
                 android:textColor="@color/black"
                 android:textStyle="bold"
