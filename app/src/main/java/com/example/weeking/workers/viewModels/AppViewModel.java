@@ -27,7 +27,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
-
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -120,6 +120,7 @@ public class AppViewModel extends ViewModel {
                         evento.setEventId(document.getId());
                         Timestamp timestamp = document.getTimestamp("fecha_evento");
                         Boolean estado = document.getBoolean("estado");
+                        String eventID = document.getString("eventId");
                         Date dateS = new Date(timestamp.toDate().getTime());
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                         String dateOp = format.format(dateS);
@@ -128,7 +129,8 @@ public class AppViewModel extends ViewModel {
                         if (numberOFDays <= 0){
                             eventosActualizados.add(evento);
                         }else{
-                            evento.setEstado(false);
+                            Boolean noDisponible = false;
+                            db.collection("Eventos").document(eventID).update("estado", noDisponible);
                             eventosActualizados.remove(evento);
                         }
                         Log.d("msg", String.valueOf(estado));
