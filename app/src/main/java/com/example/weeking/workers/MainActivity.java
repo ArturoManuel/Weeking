@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.recuperarContrasena.setOnClickListener(v -> navigateToActivity(ContrasenaRecuperacion_Activity.class));
         binding.registrate.setOnClickListener(v -> navigateToActivity(RegistroActivity.class));
-        //binding.imageView.setOnClickListener(v -> navigateToActivity(ActividadesActivity.class));
+
         binding.bienvenidos.setOnClickListener(v -> navigateToActivity(Chat.class));
     }
 

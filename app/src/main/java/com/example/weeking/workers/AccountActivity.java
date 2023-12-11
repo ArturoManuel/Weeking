@@ -59,6 +59,11 @@ public class AccountActivity extends AppCompatActivity {
                 }}});
 
           cambio.setOnClickListener(view -> {
+              if (!isValidEmail(correoa.getText().toString())) {
+                  Toast.makeText(this, "Formato de correo electrónico no válido", Toast.LENGTH_SHORT).show();
+                  return;
+              }
+
               Map<String, Object> datos = new HashMap<>();
               if(!String.valueOf(nombrea.getText()).isEmpty()){
                   datos.put("nombre", String.valueOf(nombrea.getText()));
@@ -109,5 +114,11 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 }}});
 
+    }
+
+    private boolean isValidEmail(String email) {
+        // Utilizar una expresión regular para validar el formato del correo electrónico
+        String emailPattern = "[a-zA-Z0-9._%+-]+@(pucp\\.edu\\.pe|pucp\\.pe)";
+        return email.matches(emailPattern);
     }
 }

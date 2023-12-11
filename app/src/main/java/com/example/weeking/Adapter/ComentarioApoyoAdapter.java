@@ -2,6 +2,7 @@ package com.example.weeking.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.weeking.entity.ComentarioDeApoyo;
 import com.example.weeking.entity.Usuario;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,12 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
 
     private String eventoId;
     private Context context;
+    private boolean limiteAlcanzadoBarra = false;
+
+
+    interface VerificacionCallback {
+        void onVerificado(boolean permitido);
+    }
 
     public ComentarioApoyoAdapter(Context context, List<Usuario> comentariosApoyoList , String eventoId) {
         this.mInflater = LayoutInflater.from(context);
@@ -98,20 +106,28 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
     }
 
     private void mostrarDialogoDeAccion(Usuario usuario, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Confirmar Acción");
-        builder.setMessage("Tipo de apoyo: " + usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo() + "\nComentario: " + usuario.getComentariosDeApoyo().get(eventoId).getComentario());
+        verificarCantidadDeBarra(eventoId, permitido -> {
+            limiteAlcanzadoBarra = !permitido;
 
-        builder.setPositiveButton("Aceptar", (dialog, id) -> {
-            actualizarEstadoDeApoyo(usuario, usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo(), position);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Confirmar Acción");
+            builder.setMessage("Tipo de apoyo: " + usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo() + "\nComentario: " + usuario.getComentariosDeApoyo().get(eventoId).getComentario());
+
+            // Agregar botón "Aceptar" con verificación
+            builder.setPositiveButton("Aceptar", (dialog, id) -> {
+                if (limiteAlcanzadoBarra && usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo().equals("Barra")) {
+                    Toast.makeText(context, "Ya se ha alcanzado el límite de 'Barra' para este evento", Toast.LENGTH_SHORT).show();
+                } else {
+                    actualizarEstadoDeApoyo(usuario, usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo(), position);
+                }
+            });
+
+            // Agregar botón "Denegar"
+            builder.setNegativeButton("Denegar", (dialog, id) -> actualizarEstadoDeApoyo(usuario, "denegado", position));
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
-
-        builder.setNegativeButton("Denegar", (dialog, id) -> {
-            actualizarEstadoDeApoyo(usuario, "denegado", position);
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void actualizarEstadoDeApoyo(Usuario usuario, String nuevoEstado, int position) {
@@ -134,4 +150,30 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
                     Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show();
                 });
     }
+
+
+
+
+    private void verificarCantidadDeBarra(String eventoId, VerificacionCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios")
+                .whereEqualTo("apoyo", "Barra")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int contador = 0;
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Usuario usuario = document.toObject(Usuario.class);
+                        if (usuario.getComentariosDeApoyo().containsKey(eventoId)) {
+                            contador++;
+                        }
+                    }
+                    callback.onVerificado(contador < 10);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("ComentarioApoyoAdapter", "Error al verificar la cantidad de 'Barra'", e);
+                    callback.onVerificado(false);
+                });
+    }
+
+
 }
