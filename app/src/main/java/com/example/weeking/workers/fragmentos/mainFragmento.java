@@ -58,7 +58,6 @@ public class mainFragmento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Identificar los TextView de los títulos
         TextView tituloListaPrincipal = view.findViewById(R.id.todosLosEventos);
         TextView tituloListaPorLikes = view.findViewById(R.id.eventosPopulares);
 
@@ -80,21 +79,6 @@ public class mainFragmento extends Fragment {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Lista por likes
         recyclerViewPorLikes = view.findViewById(R.id.lista_populares);
         recyclerViewPorLikes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerViewPorLikes.setAdapter(adaptadorPorLikes); // Seteamos el adaptador aquí

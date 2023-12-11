@@ -61,14 +61,9 @@ public class ListarApoyosFragmento extends Fragment {
 
     private void cargarAlumnosConApoyoEnProceso(String eventoId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Lista para almacenar todas las tareas de consulta
         List<Task<QuerySnapshot>> tasks = new ArrayList<>();
-
-        // Agregar tareas de consulta para cada condición de apoyo
         tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "en_proceso").get());
-        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "Barra").get());
-        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "Participante").get());
+        tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "apoya").get());
         tasks.add(db.collection("usuarios").whereEqualTo("apoyo", "denegado").get());
 
         // Ejecutar todas las consultas y procesar los resultados cuando todas las tareas se completen

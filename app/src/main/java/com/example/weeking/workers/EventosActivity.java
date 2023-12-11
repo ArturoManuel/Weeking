@@ -47,9 +47,9 @@ public class EventosActivity extends AppCompatActivity {
         // Inicializar ViewModel
         viewModel = new ViewModelProvider(EventosActivity.this).get(AppViewModel.class);
 
-        viewModel.getListaDeActividadesPorUsuario().observe(EventosActivity.this, this::updateUI);
+      viewModel.getListaDeActividadesPorUsuario().observe(EventosActivity.this, this::updateUI);
 
-        viewModel.cargarActividadesPorUsuario(FirebaseFirestore.getInstance(),codigo);
+viewModel.cargarActividadesPorUsuario(FirebaseFirestore.getInstance(),codigo);
 
     }
 

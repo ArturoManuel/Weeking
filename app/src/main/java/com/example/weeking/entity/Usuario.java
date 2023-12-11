@@ -1,5 +1,6 @@
 package com.example.weeking.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ public class Usuario {
     private String rol;
 
     private Map<String, ComentarioDeApoyo> comentariosDeApoyo;
+
+    private Map<String, String> apoyoList;
 
 
     public String getBan() {
@@ -136,5 +139,15 @@ public class Usuario {
     public void setComentariosDeApoyo(Map<String, ComentarioDeApoyo> comentariosDeApoyo) {
         this.comentariosDeApoyo = comentariosDeApoyo;
     }
+
+    public Map<String, String> getApoyoList() {
+        return apoyoList;
+    }
+
+    public void setApoyoList(Map<String, String> apoyoList) {
+        this.apoyoList = apoyoList;
+    }
+
+
 }
 

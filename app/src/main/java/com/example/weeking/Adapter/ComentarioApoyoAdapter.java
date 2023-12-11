@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weeking.R;
 import com.example.weeking.entity.ComentarioDeApoyo;
+import com.example.weeking.entity.EventoApoyo;
 import com.example.weeking.entity.Usuario;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +100,12 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
             }else if(usuario.getApoyo().equals("denegado")){
                 apoyo = "Denegado";
             }else {
-                apoyo = usuario.getApoyo();
+                if(usuario.getApoyoList().get(eventoId)!=null){
+                    apoyo = usuario.getApoyoList().get(eventoId);
+                }else{
+                    apoyo="nulo";
+                }
+
             }
 
             tvTipoApoyo.setText("Apoyo: "+apoyo);
@@ -106,74 +113,124 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
     }
 
     private void mostrarDialogoDeAccion(Usuario usuario, int position) {
-        verificarCantidadDeBarra(eventoId, permitido -> {
-            limiteAlcanzadoBarra = !permitido;
-
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Confirmar Acción");
             builder.setMessage("Tipo de apoyo: " + usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo() + "\nComentario: " + usuario.getComentariosDeApoyo().get(eventoId).getComentario());
-
-            // Agregar botón "Aceptar" con verificación
-            builder.setPositiveButton("Aceptar", (dialog, id) -> {
-                if (limiteAlcanzadoBarra && usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo().equals("Barra")) {
-                    Toast.makeText(context, "Ya se ha alcanzado el límite de 'Barra' para este evento", Toast.LENGTH_SHORT).show();
-                } else {
-                    actualizarEstadoDeApoyo(usuario, usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo(), position);
-                }
-            });
-
-            // Agregar botón "Denegar"
-            builder.setNegativeButton("Denegar", (dialog, id) -> actualizarEstadoDeApoyo(usuario, "denegado", position));
-
+        builder.setPositiveButton("Aceptar", (dialog, id) -> {
+            actualizarApoyoListEnFirebase(usuario, "apoya", eventoId, () -> actualizarEstadoApoyoEnFirebase(usuario, position));
+        });
+        builder.setNegativeButton("Denegar", (dialog, id) -> {
+            actualizarApoyoListEnFirebase(usuario, "denegado", eventoId, () -> actualizarEstadoApoyoEnFirebase(usuario, position));
+        });
             AlertDialog dialog = builder.create();
             dialog.show();
-        });
     }
 
-    private void actualizarEstadoDeApoyo(Usuario usuario, String nuevoEstado, int position) {
+//    private void actualizarEstadoDeApoyo(Usuario usuario, String nuevoEstado, int position, String eventoId) {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        DocumentReference userRef = db.collection("usuarios").document(usuario.getCodigo());
+//        Map<String, String> apoyoList = usuario.getApoyoList();
+//        if (apoyoList == null) {
+//            apoyoList = new HashMap<>();
+//        }
+//        if(nuevoEstado.equals("denegado")){
+//            apoyoList.put(eventoId,nuevoEstado);
+//        } else if (nuevoEstado.equals("apoya")) {
+//            apoyoList.put(eventoId,usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo());
+//        }
+//
+//
+//        String estadoGeneralApoyo = "en_proceso";
+//        // Determinar el estado general de apoyo
+//        for (String estado : apoyoList.values()) {
+//            if (!"denegado".equals(estado)) {
+//                estadoGeneralApoyo = "apoya";
+//                break;
+//            }
+//        }
+//
+//        // Si todos los eventos están denegados, entonces el estado general es "denegado"
+//        if (apoyoList.values().stream().allMatch("denegado"::equals)) {
+//            estadoGeneralApoyo = "denegado";
+//        }
+//        // Preparar la actualización para Firestore
+//        final Map<String, String> finalApoyoList = new HashMap<>(apoyoList);
+//        final String finalEstadoGeneralApoyo = estadoGeneralApoyo;
+//        Map<String, Object> update = new HashMap<>();
+//        update.put("apoyoList", finalApoyoList);
+//        update.put("apoyo", estadoGeneralApoyo);
+//
+//        // Realizar la actualización en Firestore
+//        userRef.update(update)
+//                .addOnSuccessListener(aVoid -> {
+//                    usuario.setApoyoList(finalApoyoList);
+//                    usuario.setApoyo(finalEstadoGeneralApoyo);
+//                    notifyItemChanged(position);
+//                    Toast.makeText(context, "Estado de apoyo actualizado a: " + finalEstadoGeneralApoyo, Toast.LENGTH_SHORT).show();
+//                })
+//                .addOnFailureListener(e -> {
+//                    Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show();
+//                });
+//    }
+
+
+
+    private void actualizarApoyoListEnFirebase(Usuario usuario, String nuevoEstado, String eventoId, Runnable onSuccessCallback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("usuarios").document(usuario.getCodigo());
 
-        // Crear un mapa con el nuevo estado de apoyo
-        Map<String, Object> update = new HashMap<>();
-        update.put("apoyo", nuevoEstado);
+        Map<String, String> apoyoList = usuario.getApoyoList();
+        if (apoyoList == null) {
+            apoyoList = new HashMap<>();
+        }
+        if (nuevoEstado.equals("apoya")){
+            apoyoList.put(eventoId, usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo());
+        }else {
+            apoyoList.put(eventoId, nuevoEstado);
+        }
 
-        // Actualizar el documento de Firestore
-        userRef.update(update)
+        final Map<String, String> finalApoyoList = new HashMap<>(apoyoList);
+        userRef.update("apoyoList", apoyoList)
                 .addOnSuccessListener(aVoid -> {
-                    // Actualiza el estado de apoyo en el objeto Usuario y notifica al adapter
-                    usuario.setApoyo(nuevoEstado);
-                    notifyItemChanged(position);
-                    Toast.makeText(context, "Estado de apoyo actualizado a: " + nuevoEstado, Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show();
-                });
-    }
-
-
-
-
-    private void verificarCantidadDeBarra(String eventoId, VerificacionCallback callback) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("usuarios")
-                .whereEqualTo("apoyo", "Barra")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    int contador = 0;
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        Usuario usuario = document.toObject(Usuario.class);
-                        if (usuario.getComentariosDeApoyo().containsKey(eventoId)) {
-                            contador++;
-                        }
+                    usuario.setApoyoList(finalApoyoList);
+                    if (onSuccessCallback != null) {
+                        onSuccessCallback.run(); // Ejecutar el callback una vez que apoyoList se ha actualizado con éxito
                     }
-                    callback.onVerificado(contador < 10);
                 })
-                .addOnFailureListener(e -> {
-                    Log.e("ComentarioApoyoAdapter", "Error al verificar la cantidad de 'Barra'", e);
-                    callback.onVerificado(false);
-                });
+                .addOnFailureListener(e ->
+                        Toast.makeText(context, "Error al actualizar la lista de apoyo", Toast.LENGTH_SHORT).show()
+                );
     }
+
+    private void actualizarEstadoApoyoEnFirebase(Usuario usuario, int position) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("usuarios").document(usuario.getCodigo());
+
+        // Determinar el estado general de apoyo basado en apoyoList
+        String estadoGeneralApoyo = determinarEstadoGeneralApoyo(usuario.getApoyoList());
+
+        userRef.update("apoyo", estadoGeneralApoyo)
+                .addOnSuccessListener(aVoid -> {
+                    usuario.setApoyo(estadoGeneralApoyo); // Actualiza el objeto usuario
+                    notifyItemChanged(position); // Notifica al adaptador del cambio para actualizar la UI
+                    Toast.makeText(context, "Estado de apoyo actualizado a: " + estadoGeneralApoyo, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show()
+                );
+    }
+
+    private String determinarEstadoGeneralApoyo(Map<String, String> apoyoList) {
+        for (String estado : apoyoList.values()) {
+            if (!"denegado".equals(estado)) {
+                return "apoya";
+            }
+        }
+        return "denegado";
+    }
+
+
+
 
 
 }
