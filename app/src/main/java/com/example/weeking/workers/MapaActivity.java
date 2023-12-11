@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,7 +58,7 @@ public class MapaActivity extends AppCompatActivity {
             new LugarPUCP("Polideportivo", new LatLng(-12.066550114711053, -77.08026020484829)),
             new LugarPUCP("Pabellón V", new LatLng(-12.073063974496803, -77.08186661970869)),
             new LugarPUCP("Cancha de Minas", new LatLng(-12.072174128386596, -77.08199877048409)),
-            new LugarPUCP("Facultad de Ciencias e Ingeniería", new LatLng(-12.07252824709505, -77.07943635537202)),
+            new LugarPUCP("Ciencias e Ingeniería", new LatLng(-12.07252824709505, -77.07943635537202)),
             new LugarPUCP("Ajedrez PUCP",new LatLng(-12.066682180584055, -77.07993397133318)),
             new LugarPUCP("Tenis de Mesa PUCP",new LatLng(-12.066921524250779, -77.080345690413)),
             new LugarPUCP("Edificio H", new LatLng(-12.069616957675034, -77.08140850067139))
@@ -78,12 +79,8 @@ public class MapaActivity extends AppCompatActivity {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
-            for (LugarPUCP lugar : lugaresPUCP) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(lugar.getCoordenadas())
-                        .title(lugar.getNombre()));
+            setupMarkers();
 
-            }
 
             // Solicitar permisos y configurar la ubicación actual
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -105,6 +102,42 @@ public class MapaActivity extends AppCompatActivity {
         });
     }
 
+    private void setupMarkers()  {
+
+        float[] markerColors = new float[]{
+                BitmapDescriptorFactory.HUE_BLUE,
+                BitmapDescriptorFactory.HUE_ORANGE,
+                BitmapDescriptorFactory.HUE_YELLOW,
+                BitmapDescriptorFactory.HUE_GREEN,
+                BitmapDescriptorFactory.HUE_CYAN,
+                BitmapDescriptorFactory.HUE_AZURE,
+                BitmapDescriptorFactory.HUE_MAGENTA,
+                BitmapDescriptorFactory.HUE_RED,
+                BitmapDescriptorFactory.HUE_ROSE,
+                BitmapDescriptorFactory.HUE_VIOLET,
+
+
+                // ... otros colores según sea necesario
+        };
+
+        int colorIndex = 0;
+        for (LugarPUCP lugar : lugaresPUCP) {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(lugar.getCoordenadas())
+                    .title(lugar.getNombre())
+                    .icon(BitmapDescriptorFactory.defaultMarker(markerColors[colorIndex % markerColors.length]))
+            );
+            colorIndex++;
+        }
+
+    }
+
+    private boolean onMarkerClick(Marker marker) {
+        posicionSeleccionada = marker.getPosition();
+        nombreMarcador = marker.getTitle();
+        mostrarDialogoDeConfirmacion(posicionSeleccionada, nombreMarcador);
+        return true;
+    }
 
     private void setMarcadorEnMiPosicion() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
