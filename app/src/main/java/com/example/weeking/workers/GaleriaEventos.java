@@ -30,6 +30,8 @@ import com.example.weeking.workers.adaptador.GaleriaFotosAdapter;
 import com.example.weeking.workers.fragmentos.camarafragmento;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
@@ -83,26 +85,26 @@ public class GaleriaEventos extends AppCompatActivity {
         }
         eventoStorageRef.listAll()
                 .addOnSuccessListener(listResult -> {
+                    List<Task<Uri>> tasks = new ArrayList<>(); // Lista para almacenar tareas asíncronas
                     for (StorageReference item : listResult.getItems()) {
-
-                        item.getDownloadUrl().addOnSuccessListener(uri -> {
-                            // uri contiene la URL de la imagen
-                            // Agrega la URL a tu lista de URLs (imageUrls)
-                            imageUrls.add(uri.toString());
-                            if (imageUrls.size() == listResult.getItems().size()) {
-                                cargarImagenesEnGridView(imageUrls);
-                            }
-                            Log.d("GaleriaEventos", "Tamaño de imageUrls: " + imageUrls.size());
-                        });
+                        // Verificamos si el nombre del archivo NO es "imagen.jpg"
+                        if (!item.getName().equalsIgnoreCase("imagen.jpg")) {
+                            // Si no lo es, obtenemos la URL y la agregamos a la lista de tareas
+                            tasks.add(item.getDownloadUrl().addOnSuccessListener(uri -> {
+                                // Agregamos cada URL a la lista imageUrls
+                                imageUrls.add(uri.toString());
+                            }));
+                        }
                     }
-                    // Cuando todas las URLs se han recopilado, establece el adaptador
 
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(GaleriaEventos.this, "Error al obtener las imágenes", Toast.LENGTH_SHORT).show();
-                    }
+                    // Esperamos a que todas las tareas se completen antes de cargar las imágenes en el GridView
+                    Tasks.whenAllSuccess(tasks).addOnSuccessListener(results -> {
+                        cargarImagenesEnGridView(imageUrls);
+                    });
+
+                }).addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Toast.makeText(GaleriaEventos.this, "Error al obtener las imágenes", Toast.LENGTH_SHORT).show();
                 });
         anadir.setOnClickListener(view -> {
             Intent intent = new Intent(GaleriaEventos.this, GaleriaUploadActivity.class);
@@ -118,15 +120,29 @@ public class GaleriaEventos extends AppCompatActivity {
     }
 
     public void borrarImagen(String urlToDelete, int position) {
+        // Obtenemos la referencia de la imagen desde la URL
         StorageReference imageRef = storage.getReferenceFromUrl(urlToDelete);
-        imageRef.delete().addOnSuccessListener(aVoid -> {
-            imageUrls.remove(position); // Elimina la URL de la lista
-            adapter.notifyDataSetChanged(); // Actualiza el adaptador
-            Toast.makeText(GaleriaEventos.this, "Imagen borrada", Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(e -> {
-            Toast.makeText(GaleriaEventos.this, "Error al borrar la imagen", Toast.LENGTH_SHORT).show();
-        });
+
+        // Extraemos el nombre de la imagen de la referencia
+        String imageName = imageRef.getName();
+
+        // Comprobamos si el nombre de la imagen es "imagen.jpg"
+        if(imageName.equals("imagen.jpg")) {
+            // Si es "imagen.jpg", mostramos un mensaje y no borramos la imagen
+            Toast.makeText(GaleriaEventos.this, "Esta imagen no se puede borrar", Toast.LENGTH_SHORT).show();
+        } else {
+            // Si no es "imagen.jpg", procedemos a borrar la imagen
+            imageRef.delete().addOnSuccessListener(aVoid -> {
+                // Código para borrar la imagen y actualizar la interfaz
+                imageUrls.remove(position); // Elimina la URL de la lista
+                adapter.notifyDataSetChanged(); // Actualiza el adaptador
+                Toast.makeText(GaleriaEventos.this, "Imagen borrada", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(GaleriaEventos.this, "Error al borrar la imagen", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
+
     @Override
     public void onBackPressed() {
         // Finaliza la actividad actual
