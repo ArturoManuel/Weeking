@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el nombre del evento"
                     android:inputType="text"
-                    android:maxLength="25" />
+                    android:maxLength="35" />
 
             </LinearLayout>
 
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Ingrese la descripcion"
-                    android:maxLength="80"/>
+                    android:maxLength="120"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

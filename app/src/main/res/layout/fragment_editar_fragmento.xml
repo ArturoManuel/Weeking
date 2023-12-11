@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
-                    android:maxLength="25" />
+                    android:maxLength="35" />
 
                 <!-- Descripción de la actividad -->
                 <TextView
@@ -112,7 +112,7 @@
                         android:layout_height="233dp"
                         android:textColor="@color/colorBlack"
                         android:hint="Ingrese la descripción"
-                        android:maxLength="80"/>
+                        android:maxLength="120"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

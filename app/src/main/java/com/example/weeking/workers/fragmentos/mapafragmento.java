@@ -101,7 +101,7 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
                     LatLng position = new LatLng(evento.getLatitud(), evento.getLongitud());
                     mMap.addMarker(new MarkerOptions()
                             .position(position)
-                            .title(evento.getDescripcion())
+                            .title(evento.getNombre())
                             .icon(BitmapDescriptorFactory.defaultMarker(colorArray[colorIndex % colorArray.length])) // Asigna un color del array
                     );
                     colorIndex++; // Incrementa el índice para el siguiente color
