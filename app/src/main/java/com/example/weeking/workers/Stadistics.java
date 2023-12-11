@@ -33,7 +33,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.github.mikephil.charting.formatter.ValueFormatter;
@@ -291,23 +294,29 @@ public class Stadistics extends AppCompatActivity {
         ArrayList<String> locations = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
 
-        int index = 0;
-        for (Map.Entry<String, Integer> entry : eventCountByLocation.entrySet()) {
-            entries.add(new BarEntry(index, entry.getValue()));
-            locations.add(entry.getKey()); // Asumiendo que 'locations' tiene los nombres de las ubicaciones
-            index++;
-        }
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(eventCountByLocation.entrySet());
+        Collections.sort(list, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
+        int index = 0;
+        for (Map.Entry<String, Integer> entry : list) {
+            if (index < 3) { // Solo considera las tres ubicaciones principales
+                entries.add(new BarEntry(index, entry.getValue()));
+                locations.add(entry.getKey());
+                index++;
+            } else {
+                break;
+            }
+        }
         BarDataSet barDataSet = new BarDataSet(entries, "");
         for (int i = 0; i < entries.size(); i++) {
-            // Agrega un color para cada entrada
+
             colors.add(ColorTemplate.JOYFUL_COLORS[i % ColorTemplate.JOYFUL_COLORS.length]);
         }
         barDataSet.setColors(colors);
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
 
-        // Configuración de la leyenda para expandirse verticalmente
+
         Legend legend = barChart.getLegend();
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
