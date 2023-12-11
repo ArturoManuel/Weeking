@@ -57,8 +57,12 @@ public class Yape extends AppCompatActivity {
         Button siguiente = findViewById(R.id.button9);
         siguiente.setOnClickListener(v -> {
             uploadPhoto();
-
         });
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Donacion Yape");
+        }
     }
     private void uploadPhoto() {
         Intent i = new Intent(Intent.ACTION_PICK);

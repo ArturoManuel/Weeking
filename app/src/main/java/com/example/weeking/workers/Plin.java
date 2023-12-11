@@ -58,6 +58,11 @@ public class Plin extends AppCompatActivity {
             uploadPhoto();
 
         });
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Donacion por plin");
+        }
     }
 
     private void uploadPhoto() {

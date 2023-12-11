@@ -37,7 +37,10 @@ public class alu extends AppCompatActivity {
         estado = findViewById(R.id.estado);
         correo = findViewById(R.id.correo);
         imagen = findViewById(R.id.foto);
-
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Informacion de usuario");
+        }
         Usuario usuario = DataHolder.getInstance().getUsuarioseleccionado();
         nombre.setText(usuario.getNombre());
         codigo.setText(usuario.getCodigo());
