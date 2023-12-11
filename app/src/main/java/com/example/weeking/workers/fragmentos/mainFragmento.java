@@ -22,6 +22,9 @@ import com.example.weeking.entity.EventoClass;
 import com.example.weeking.entity.EventoDto;
 import com.example.weeking.entity.ListaEven;
 import com.example.weeking.workers.viewModels.AppViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,12 +32,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class mainFragmento extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewPorLikes;
+
+    private RecyclerView recyclerViewPorMisEventos;
     private RecyclerView.Adapter adapter;
     // Añadir instancia del ViewModel
     private AppViewModel appViewModel;
 
     private AdaptadorPrin adaptadorPrincipal;
     private AdaptadorPrin adaptadorPorLikes;
+
+    private AdaptadorPrin adaptadorPorMisEventos;
 
 
     public mainFragmento() {
@@ -46,6 +53,7 @@ public class mainFragmento extends Fragment {
         appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         adaptadorPrincipal = new AdaptadorPrin(new ArrayList<>(), getContext());
         adaptadorPorLikes = new AdaptadorPrin(new ArrayList<>(), getContext());
+        adaptadorPorMisEventos = new AdaptadorPrin(new ArrayList<>(), getContext());
     }
 
 
@@ -59,7 +67,8 @@ public class mainFragmento extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView tituloListaPrincipal = view.findViewById(R.id.todosLosEventos);
-        TextView tituloListaPorLikes = view.findViewById(R.id.eventosPopulares);
+//        TextView tituloListaPorLikes = view.findViewById(R.id.eventosPopulares);
+        TextView tituloMisEventos= view.findViewById(R.id.misEventos);
 
         // Lista principal
         recyclerView = view.findViewById(R.id.lista_prin);
@@ -79,20 +88,31 @@ public class mainFragmento extends Fragment {
 
 
 
-        recyclerViewPorLikes = view.findViewById(R.id.lista_populares);
-        recyclerViewPorLikes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewPorLikes.setAdapter(adaptadorPorLikes); // Seteamos el adaptador aquí
+//        recyclerViewPorLikes = view.findViewById(R.id.lista_populares);
+//        recyclerViewPorLikes.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        recyclerViewPorLikes.setAdapter(adaptadorPorLikes); // Seteamos el adaptador aquí
+//
+//        appViewModel.getEventosByLikes().observe(getViewLifecycleOwner(), eventoClasses -> {
+//            if (eventoClasses != null && !eventoClasses.isEmpty()) {
+//                adaptadorPorLikes.updateData(eventoClasses); // Actualizamos datos en vez de crear un nuevo adaptador
+//                tituloListaPorLikes.setVisibility(View.VISIBLE);
+//            } else {
+//                tituloListaPorLikes.setVisibility(View.GONE);
+//            }
+//        });
+        recyclerView = view.findViewById(R.id.lista_de_mis_eventos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adaptadorPorMisEventos );
 
-        appViewModel.getEventosByLikes().observe(getViewLifecycleOwner(), eventoClasses -> {
-            if (eventoClasses != null && !eventoClasses.isEmpty()) {
-                adaptadorPorLikes.updateData(eventoClasses); // Actualizamos datos en vez de crear un nuevo adaptador
-                tituloListaPorLikes.setVisibility(View.VISIBLE);
-            } else {
-                tituloListaPorLikes.setVisibility(View.GONE);
-            }
+        String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        appViewModel.cargarEventosPorApoyoList(currentUserUID);
+        appViewModel.getEventosLiveData().observe(getViewLifecycleOwner(), eventoClasses -> {
+            adaptadorPorMisEventos.updateData(eventoClasses);
+            tituloMisEventos.setVisibility(eventoClasses.isEmpty() ? View.GONE : View.VISIBLE);
         });
-    }
 
+
+    }
 
 
 

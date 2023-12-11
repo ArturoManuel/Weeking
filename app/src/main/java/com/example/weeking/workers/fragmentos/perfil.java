@@ -119,8 +119,8 @@ public class perfil extends Fragment {
         userName = view.findViewById(R.id.textNombre); // Asume que tienes un TextView con el ID "userName" en tu layout.
         codigo = view.findViewById(R.id.textCodigoPerfil);
         //Para aplicar el contador//
-        txtCountFollow = view.findViewById(R.id.txtCountFollow);
-        txtCountLikes = view.findViewById(R.id.txtCountLike);
+//        txtCountFollow = view.findViewById(R.id.txtCountFollow);
+//        txtCountLikes = view.findViewById(R.id.txtCountLike);
         mAuth = FirebaseAuth.getInstance();
         uploadButtonPerfil = view.findViewById(R.id.uploadButtonPerfil);
         deleteButtonPerfil = view.findViewById(R.id.deleteButtonPerfil);
@@ -171,10 +171,10 @@ public class perfil extends Fragment {
                 actualizarUI(usuario);
             }
         });
-        //Acá ira la función para actualizar los seguidore y likes//
-        //Por ahora estará harcodeado//
-        txtCountFollow.setText("5");
-        txtCountLikes.setText("30");
+//        //Acá ira la función para actualizar los seguidore y likes//
+//        //Por ahora estará harcodeado//
+//        txtCountFollow.setText("5");
+//        txtCountLikes.setText("30");
         return view;
 
     }

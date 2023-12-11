@@ -26,18 +26,18 @@
         <!-- Contenedor principal debajo de la imagen -->
         .
 
-        <ImageButton
-            android:id="@+id/like_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="150dp"
-            android:layout_marginEnd="18dp"
-            android:background="@drawable/circular_background"
-            android:backgroundTint="#A9FFFFFF"
-            android:elevation="6dp"
-            android:src="@drawable/ic_filled_heart" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/like_btn"-->
+<!--            android:layout_width="48dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginTop="150dp"-->
+<!--            android:layout_marginEnd="18dp"-->
+<!--            android:background="@drawable/circular_background"-->
+<!--            android:backgroundTint="#A9FFFFFF"-->
+<!--            android:elevation="6dp"-->
+<!--            android:src="@drawable/ic_filled_heart" />-->
 
         <LinearLayout
             android:id="@+id/details_layout"

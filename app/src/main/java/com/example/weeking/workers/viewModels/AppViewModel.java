@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.helper.widget.MotionEffect;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AppViewModel extends ViewModel {
@@ -59,6 +62,111 @@ public class AppViewModel extends ViewModel {
     public MutableLiveData<List<Actividad>> getListaDeActividadesPorUsuario() {
         return listaDeActividadesPorUsuario;
     }
+
+    private MutableLiveData<List<EventoClass>> eventosLiveData = new MutableLiveData<>();
+    private List<ListenerRegistration> eventoListeners = new ArrayList<>();
+
+    public LiveData<List<EventoClass>> getEventosLiveData() {
+        return eventosLiveData;
+    }
+
+    public void cargarEventosPorApoyoList(String authID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios").whereEqualTo("authUID", authID).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot userDoc = queryDocumentSnapshots.getDocuments().get(0);
+                        Usuario usuario = userDoc.toObject(Usuario.class);
+                        if (usuario != null && usuario.getApoyoList() != null) {
+                            List<String> eventosIds = new ArrayList<>(usuario.getApoyoList().keySet());
+                            limpiarListenersEvento();
+                            cargarEventos(eventosIds, usuario.getApoyoList()); // Pasar el apoyoList al método
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Manejar el error adecuadamente
+                });
+    }
+
+
+    private void limpiarListenersEvento() {
+        for (ListenerRegistration listener : eventoListeners) {
+            listener.remove();
+        }
+        eventoListeners.clear();
+    }
+
+    private void cargarEventos(List<String> eventosIds, Map<String, String> apoyoList) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<EventoClass> eventos = new ArrayList<>();
+
+        for (String eventoId : eventosIds) {
+            // Solo añadir listeners para eventos no denegados
+            if (!"denegado".equals(apoyoList.get(eventoId))) {
+                ListenerRegistration listener = db.collection("Eventos").document(eventoId)
+                        .addSnapshotListener((documentSnapshot, e) -> {
+                            if (e != null) {
+                                // Manejar el error
+                                return;
+                            }
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                EventoClass evento = documentSnapshot.toObject(EventoClass.class);
+                                if (evento != null) {
+                                    // Actualizar o añadir el evento a la lista
+                                    actualizarEventoEnLista(eventos, evento);
+                                }
+                            }
+                        });
+                eventoListeners.add(listener);
+            }
+        }
+    }
+
+
+    private void actualizarEventoEnLista(List<EventoClass> eventos, EventoClass nuevoEvento) {
+        // Reemplazar o añadir el evento en la lista
+        int index = -1;
+        for (int i = 0; i < eventos.size(); i++) {
+            if (eventos.get(i).getEventId().equals(nuevoEvento.getEventId())) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0) {
+            eventos.set(index, nuevoEvento);
+        } else {
+            eventos.add(nuevoEvento);
+        }
+        eventosLiveData.postValue(eventos);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        limpiarListenersEvento();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void cargarActividadesPorUsuario(FirebaseFirestore db, String userId) {
         db.collection("usuarios").document(userId).get().addOnSuccessListener(documentSnapshot -> {

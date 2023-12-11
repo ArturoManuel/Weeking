@@ -126,55 +126,6 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
             dialog.show();
     }
 
-//    private void actualizarEstadoDeApoyo(Usuario usuario, String nuevoEstado, int position, String eventoId) {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        DocumentReference userRef = db.collection("usuarios").document(usuario.getCodigo());
-//        Map<String, String> apoyoList = usuario.getApoyoList();
-//        if (apoyoList == null) {
-//            apoyoList = new HashMap<>();
-//        }
-//        if(nuevoEstado.equals("denegado")){
-//            apoyoList.put(eventoId,nuevoEstado);
-//        } else if (nuevoEstado.equals("apoya")) {
-//            apoyoList.put(eventoId,usuario.getComentariosDeApoyo().get(eventoId).getTipoApoyo());
-//        }
-//
-//
-//        String estadoGeneralApoyo = "en_proceso";
-//        // Determinar el estado general de apoyo
-//        for (String estado : apoyoList.values()) {
-//            if (!"denegado".equals(estado)) {
-//                estadoGeneralApoyo = "apoya";
-//                break;
-//            }
-//        }
-//
-//        // Si todos los eventos están denegados, entonces el estado general es "denegado"
-//        if (apoyoList.values().stream().allMatch("denegado"::equals)) {
-//            estadoGeneralApoyo = "denegado";
-//        }
-//        // Preparar la actualización para Firestore
-//        final Map<String, String> finalApoyoList = new HashMap<>(apoyoList);
-//        final String finalEstadoGeneralApoyo = estadoGeneralApoyo;
-//        Map<String, Object> update = new HashMap<>();
-//        update.put("apoyoList", finalApoyoList);
-//        update.put("apoyo", estadoGeneralApoyo);
-//
-//        // Realizar la actualización en Firestore
-//        userRef.update(update)
-//                .addOnSuccessListener(aVoid -> {
-//                    usuario.setApoyoList(finalApoyoList);
-//                    usuario.setApoyo(finalEstadoGeneralApoyo);
-//                    notifyItemChanged(position);
-//                    Toast.makeText(context, "Estado de apoyo actualizado a: " + finalEstadoGeneralApoyo, Toast.LENGTH_SHORT).show();
-//                })
-//                .addOnFailureListener(e -> {
-//                    Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show();
-//                });
-//    }
-
-
-
     private void actualizarApoyoListEnFirebase(Usuario usuario, String nuevoEstado, String eventoId, Runnable onSuccessCallback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("usuarios").document(usuario.getCodigo());

@@ -34,14 +34,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/todosLosEventos" />
 
-        <!-- Título para el segundo RecyclerView -->
+<!--        &lt;!&ndash; Título para el segundo RecyclerView &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/eventosPopulares"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="16dp"-->
+<!--            android:text="Eventos populares"-->
+<!--            android:textColor="@color/colorBlack"-->
+<!--            android:textSize="24sp"-->
+<!--            android:visibility="gone"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/lista_prin" />-->
+
+<!--        &lt;!&ndash; Segundo RecyclerView &ndash;&gt;-->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/lista_populares"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/eventosPopulares" />-->
+
         <TextView
-            android:id="@+id/eventosPopulares"
+            android:id="@+id/misEventos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Eventos populares"
+            android:text="Mis eventos"
             android:textColor="@color/colorBlack"
             android:textSize="24sp"
             android:visibility="gone"
@@ -51,13 +76,13 @@
 
         <!-- Segundo RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lista_populares"
+            android:id="@+id/lista_de_mis_eventos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/eventosPopulares" />
+            app:layout_constraintTop_toBottomOf="@id/misEventos" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
