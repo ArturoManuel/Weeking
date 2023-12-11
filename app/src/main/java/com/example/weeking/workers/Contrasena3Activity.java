@@ -24,7 +24,10 @@ public class Contrasena3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contrasena3);
-
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Cambio de contraseña");
+        }
         contrasenaLayout = findViewById(R.id.contraseña);
         contrasenaText = findViewById(R.id.contraseñatext);
 

@@ -55,8 +55,12 @@ public class Transferencia extends AppCompatActivity {
         Button siguiente = findViewById(R.id.button10);
         siguiente.setOnClickListener(v -> {
             uploadPhoto();
-
         });
+
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Donacion Tranferencia");
+        }
     }
 
     private void uploadPhoto() {

@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.Manifest;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weeking.R;
@@ -73,6 +74,10 @@ public class GaleriaUploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_upload);
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Subida de fotos");
+        }
         imgCargar = findViewById(R.id.imgFotoCargar);
         camara = findViewById(R.id.btnCamaraUplad);
         galeria = findViewById(R.id.btnGaleriaUplad);

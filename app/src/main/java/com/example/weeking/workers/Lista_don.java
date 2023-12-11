@@ -38,6 +38,10 @@ public class Lista_don extends AppCompatActivity {
         setContentView(R.layout.activity_lista_don);
         AppViewModel appViewModel= new ViewModelProvider(this).get(AppViewModel.class);
         db = FirebaseFirestore.getInstance();
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Lista de Donadores");
+        }
         AdaptadorAlu listAdapter = new AdaptadorAlu(alun,this);
         AdaptadorDon listaAdapter = new AdaptadorDon(donadores,this);
         db.collection("donaciones").addSnapshotListener((collection, error) -> {
@@ -80,7 +84,6 @@ public class Lista_don extends AppCompatActivity {
         recyclerView1.setHasFixedSize(true);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         recyclerView1.setAdapter(listAdapter);
-        TextView titulo = findViewById(R.id.textView52);
         TextView donaci = findViewById(R.id.textView19);
         TextView alu = findViewById(R.id.textView22);
         alu.setAlpha(0.4F);
@@ -89,14 +92,18 @@ public class Lista_don extends AppCompatActivity {
             recyclerView1.setVisibility(View.GONE);
             donaci.setAlpha(1F);
             alu.setAlpha(0.4F);
-            titulo.setText("Lista de Donaciones");
+            if (toolbarTitle != null) {
+                toolbarTitle.setText("Lista de Donadores");
+            }
         });
         alu.setOnClickListener(view -> {
             recyclerView1.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             alu.setAlpha(1F);
             donaci.setAlpha(0.4F);
-            titulo.setText("Lista de Alumnos");
+            if (toolbarTitle != null) {
+                toolbarTitle.setText("Lista de Alumnos");
+            }
         });
     }
 }

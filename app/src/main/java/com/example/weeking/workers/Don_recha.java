@@ -30,6 +30,10 @@ public class Don_recha extends AppCompatActivity {
         if (extras != null) {
             codigo = extras.getString("codigo");
         }
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Rechazo de Donacion");
+        }
         Button rechazo = findViewById(R.id.button14);
         rechazo.setOnClickListener(v -> {
             motivo = String.valueOf(recha.getText());

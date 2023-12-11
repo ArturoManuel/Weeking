@@ -28,6 +28,10 @@ public class Verificacion_don extends AppCompatActivity {
         Picasso.get().load(imageUrl).into(imagen);
         Button confirma = findViewById(R.id.button12);
         Button negar = findViewById(R.id.button13);
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Verficacion de Donacion");
+        }
         confirma.setOnClickListener(v -> {
             Intent intent = new Intent(this, Don_ve.class);
             intent.putExtra("codigo",donacionSeleccionado.getCodigo());

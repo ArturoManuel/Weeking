@@ -72,18 +72,17 @@ public class GaleriaEventos extends AppCompatActivity {
         gridView.setColumnWidth(columnWidth);
         EventoClass eventoSeleccionado = DataHolder.getInstance().getEventoSeleccionado();
         even = (eventoSeleccionado.getNombre() != null) ? eventoSeleccionado.getNombre() : "No tiene nombre";
-        textView26 = findViewById(R.id.textView26);
-        textView26.setText("Le damos la bienvenida a la galería de "+even);
         eventoID = eventoSeleccionado.getEventId();
         Log.d("msg-test", eventoID);
         StorageReference eventoStorageRef = storage.getReference().child("eventos/" + eventoID+"/");
         //Log.d("msg-test", String.valueOf(eventoStorageRef));
         imageUrls = new ArrayList<>();
-
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Galeria de fotos: "+ even);
+        }
         eventoStorageRef.listAll()
                 .addOnSuccessListener(listResult -> {
-
-
                     for (StorageReference item : listResult.getItems()) {
 
                         item.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -108,6 +107,7 @@ public class GaleriaEventos extends AppCompatActivity {
         anadir.setOnClickListener(view -> {
             Intent intent = new Intent(GaleriaEventos.this, GaleriaUploadActivity.class);
             startActivity(intent);
+            finish();
         });
         }
 
