@@ -213,7 +213,7 @@ public class ComentarioApoyoAdapter extends RecyclerView.Adapter<ComentarioApoyo
                 .addOnSuccessListener(aVoid -> {
                     usuario.setApoyo(estadoGeneralApoyo); // Actualiza el objeto usuario
                     notifyItemChanged(position); // Notifica al adaptador del cambio para actualizar la UI
-                    Toast.makeText(context, "Estado de apoyo actualizado a: " + estadoGeneralApoyo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Se actualizo el apoyo exitosamente" + estadoGeneralApoyo, Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(context, "Error al actualizar el estado de apoyo", Toast.LENGTH_SHORT).show()
