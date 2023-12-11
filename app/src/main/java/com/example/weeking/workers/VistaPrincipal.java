@@ -130,11 +130,49 @@ public class VistaPrincipal extends AppCompatActivity implements perfil.LogoutLi
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         fab = findViewById(R.id.floatingActionButton);
         db = FirebaseFirestore.getInstance();
+        List<Noti> notif = new ArrayList<>();
+        TextView num = findViewById(R.id.textView15);
         toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
+        Query query = db.collection("usuarios").whereEqualTo("authUID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.get().addOnCompleteListener(task ->{
+            if(task.isSuccessful()){
+                QuerySnapshot queryDocumentSnapshot = task.getResult();
+                if(!queryDocumentSnapshot.isEmpty()){
+                    DocumentSnapshot document = queryDocumentSnapshot.getDocuments().get(0);
+                    Log.d("asdfg",document.getString("codigo"));
+                    Query query1 = db.collection("noti").whereEqualTo("codigo", document.getString("codigo"));
+                    query1.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@android.support.annotation.Nullable QuerySnapshot snapshots,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w("asdfg", "Escucha fallida.", e);
+                                return;
+                            }
+                            if (snapshots != null && !snapshots.isEmpty()) {
+                                Log.d("asdfg", "Cambios detectados en la colección");
+                                try {
+                                    notif.clear();
+                                    for (DocumentSnapshot document : snapshots.getDocuments()) {
+                                        Noti no = document.toObject(Noti.class);
+                                        notif.add(no);
+                                    }
+                                } catch (Exception ex) {
+                                    Log.d("asdfg", "Se produjo un error: " + ex.getMessage());
+                                }
+                                if(notif.size() == 0){
+                                    num.setVisibility(View.GONE);
+                                }else {
+                                    num.setText(String.valueOf(notif.size()));
+                                }
+                            }
+                        }
+                    });
+                }}
+        });
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             isMainFragment = (destination.getId() == R.id.mainFragmento);
