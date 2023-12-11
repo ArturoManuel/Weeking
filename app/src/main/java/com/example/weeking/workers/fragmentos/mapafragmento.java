@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -77,17 +78,37 @@ public class mapafragmento extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        float[] colorArray = {
+                BitmapDescriptorFactory.HUE_RED,
+                BitmapDescriptorFactory.HUE_ORANGE,
+                BitmapDescriptorFactory.HUE_YELLOW,
+                BitmapDescriptorFactory.HUE_GREEN,
+                BitmapDescriptorFactory.HUE_CYAN,
+                BitmapDescriptorFactory.HUE_AZURE,
+                BitmapDescriptorFactory.HUE_BLUE,
+                BitmapDescriptorFactory.HUE_VIOLET,
+                BitmapDescriptorFactory.HUE_MAGENTA,
+
+        };
+
+
+        // Observa los eventos y coloca los marcadores con colores del array
         appViewModel.getListaEventos().observe(getViewLifecycleOwner(), eventoClasses -> {
             if (eventoClasses != null && !eventoClasses.isEmpty()) {
+                int colorIndex = 0; // Inicializa el índice de color
+                mMap.clear(); // Limpia marcadores antiguos para evitar duplicados
                 for (EventoClass evento : eventoClasses) {
-                    LatLng a = new LatLng(evento.getLatitud(), evento.getLongitud());
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(a).title(evento.getDescripcion()));
-                    if (marker != null) {
-                        marker.showInfoWindow();
-                    }
+                    LatLng position = new LatLng(evento.getLatitud(), evento.getLongitud());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(position)
+                            .title(evento.getDescripcion())
+                            .icon(BitmapDescriptorFactory.defaultMarker(colorArray[colorIndex % colorArray.length])) // Asigna un color del array
+                    );
+                    colorIndex++; // Incrementa el índice para el siguiente color
                 }
             }
         });
+
         LatLng defaultLocation = new LatLng(-12.072257, -77.079859);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 15));
 
