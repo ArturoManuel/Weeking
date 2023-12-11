@@ -124,7 +124,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
     private boolean isValidEmail(String email) {
         // Utilizar una expresión regular para validar el formato del correo electrónico
-        String emailPattern = "[a-zA-Z0-9._%+-]+@(gmail\\.com|pucp\\.edu\\.pe|pucp\\.pe)";
+        String emailPattern = "[a-zA-Z0-9._%+-]+@(pucp\\.edu\\.pe|pucp\\.pe)";
         return email.matches(emailPattern);
     }
     private void checkEmailAndAlumnoCodeUnique(String email, String codigoAlumno) {
