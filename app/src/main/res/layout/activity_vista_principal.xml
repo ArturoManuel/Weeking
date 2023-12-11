@@ -80,14 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/noti"
-        android:layout_width="248dp"
-        android:layout_height="264dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
