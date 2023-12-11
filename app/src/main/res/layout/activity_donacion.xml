@@ -29,9 +29,11 @@
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="#40A0E8"
         android:text="Siguiente"
         android:textSize="20sp"
@@ -76,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="16dp"
                 android:text="Método de Pago"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -161,8 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=" Informacion del Estudiante"
-                android:textAlignment="viewStart"
                 android:textAllCaps="true"
+                android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -183,8 +185,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:textAlignment="center"
                         android:text="Nombre"
-                        android:textAlignment="viewStart"
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -195,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -212,6 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="Codigo"
+                        android:textAlignment="center"
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -221,7 +224,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
                         android:textStyle="bold" />
