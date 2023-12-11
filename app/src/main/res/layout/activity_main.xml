@@ -155,6 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="invisible"
                 android:drawableLeft="@drawable/ic_google"
                 android:text="Continua con google"
                 android:textColor="@color/cardview_dark_background"
