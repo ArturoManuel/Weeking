@@ -114,7 +114,8 @@
                     android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Ingrese la descripcion" />
+                    android:hint="Ingrese la descripcion"
+                    android:maxLength="80"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el nombre de la actividad"
                     android:inputType="text"
-                    android:maxLength="50"
+                    android:maxLength="25"
                     android:textColor="@color/colorBlack" />
 
                 <!-- Descripción de la actividad -->
@@ -120,6 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:hint="Ingrese la descripción"
+                        android:maxLength="80"
                         android:textColor="@color/colorBlack" />
                 </com.google.android.material.textfield.TextInputLayout>
 
