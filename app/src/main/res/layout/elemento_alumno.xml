@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingStart="12dp"
+        app:cardCornerRadius="20dp"
         android:paddingTop="12dp"
+        android:background="@color/Primary"
         android:paddingEnd="12dp"
         android:paddingBottom="12dp">
 
@@ -25,8 +27,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="@android:color/transparent"
+
             android:textAlignment="center"
+            android:backgroundTint="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -35,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:text="añadir"
             android:textSize="10dp" />
     </LinearLayout>
