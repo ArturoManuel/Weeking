@@ -7,7 +7,7 @@
     android:layout_marginBottom="20dp"
     android:outlineAmbientShadowColor="@android:color/black"
     android:outlineSpotShadowColor="@android:color/black"
-    app:cardBackgroundColor="#25FFFFFF"
+
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="true">
@@ -16,7 +16,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="0dp">
+        android:background="@drawable/bg_ripple_effect"
+        android:paddingBottom="0dp"
+
+        >
 
         <LinearLayout
             android:id="@+id/linearLayout10"
