@@ -131,10 +131,7 @@ activity
             android:name=".workers.Verificacion_don"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".workers.Verificacion_donacion"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".workers.Pago"
             android:exported="false"
@@ -159,14 +156,7 @@ activity
             android:name=".workers.EventosActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".workers.VistaDelegadoGeneralActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".workers.VistaDelegadoActividadActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".workers.ApoyosActivity"
             android:exported="false"
@@ -187,10 +177,7 @@ activity
             android:name=".workers.StatusActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".workers.PerfilActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".workers.Donacion"
             android:exported="false"
